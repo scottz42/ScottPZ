@@ -12,7 +12,8 @@ import android.os.Bundle;
 // TODO: object movement
 // TODO: object interaction
 // TODO: temporary object generation eg. flying beans
-//
+// TODO: state saving/loading
+
 
 
 public class MainActivity extends AppCompatActivity {
