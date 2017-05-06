@@ -26,6 +26,10 @@ import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
 
+
+    int x , y ;
+    boolean right ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +40,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         v.setOnTouchListener(this);
 
         frame.addView(v);
+
+        x = 400 ;
+        y = 300;
+        right = true;
     }
 
 
-    int x , y ;
-    boolean right ;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
