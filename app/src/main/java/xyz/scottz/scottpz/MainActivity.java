@@ -204,7 +204,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             Rect srcRock = new Rect() ;
             Rect dstRock = new Rect() ;
             srcRock.set(0,0,bitmapRock.getWidth()-1,bitmapRock.getHeight()-1);
-            dstRock.set(rockX,rockY,rockX+60,rockY+80);
+            if (collision) {
+                dstRock.set(rockX,rockY,rockX+120,rockY+160);
+            } else {
+                dstRock.set(rockX,rockY,rockX+60,rockY+80);
+            }
             canvas.drawBitmap(bitmapRock, srcRock,dstRock,p);
             //判断图片是否回收,木有回收的话强制收回图片
             if(bitmapRock.isRecycled())
