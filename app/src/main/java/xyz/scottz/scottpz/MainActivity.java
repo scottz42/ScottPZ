@@ -12,8 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-
-// TODO: custom view
 // TODO: draw an external image file
 // TODO: timer
 // TODO: object storage
