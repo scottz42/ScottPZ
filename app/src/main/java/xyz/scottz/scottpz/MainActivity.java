@@ -14,7 +14,7 @@ import android.os.Bundle;
 // TODO: temporary object generation eg. flying beans
 // TODO: state saving/loading
 // TODO: multiple types of plants
-
+// TODO: multiple types of zombies
 
 
 public class MainActivity extends AppCompatActivity {
