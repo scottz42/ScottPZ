@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Timer timer;
 
     boolean right ;
+    boolean collision = false ;
+
+    private boolean collide(int rockX, int rockY, int peaX, int peaY) {
+        return ((rockX > peaX - 60) && (rockX < peaX + 60) && (rockY > peaY - 80) && (rockY < peaY + 80));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onClick(View v) {
-                if (x <600) {
-                    x += 20;
-                }else{
-                    x=600;}
+                if (collision) {
+                    collision = false ;
+                    rockX = -1 ;
+
+                } else {
+                    if (x < 600) {
+                        x += 20;
+                    } else {
+                        x = 600;
+                    }
+                }
                 vFrame.invalidate();
             }
         });
@@ -95,15 +108,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         TimerTask  task= new TimerTask() {
             @Override
             public void run() {
-               if (rockX<0) {  // no rock right now
-                   rockX = (int)(Math.random()*600);
-                   rockY = 10 ;
-               } else {
-                   rockY += 10 ;
-               }
-               if (rockY>600) {
-                   rockX = -1 ;
-               }
+                if (!collision) {
+                    if (rockX < 0) {  // no rock right now
+                        rockX = (int) (Math.random() * 600);
+                        rockY = 10;
+                    } else {
+                        rockY += 10;
+                    }
+                    if (rockY > 600) {
+                        rockX = -1;
+                    }
+                    collision = collide(rockX, rockY, x, y);
+                }
                 runOnUiThread(new Runnable() {
 
                     @Override
@@ -112,8 +128,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     }
                 });
             }
-        };
-        timer.schedule(task,20,20);
+        }
+                ;
+        timer.schedule(task,30,30);
     }
 
 
@@ -169,7 +186,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             Rect src = new Rect() ;
             Rect dst = new Rect() ;
             src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-            dst.set(x,y,x+92,y+88);
+            if (collision) {
+                dst.set(x,y,x+184,y+176);
+            } else {
+                dst.set(x, y, x + 92, y + 88);
+            }
             canvas.drawBitmap(bitmap, src,dst,p);
             //判断图片是否回收,木有回收的话强制收回图片
             if(bitmap.isRecycled())
