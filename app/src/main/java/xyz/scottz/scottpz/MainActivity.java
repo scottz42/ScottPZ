@@ -1,6 +1,8 @@
 package xyz.scottz.scottpz;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,8 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
+// TODO: fix layout
 // TODO: draw an external image file
 // TODO: timer
 // TODO: object storage
@@ -36,9 +40,47 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.activity_main);
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
-        final CustomView v = new CustomView(this);
-        v.setOnTouchListener(this);
-        frame.addView(v);
+        final CustomView vFrame = new CustomView(this);
+        vFrame.setOnTouchListener(this);
+        frame.addView(vFrame);
+
+
+        Button b1=(Button)findViewById(R.id.left);
+        b1.setX((float)200);  // TODO: not proper way
+        b1.setY((float)1400);
+        Button b2=(Button)findViewById(R.id.right);
+        b2.setX((float)800); b2.setY((float)1400);
+
+        // left button
+        b1.setOnClickListener(new View.OnClickListener() {
+
+                                  @Override
+                                  public void onClick(View v) {
+                                      if (x > 20) {
+                                          x -= 20;
+                                      } else {
+                                          x = 20;
+                                      }
+                                      vFrame.invalidate();
+                                  }
+                              });
+            // right button
+        b2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (x <800) {
+                    x += 20;
+                }else{
+                    x=800;}
+                vFrame.invalidate();
+            }
+        });
+
+
+
+
+
 
         x = 400 ;
         y = 300;
@@ -51,20 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(null, "OnTouchListener--onTouch-- action="+event.getAction()+" --"+v);
 
-        //      x = (int)event.getX();
-        //      y = (int)event.getY();
-        if (right) {
-            x += 50;
-        } else {
-            x-=50;
-        }
-
-        if (x>800) {
-            right=false;
-        }
-        if(x<0){
-            right=true;
-        }
 
         v.invalidate();
         return false;
@@ -95,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             int rightLegX = x+63+arm/2;
             int rightLegY = y+63+arm/2;
 
+            /*
+
             canvas.drawCircle(x,y-90-head,head,p);
             canvas.drawCircle(x,y,90,p);
             canvas.drawLine(x-63,y+63,x-63-arm,y+63+arm,p);
@@ -102,7 +132,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             canvas.drawLine(leftLegX,leftLegY,leftLegX,leftLegY+leg,p);
             canvas.drawLine(rightLegX,rightLegY,rightLegX,rightLegY+leg,p);
 
-//            x += 100 ;
+            */
+
+
+            // bitmap of pea
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.pea1);
+            canvas.drawBitmap(bitmap, x, y,p);
+            //判断图片是否回收,木有回收的话强制收回图片
+            if(bitmap.isRecycled())
+            {
+                bitmap.recycle();
+            }
+
+//            x += 100
+// ;
 //            y += 100 ;
             Log.d("x=",Integer.toString(x));
         }
