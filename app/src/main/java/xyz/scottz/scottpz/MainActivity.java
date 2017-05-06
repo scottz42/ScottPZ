@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         Button b1=(Button)findViewById(R.id.left);
-        b1.setX((float)200);  // TODO: not proper way
-        b1.setY((float)1400);
+        b1.setX((float)100);  // TODO: not proper way
+        b1.setY((float)800);
         Button b2=(Button)findViewById(R.id.right);
-        b2.setX((float)800); b2.setY((float)1400);
+        b2.setX((float)500); b2.setY((float)800);
 
         // left button
         b1.setOnClickListener(new View.OnClickListener() {
@@ -69,16 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onClick(View v) {
-                if (x <800) {
+                if (x <600) {
                     x += 20;
                 }else{
-                    x=800;}
+                    x=600;}
                 vFrame.invalidate();
             }
         });
-
-
-
 
 
 
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             p.setColor(Color.BLUE);
             p.setStrokeWidth(20);
             p.setStyle(Paint.Style.STROKE);
-            x =100; y = 600 ;
+            //x =100; y = 600 ;
         }
 
         @Override
@@ -137,7 +135,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             // bitmap of pea
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.pea1);
-            canvas.drawBitmap(bitmap, x, y,p);
+            Rect src = new Rect() ;
+            Rect dst = new Rect() ;
+            src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
+            dst.set(x,y,x+92,y+88);
+            canvas.drawBitmap(bitmap, src,dst,p);
             //判断图片是否回收,木有回收的话强制收回图片
             if(bitmap.isRecycled())
             {
