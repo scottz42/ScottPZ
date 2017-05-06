@@ -16,10 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
-// TODO: dropping rock
+
+// TODO: rock collision detection
 // TODO: fix layout
-// TODO: timer
 // TODO: object storage
 // TODO: new plant placement
 // TODO: object movement
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
     int x , y ;
+    int rockX,rockY;
+    Timer timer;
+
     boolean right ;
 
     @Override
@@ -79,11 +84,36 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         });
 
-
+        rockX = (int)(Math.random()*600);
+        rockY = 10;
 
         x = 400 ;
-        y = 300;
+        y = 500;
         right = true;
+
+        timer = new Timer();
+        TimerTask  task= new TimerTask() {
+            @Override
+            public void run() {
+               if (rockX<0) {  // no rock right now
+                   rockX = (int)(Math.random()*600);
+                   rockY = 10 ;
+               } else {
+                   rockY += 10 ;
+               }
+               if (rockY>600) {
+                   rockX = -1 ;
+               }
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        vFrame.invalidate();
+                    }
+                });
+            }
+        };
+        timer.schedule(task,20,20);
     }
 
 
@@ -133,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             */
 
-
+            // TODO: load bitmap once
             // bitmap of pea
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.pea1);
             Rect src = new Rect() ;
@@ -153,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             Rect srcRock = new Rect() ;
             Rect dstRock = new Rect() ;
             srcRock.set(0,0,bitmapRock.getWidth()-1,bitmapRock.getHeight()-1);
-            dstRock.set(200,200,260,280);
+            dstRock.set(rockX,rockY,rockX+60,rockY+80);
             canvas.drawBitmap(bitmapRock, srcRock,dstRock,p);
             //判断图片是否回收,木有回收的话强制收回图片
             if(bitmapRock.isRecycled())
