@@ -16,8 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+
+// TODO: dropping rock
 // TODO: fix layout
-// TODO: draw an external image file
 // TODO: timer
 // TODO: object storage
 // TODO: new plant placement
@@ -145,6 +146,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             {
                 bitmap.recycle();
             }
+
+
+            // bitmap of pea
+            Bitmap bitmapRock = BitmapFactory.decodeResource(this.getResources(), R.drawable.rock1);
+            Rect srcRock = new Rect() ;
+            Rect dstRock = new Rect() ;
+            srcRock.set(0,0,bitmapRock.getWidth()-1,bitmapRock.getHeight()-1);
+            dstRock.set(200,200,260,280);
+            canvas.drawBitmap(bitmapRock, srcRock,dstRock,p);
+            //判断图片是否回收,木有回收的话强制收回图片
+            if(bitmapRock.isRecycled())
+            {
+                bitmapRock.recycle();
+            }
+
 
 //            x += 100
 // ;
