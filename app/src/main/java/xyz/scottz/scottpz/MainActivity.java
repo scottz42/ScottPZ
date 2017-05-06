@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
         final CustomView v = new CustomView(this);
         v.setOnTouchListener(this);
-
         frame.addView(v);
 
         x = 400 ;
