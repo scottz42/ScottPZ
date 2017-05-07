@@ -20,10 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-// TODO: rock collision detection
-// TODO: fix layout
-// TODO: object storage
+// TODO: object storage: plants & zombies
 // TODO: new plant placement
+// TODO: fix layout
 // TODO: object movement
 // TODO: object interaction
 // TODO: temporary object generation eg. flying beans
