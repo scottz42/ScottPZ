@@ -1,5 +1,6 @@
 package xyz.scottz.scottpz;
 
+import android.graphics.Canvas;
 import android.graphics.Paint;
 
 /**
@@ -8,5 +9,5 @@ import android.graphics.Paint;
  */
 
 public class MajorObject {
-    void Draw(Paint p){}
+    void Draw(Canvas c, Paint p){}
 }

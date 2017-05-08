@@ -1,5 +1,6 @@
 package xyz.scottz.scottpz;
 
+import android.graphics.Canvas;
 import android.graphics.Paint;
 
 /**
@@ -9,7 +10,7 @@ import android.graphics.Paint;
 
 public class Plant extends MajorObject {
     @Override
-    void Draw(Paint p) {
-        super.Draw(p);
+    void Draw(Canvas c ,Paint p) {
+        super.Draw(c,p);
     }
 }

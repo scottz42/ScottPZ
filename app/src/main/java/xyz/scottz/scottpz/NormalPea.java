@@ -21,14 +21,14 @@ public class NormalPea extends Plant {
     NormalPea()
     {
         // bitmap of pea
-        getResources
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pea1);
+      //  getResources
+       // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pea1);
         // TODO: need to recycle bitmap?
     }
 
     @Override
     void Draw(Canvas canvas , Paint p) {
-        super.Draw(p);
+        super.Draw(canvas,p);
 
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
