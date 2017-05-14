@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     int x , y ;
     int rockX,rockY;
     Timer timer;
+    ArrayList<MajorObject> majors;
 
     boolean right ;
     boolean collision = false ;
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        majors = new ArrayList<MajorObject>();
+
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
         final CustomView vFrame = new CustomView(this);
@@ -156,6 +162,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             p.setStrokeWidth(20);
             p.setStyle(Paint.Style.STROKE);
             //x =100; y = 600 ;
+
+
+            for (x=100 ; x<1000 ; x+=100) {
+                for (y=100 ; y<1000; y+=100) {
+                    NormalPea pea1 = new NormalPea(this.getResources());
+                    pea1.setX(x);
+                    pea1.setY(y);
+                    majors.add(pea1);
+                }
+            }
+
+
+
         }
 
         @Override
@@ -179,30 +198,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             */
 
+            for (MajorObject o: majors) {
+                o.Draw(canvas , p);
+            }
+/*
             NormalPea pea1 = new NormalPea(this.getResources());
             pea1.setX(x);
             pea1.setY(y);
             pea1.Draw(canvas , p);
 
-            // TODO: load bitmap once
-            // bitmap of pea
-         /*
-            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.pea1);
-            Rect src = new Rect() ;
-            Rect dst = new Rect() ;
-            src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-            if (collision) {
-                dst.set(x,y,x+184,y+176);
-            } else {
-                dst.set(x, y, x + 92, y + 88);
-            }
-            canvas.drawBitmap(bitmap, src,dst,p);
-            //判断图片是否回收,木有回收的话强制收回图片
-            if(bitmap.isRecycled())
-            {
-                bitmap.recycle();
-            }
-    */
+            NormalPea pea2 = new NormalPea(this.getResources());
+            pea2.setX(x);
+            pea2.setY(y-200);
+            pea2.Draw(canvas , p);
+*/
+
+
+/*
 
             // bitmap of rock
             Bitmap bitmapRock = BitmapFactory.decodeResource(this.getResources(), R.drawable.rock1);
@@ -220,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             {
                 bitmapRock.recycle();
             }
-
+*/
 
 //            x += 100
 // ;
