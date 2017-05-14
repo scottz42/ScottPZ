@@ -1,5 +1,6 @@
 package xyz.scottz.scottpz;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,12 +19,29 @@ public class NormalPea extends Plant {
     private int x , y ;
     private Bitmap bitmap ;
 
-    NormalPea()
+    NormalPea(Resources res)
     {
+        super(res);
         // bitmap of pea
       //  getResources
-       // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pea1);
+       bitmap = BitmapFactory.decodeResource(res, R.drawable.pea1);
         // TODO: need to recycle bitmap?
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override
@@ -36,6 +54,5 @@ public class NormalPea extends Plant {
         dst.set(x, y, x + 92, y + 88);
 
         canvas.drawBitmap(bitmap, src,dst,p);
-
     }
 }

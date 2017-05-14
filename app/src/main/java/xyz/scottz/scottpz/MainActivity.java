@@ -179,8 +179,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             */
 
+            NormalPea pea1 = new NormalPea(this.getResources());
+            pea1.setX(x);
+            pea1.setY(y);
+            pea1.Draw(canvas , p);
+
             // TODO: load bitmap once
             // bitmap of pea
+         /*
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.pea1);
             Rect src = new Rect() ;
             Rect dst = new Rect() ;
@@ -196,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             {
                 bitmap.recycle();
             }
-
+    */
 
             // bitmap of rock
             Bitmap bitmapRock = BitmapFactory.decodeResource(this.getResources(), R.drawable.rock1);
