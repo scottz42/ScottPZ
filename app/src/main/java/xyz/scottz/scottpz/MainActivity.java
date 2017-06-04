@@ -22,6 +22,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+
+// TODO: rotate whole field
+// TODO:
+//
 // TODO: object storage: plants & zombies
 // TODO: new plant placement
 // TODO: fix layout
@@ -164,14 +168,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             //x =100; y = 600 ;
 
 
-            for (x=100 ; x<1000 ; x+=100) {
-                for (y=100 ; y<1000; y+=100) {
+            for (x=100 ; x<500 ; x+=100) {
+                for (y=100 ; y<500; y+=100) {
                     NormalPea pea1 = new NormalPea(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);
                     majors.add(pea1);
                 }
             }
+
+            for (x=500 ; x<1000; x+=100) {
+                for (y=100 ; y<500; y+=100) {
+                    NormalZombie pea1 = new NormalZombie(this.getResources());
+                    pea1.setX(x);
+                    pea1.setY(y);
+                    majors.add(pea1);
+                }
+            }
+
 
 
 
@@ -197,6 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             canvas.drawLine(rightLegX,rightLegY,rightLegX,rightLegY+leg,p);
 
             */
+//TODO:is there another way?
+           // canvas.rotate(90 , 500 , 500);
+            //canvas.translate(500 , 0);
 
             for (MajorObject o: majors) {
                 o.Draw(canvas , p);

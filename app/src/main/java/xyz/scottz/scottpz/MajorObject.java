@@ -9,6 +9,8 @@ import android.graphics.Paint;
  * base class for plants and zombies and other major objects that show on screen
  */
 
+// TODO: reduce bitmap memory usage: at least share bitmap for each type, also reduce original size of image
+
 public class MajorObject {
     public MajorObject(Resources res) {
     }
