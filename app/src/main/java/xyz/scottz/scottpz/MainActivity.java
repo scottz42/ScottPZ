@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         vFrame.setOnTouchListener(this);
         frame.addView(vFrame);
 
-
+/*
         Button b1=(Button)findViewById(R.id.left);
         b1.setX((float)100);  // TODO: not proper way
         b1.setY((float)800);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 vFrame.invalidate();
             }
         });
-
+*/
         rockX = (int)(Math.random()*600);
         rockY = 10;
 

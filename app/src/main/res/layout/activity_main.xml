@@ -26,24 +26,4 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="left"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintHorizontal_bias="0.1"
-        tools:layout_editor_absoluteX="-121dp"
-        tools:layout_editor_absoluteY="193dp" />
-
-    <Button
-        android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:text="right"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintHorizontal_bias="0.8"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="417dp" />
-
 </android.support.constraint.ConstraintLayout>
