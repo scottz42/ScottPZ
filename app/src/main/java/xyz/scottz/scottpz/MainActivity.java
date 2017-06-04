@@ -22,16 +22,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
-// TODO: rotate whole field
-// TODO:
-//
-// TODO: object storage: plants & zombies
+// TODO: moving zombie
 // TODO: new plant placement
-// TODO: fix layout
+// TODO: zombie generation
 // TODO: object movement
-// TODO: object interaction
-// TODO: temporary object generation eg. flying beans
+// TODO: object interaction: zombie eats plant
+// TODO: temporary object generation eg. flying beans; pea kills zombie
 // TODO: state saving/loading
 // TODO: multiple types of plants
 // TODO: multiple types of zombies
