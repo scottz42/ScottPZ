@@ -22,9 +22,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-// TODO: moving zombie
-// TODO: new plant placement
 // TODO: zombie generation
+// TODO: new plant placement
 // TODO: object movement
 // TODO: object interaction: zombie eats plant
 // TODO: temporary object generation eg. flying beans; pea kills zombie
@@ -113,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         TimerTask  task= new TimerTask() {
             @Override
             public void run() {
+                /*
                 if (!collision) {
                     if (rockX < 0) {  // no rock right now
                         rockX = (int) (Math.random() * 600);
@@ -125,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     }
                     collision = collide(rockX, rockY, x, y);
                 }
+                */
+                for (MajorObject o: majors) {
+                    o.Move();
+                }
+
                 runOnUiThread(new Runnable() {
 
                     @Override
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         }
                 ;
-        timer.schedule(task,30,30);
+        timer.schedule(task,50,50);
     }
 
 
@@ -173,8 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
 
-            for (x=500 ; x<1000; x+=100) {
-                for (y=100 ; y<500; y+=100) {
+            for (x=1000; x<1100; x+=100) {
+                for (y=100 ; y<200; y+=100) {
                     NormalZombie pea1 = new NormalZombie(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);

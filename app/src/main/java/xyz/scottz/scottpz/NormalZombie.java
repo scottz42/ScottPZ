@@ -12,7 +12,6 @@ import android.graphics.Rect;
  */
 
 public class NormalZombie extends Zombie {
-    private int x , y ;
     private Bitmap bitmap ;
 
     NormalZombie(Resources res)
@@ -22,22 +21,8 @@ public class NormalZombie extends Zombie {
         //  getResources
         bitmap = BitmapFactory.decodeResource(res, R.drawable.normalzombie);
         // TODO: need to recycle bitmap?
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        // TODO: test only
+        TimePerStep = 500 ;
     }
 
     @Override
@@ -47,7 +32,7 @@ public class NormalZombie extends Zombie {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(x, y, x + 92, y + 88);
+        dst.set(getX(), getY(), getX() + 92, getY() + 88);
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }

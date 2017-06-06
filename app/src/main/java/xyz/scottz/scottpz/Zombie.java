@@ -22,15 +22,55 @@ main states:
 
 possible implementations:
 1. uniform small timer(say 10ms): calculate position based on time
+pro: simple time event logic
+con: most timer events could be unnecessary
 2. uneven timer for the next step, some steps will have the same time for multiple objects
-
+con: data structure for keeping track of time events
+pro: no wasted timer-induced calculation
  */
 
 public class Zombie extends MajorObject {
 
-    public  Zombie(Resources res) {
-        super(res);}
+    protected int x;    // current x position
+    protected int y ;   // current y position
+    protected long LastMoveTime ;    // time for last move, in ms
+    protected int DistancePerStep = 20 ;
+    protected int TimePerStep = 1000; // in ms
 
+    public  Zombie(Resources res) {
+        super(res);
+        LastMoveTime = System.currentTimeMillis() ;
+    }
+
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @Override
+    void Move()
+    {
+        if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
+            x -= DistancePerStep ;
+            if (x<0) {
+                x = 1000 ;
+                y = 100*((int)(Math.random()*4)+1);
+            }
+            LastMoveTime += TimePerStep ;
+        }
+    }
 
     @Override
     void Draw(Canvas c , Paint p) {

@@ -16,7 +16,6 @@ import android.graphics.Rect;
  */
 
 public class NormalPea extends Plant {
-    private int x , y ;
     private Bitmap bitmap ;
 
     NormalPea(Resources res)
@@ -28,22 +27,6 @@ public class NormalPea extends Plant {
         // TODO: need to recycle bitmap?
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     @Override
     void Draw(Canvas canvas , Paint p) {
         super.Draw(canvas,p);
@@ -51,7 +34,7 @@ public class NormalPea extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(x, y, x + 92, y + 88);
+        dst.set(getX(), getY(), getX() + 92, getY() + 88);
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }

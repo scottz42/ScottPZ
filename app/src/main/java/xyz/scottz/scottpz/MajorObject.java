@@ -16,4 +16,6 @@ public class MajorObject {
     }
 
     void Draw(Canvas c, Paint p){}
+
+    void Move(){}
 }
