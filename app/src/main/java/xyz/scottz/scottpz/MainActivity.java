@@ -23,15 +23,16 @@ import java.util.TimerTask;
 
 import static xyz.scottz.scottpz.R.drawable.pea1;
 
-
-// TODO: zombie generation
 // TODO: new plant placement
 // TODO: object interaction: zombie eats plant
+// TODO: zombie generation
+// 1. one zombie 2.
+// TODO: transparency:
 // TODO: temporary object generation eg. flying beans; pea kills zombie
 // TODO: background & transparency
+// TODO: falling sun
+// TODO: sun accounting
 // TODO: state saving/loading
-// TODO: multiple types of plants
-// TODO: multiple types of zombies
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {

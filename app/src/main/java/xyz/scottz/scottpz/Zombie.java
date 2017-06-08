@@ -68,6 +68,9 @@ public class Zombie extends MajorObject {
                 x = 1000 ;
                 y = 100*((int)(Math.random()*4)+1);
             }
+            if (x>1000) {
+                x = 0;
+            }
             LastMoveTime += TimePerStep ;
         }
     }
