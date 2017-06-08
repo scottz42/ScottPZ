@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static xyz.scottz.scottpz.R.drawable.pea1;
+
 
 // TODO: zombie generation
 // TODO: new plant placement
@@ -166,7 +168,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             //x =100; y = 600 ;
 
 
-            for (x = 100; x < 500; x += 100) {
+            for (x = 100; x < 300; x += 100) {
+                for (y = 100; y < 500; y += 100) {
+                    Sunflower sunflower = new Sunflower(this.getResources());
+                    sunflower.setX(x);
+                    sunflower.setY(y);
+                    majors.add(sunflower);
+                }
+            }
+
+            for (x = 300; x < 500; x += 100) {
                 for (y = 100; y < 500; y += 100) {
                     NormalPea pea1 = new NormalPea(this.getResources());
                     pea1.setX(x);
