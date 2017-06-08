@@ -24,7 +24,7 @@ import java.util.TimerTask;
 
 // TODO: new plant placement: only allowed positions; track space usage(one plant per space)
 // TODO: object interaction: zombie eats plant
-// TODO: placement of multiple types of plants
+// TODO: placement of multiple types of plants (plant selection)
 // TODO: zombie generation
 // 1. one zombie 2.
 // TODO: transparency:
@@ -41,23 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     int x, y;
     int rockX, rockY;
     Timer timer;
-    ArrayList<MajorObject> majors;
 
     boolean right;
     boolean collision = false;
-
-    private boolean collide(int rockX, int rockY, int peaX, int peaY) {
-        return ((rockX > peaX - 60) && (rockX < peaX + 60) && (rockY > peaY - 80) && (rockY < peaY + 80));
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        majors = new ArrayList<MajorObject>();
-
+        Game.setMajors(new ArrayList<MajorObject>());
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
         final CustomView vFrame = new CustomView(this);
@@ -129,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     collision = collide(rockX, rockY, x, y);
                 }
                 */
-                for (MajorObject o : majors) {
-                    o.Move();
+                for (MajorObject o : Game.getMajors()) {
+                    o.Move();   // zombie move; sunflower generate flower; zombie damages plant
                 }
 
                 runOnUiThread(new Runnable() {
@@ -155,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         NormalPea pea = new NormalPea(getResources()) ;
         pea.setX((int)event.getX()) ;
         pea.setY((int)event.getY()) ;
-        majors.add(pea) ;
+        Game.getMajors().add(pea) ;
 
         v.invalidate();
         return false;
@@ -180,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     Sunflower sunflower = new Sunflower(this.getResources());
                     sunflower.setX(x);
                     sunflower.setY(y);
-                    majors.add(sunflower);
+                    Game.getMajors().add(sunflower);
                 }
             }
 
@@ -189,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     NormalPea pea1 = new NormalPea(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);
-                    majors.add(pea1);
+                    Game.getMajors().add(pea1);
                 }
             }
 
@@ -198,80 +191,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     NormalZombie pea1 = new NormalZombie(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);
-                    majors.add(pea1);
+                    Game.getMajors().add(pea1);
                 }
             }
 
             ConeheadZombie z2 = new ConeheadZombie(this.getResources());
             z2.setX(1100);
             z2.setY(300);
-            majors.add(z2);
+            Game.getMajors().add(z2);
         }
 
 
         @Override
         protected void onDraw(Canvas canvas) {
-            int arm = 100;
-            int leg = 200;
-            int head = 100;
-            int leftLegX = x - 63 - arm / 2;
-            int leftLegY = y + 63 + arm / 2;
-            int rightLegX = x + 63 + arm / 2;
-            int rightLegY = y + 63 + arm / 2;
 
-            /*
-
-            canvas.drawCircle(x,y-90-head,head,p);
-            canvas.drawCircle(x,y,90,p);
-            canvas.drawLine(x-63,y+63,x-63-arm,y+63+arm,p);
-            canvas.drawLine(x+63,y+63,x+63+arm,y+63+arm,p);
-            canvas.drawLine(leftLegX,leftLegY,leftLegX,leftLegY+leg,p);
-            canvas.drawLine(rightLegX,rightLegY,rightLegX,rightLegY+leg,p);
-
-            */
-//TODO:is there another way?
-            // canvas.rotate(90 , 500 , 500);
-            //canvas.translate(500 , 0);
-
-            for (MajorObject o : majors) {
+            for (MajorObject o : Game.getMajors()) {
                 o.Draw(canvas, p);
             }
-/*
-            NormalPea pea1 = new NormalPea(this.getResources());
-            pea1.setX(x);
-            pea1.setY(y);
-            pea1.Draw(canvas , p);
-
-            NormalPea pea2 = new NormalPea(this.getResources());
-            pea2.setX(x);
-            pea2.setY(y-200);
-            pea2.Draw(canvas , p);
-*/
-
-
-/*
-
-            // bitmap of rock
-            Bitmap bitmapRock = BitmapFactory.decodeResource(this.getResources(), R.drawable.rock1);
-            Rect srcRock = new Rect() ;
-            Rect dstRock = new Rect() ;
-            srcRock.set(0,0,bitmapRock.getWidth()-1,bitmapRock.getHeight()-1);
-      //      if (collision) {
-        //        dstRock.set(rockX,rockY,rockX+120,rockY+160);
-       //     } else {
-                dstRock.set(rockX,rockY,rockX+60,rockY+80);
-        //    }
-            canvas.drawBitmap(bitmapRock, srcRock,dstRock,p);
-            //判断图片是否回收,木有回收的话强制收回图片
-            if(bitmapRock.isRecycled())
-            {
-                bitmapRock.recycle();
-            }
-*/
-
-//            x += 100
-// ;
-//            y += 100 ;
             Log.d("x=", Integer.toString(x));
 
         }

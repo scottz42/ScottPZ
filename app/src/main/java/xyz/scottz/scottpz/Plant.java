@@ -11,12 +11,14 @@ import android.graphics.Paint;
 
 public class Plant extends MajorObject {
 
-
     protected int x;
     protected int y ;
+    private int life ;  // life left
 
-    public Plant(Resources res) {
+    public Plant(Resources res)
+    {
         super(res);
+        life = 3 ;      // TODO: level-based, plant-specific
     }
 
     public int getX() {
@@ -38,5 +40,13 @@ public class Plant extends MajorObject {
     @Override
     void Draw(Canvas c ,Paint p) {
         super.Draw(c,p);
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 }

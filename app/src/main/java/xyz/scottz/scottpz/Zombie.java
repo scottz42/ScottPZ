@@ -36,6 +36,7 @@ public class Zombie extends MajorObject {
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
     protected int TimePerStep = 1000; // in ms
+    protected int damagePerAttack = 1 ;
 
     public  Zombie(Resources res) {
         super(res);
@@ -62,6 +63,17 @@ public class Zombie extends MajorObject {
     @Override
     void Move()
     {
+        // zombie eat plant ;
+/*
+        Plant plant = findPlant(getX(),getY());
+        if (plant!=null) {
+            plant.setLife(plant.getLife()-damagePerAttack) ;
+            if (plant.getLife()<=0) {   // plant is eaten by zombie
+                Game.removePlant(plant);
+            }
+        }
+*/
+        // zombie movement
         if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
             x -= DistancePerStep ;
             if (x<0) {
