@@ -15,7 +15,18 @@ public class MajorObject {
     public MajorObject(Resources res) {
     }
 
+    public boolean isPlant()
+    {
+        return false ;
+    }
+
+    public boolean canBite(int x , int y)
+    {
+        return false ;
+    }
+
     void Draw(Canvas c, Paint p){}
 
     void Move(){}
+
 }

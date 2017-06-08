@@ -38,6 +38,19 @@ public class Plant extends MajorObject {
     }
 
     @Override
+    public boolean isPlant()
+    {
+        return true ;
+    }
+
+    @Override
+    public boolean canBite (int x, int y)
+    {
+        int diff_x = x - this.x ;
+        return (this.y==y) && (diff_x<100) && (diff_x>70) ;
+    }
+
+    @Override
     void Draw(Canvas c ,Paint p) {
         super.Draw(c,p);
     }

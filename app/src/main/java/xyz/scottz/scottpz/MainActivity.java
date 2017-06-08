@@ -39,17 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
     int x, y;
-    int rockX, rockY;
     Timer timer;
 
-    boolean right;
-    boolean collision = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // TODO: Game.init()?
         Game.setMajors(new ArrayList<MajorObject>());
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
@@ -57,74 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         vFrame.setOnTouchListener(this);
         frame.addView(vFrame);
 
-/*
-        Button b1=(Button)findViewById(R.id.left);
-        b1.setX((float)100);  // TODO: not proper way
-        b1.setY((float)800);
-        Button b2=(Button)findViewById(R.id.right);
-        b2.setX((float)500); b2.setY((float)800);
-
-        // left button
-        b1.setOnClickListener(new View.OnClickListener() {
-
-                                  @Override
-                                  public void onClick(View v) {
-                                      if (x > 20) {
-                                          x -= 20;
-                                      } else {
-                                          x = 20;
-                                      }
-                                      vFrame.invalidate();
-                                  }
-                              });
-            // right button
-        b2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (collision) {
-                    collision = false ;
-                    rockX = -1 ;
-
-                } else {
-                    if (x < 600) {
-                        x += 20;
-                    } else {
-                        x = 600;
-                    }
-                }
-                vFrame.invalidate();
-            }
-        });
-*/
-        rockX = (int) (Math.random() * 600);
-        rockY = 10;
-
-        x = 400;
-        y = 500;
-        right = true;
-
         timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                /*
-                if (!collision) {
-                    if (rockX < 0) {  // no rock right now
-                        rockX = (int) (Math.random() * 600);
-                        rockY = 10;
-                    } else {
-                        rockY += 10;
-                    }
-                    if (rockY > 600) {
-                        rockX = -1;
-                    }
-                    collision = collide(rockX, rockY, x, y);
-                }
-                */
-                for (MajorObject o : Game.getMajors()) {
-                    o.Move();   // zombie move; sunflower generate flower; zombie damages plant
-                }
+                Game.onTimer();
 
                 runOnUiThread(new Runnable() {
 
@@ -145,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         // TODO: align to grid; check emptiness
         // TODO: pick different plants
+        // TODO: Game.onTouch(event);
         NormalPea pea = new NormalPea(getResources()) ;
         pea.setX((int)event.getX()) ;
         pea.setY((int)event.getY()) ;
@@ -162,11 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         public CustomView(Context context) {
             super(context);
             p = new Paint();
-            p.setColor(Color.BLUE);
-            p.setStrokeWidth(20);
-            p.setStyle(Paint.Style.STROKE);
-            //x =100; y = 600 ;
-
 
             for (x = 100; x < 300; x += 100) {
                 for (y = 100; y < 500; y += 100) {
@@ -205,11 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         protected void onDraw(Canvas canvas) {
 
+            // TODO: Game.onDraw(canvas , p);
             for (MajorObject o : Game.getMajors()) {
                 o.Draw(canvas, p);
             }
-            Log.d("x=", Integer.toString(x));
-
         }
     }
 }
