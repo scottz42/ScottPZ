@@ -24,24 +24,24 @@ import java.util.TimerTask;
 
 // TODO: zombie generation
 // TODO: new plant placement
-// TODO: object movement
 // TODO: object interaction: zombie eats plant
 // TODO: temporary object generation eg. flying beans; pea kills zombie
+// TODO: background & transparency
 // TODO: state saving/loading
 // TODO: multiple types of plants
 // TODO: multiple types of zombies
 
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
 
-    int x , y ;
-    int rockX,rockY;
+    int x, y;
+    int rockX, rockY;
     Timer timer;
     ArrayList<MajorObject> majors;
 
-    boolean right ;
-    boolean collision = false ;
+    boolean right;
+    boolean collision = false;
 
     private boolean collide(int rockX, int rockY, int peaX, int peaY) {
         return ((rockX > peaX - 60) && (rockX < peaX + 60) && (rockY > peaY - 80) && (rockY < peaY + 80));
@@ -101,15 +101,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         });
 */
-        rockX = (int)(Math.random()*600);
+        rockX = (int) (Math.random() * 600);
         rockY = 10;
 
-        x = 400 ;
+        x = 400;
         y = 500;
         right = true;
 
         timer = new Timer();
-        TimerTask  task= new TimerTask() {
+        TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 /*
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     collision = collide(rockX, rockY, x, y);
                 }
                 */
-                for (MajorObject o: majors) {
+                for (MajorObject o : majors) {
                     o.Move();
                 }
 
@@ -138,16 +138,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     }
                 });
             }
-        }
-                ;
-        timer.schedule(task,50,50);
+        };
+        timer.schedule(task, 50, 50);
     }
-
 
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d(null, "OnTouchListener--onTouch-- action="+event.getAction()+" --"+v);
+        Log.d(null, "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
 
 
         v.invalidate();
@@ -155,12 +153,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
 
-
     class CustomView extends View {
 
         Paint p;
 
-        public CustomView (Context context) {
+        public CustomView(Context context) {
             super(context);
             p = new Paint();
             p.setColor(Color.BLUE);
@@ -169,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             //x =100; y = 600 ;
 
 
-            for (x=100 ; x<500 ; x+=100) {
-                for (y=100 ; y<500; y+=100) {
+            for (x = 100; x < 500; x += 100) {
+                for (y = 100; y < 500; y += 100) {
                     NormalPea pea1 = new NormalPea(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);
@@ -178,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
 
-            for (x=1000; x<1100; x+=100) {
-                for (y=100 ; y<200; y+=100) {
+            for (x = 1000; x < 1100; x += 100) {
+                for (y = 100; y < 200; y += 100) {
                     NormalZombie pea1 = new NormalZombie(this.getResources());
                     pea1.setX(x);
                     pea1.setY(y);
@@ -187,20 +184,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
 
-
-
-
+            ConeheadZombie z2 = new ConeheadZombie(this.getResources());
+            z2.setX(1100);
+            z2.setY(300);
+            majors.add(z2);
         }
+
 
         @Override
         protected void onDraw(Canvas canvas) {
-            int arm = 100 ;
+            int arm = 100;
             int leg = 200;
-            int head=100;
-            int leftLegX = x-63-arm/2;
-            int leftLegY = y+63+arm/2;
-            int rightLegX = x+63+arm/2;
-            int rightLegY = y+63+arm/2;
+            int head = 100;
+            int leftLegX = x - 63 - arm / 2;
+            int leftLegY = y + 63 + arm / 2;
+            int rightLegX = x + 63 + arm / 2;
+            int rightLegY = y + 63 + arm / 2;
 
             /*
 
@@ -213,11 +212,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             */
 //TODO:is there another way?
-           // canvas.rotate(90 , 500 , 500);
+            // canvas.rotate(90 , 500 , 500);
             //canvas.translate(500 , 0);
 
-            for (MajorObject o: majors) {
-                o.Draw(canvas , p);
+            for (MajorObject o : majors) {
+                o.Draw(canvas, p);
             }
 /*
             NormalPea pea1 = new NormalPea(this.getResources());
@@ -255,9 +254,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 //            x += 100
 // ;
 //            y += 100 ;
-            Log.d("x=",Integer.toString(x));
+            Log.d("x=", Integer.toString(x));
+
         }
     }
-
-
 }

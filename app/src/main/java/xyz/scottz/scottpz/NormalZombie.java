@@ -21,8 +21,6 @@ public class NormalZombie extends Zombie {
         //  getResources
         bitmap = BitmapFactory.decodeResource(res, R.drawable.normalzombie);
         // TODO: need to recycle bitmap?
-        // TODO: test only
-        TimePerStep = 500 ;
     }
 
     @Override
