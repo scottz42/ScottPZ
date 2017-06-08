@@ -21,10 +21,10 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static xyz.scottz.scottpz.R.drawable.pea1;
 
-// TODO: new plant placement
+// TODO: new plant placement: only allowed positions; track space usage(one plant per space)
 // TODO: object interaction: zombie eats plant
+// TODO: placement of multiple types of plants
 // TODO: zombie generation
 // 1. one zombie 2.
 // TODO: transparency:
@@ -150,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(null, "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
 
+        // TODO: align to grid; check emptiness
+        // TODO: pick different plants
+        NormalPea pea = new NormalPea(getResources()) ;
+        pea.setX((int)event.getX()) ;
+        pea.setY((int)event.getY()) ;
+        majors.add(pea) ;
 
         v.invalidate();
         return false;
