@@ -23,10 +23,10 @@ import java.util.TimerTask;
 
 
 // TODO: new plant placement: only allowed positions; track space usage(one plant per space)
-// TODO: object interaction: zombie eats plant
+// TODO: object interaction: zombie eats plant: fix bugs
+// TODO: pea kills zombie
 // TODO: placement of multiple types of plants (plant selection)
-// TODO: zombie generation
-// 1. one zombie 2.
+// TODO: zombie generation // 1. one zombie 2.
 // TODO: transparency:
 // TODO: temporary object generation eg. flying beans; pea kills zombie
 // TODO: background & transparency
@@ -36,7 +36,6 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
-
 
     int x, y;
     Timer timer;
