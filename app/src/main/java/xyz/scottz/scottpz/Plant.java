@@ -11,30 +11,12 @@ import android.graphics.Paint;
 
 public class Plant extends MajorObject {
 
-    protected int x;
-    protected int y ;
     private int life ;  // life left
 
     public Plant(Resources res)
     {
         super(res);
         life = 3 ;      // TODO: level-based, plant-specific
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     @Override
@@ -46,8 +28,8 @@ public class Plant extends MajorObject {
     @Override
     public boolean canBite (int x, int y)
     {
-        int diff_x = x - this.x ;
-        return (this.y==y) && (diff_x<100) && (diff_x>70) ;
+        int diff_x = x - this.getX();
+        return (this.getY() ==y) && (diff_x<100) && (diff_x>70) ;
     }
 
     @Override

@@ -12,7 +12,26 @@ import android.graphics.Paint;
 // TODO: reduce bitmap memory usage: at least share bitmap for each type, also reduce original size of image
 
 public class MajorObject {
+    protected int x;
+    protected int y ;
+
     public MajorObject(Resources res) {
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public boolean isPlant()

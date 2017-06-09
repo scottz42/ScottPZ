@@ -31,8 +31,6 @@ pro: no wasted timer-induced calculation
 
 public class Zombie extends MajorObject {
 
-    protected int x;    // current x position
-    protected int y ;   // current y position
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
     protected int prevDistance = 20 ;
@@ -46,26 +44,10 @@ public class Zombie extends MajorObject {
         LastMoveTime = System.currentTimeMillis() ;
     }
 
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     @Override
     void Move()
     {
+        /*
         // zombie eat plant ;
         Plant plant = Game.findPlant(getX(), getY());
         if (plant != null) {
@@ -87,6 +69,8 @@ public class Zombie extends MajorObject {
                 }
             }
         }
+        */
+
         // zombie movement
         if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
             x -= DistancePerStep ;

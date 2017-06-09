@@ -19,8 +19,8 @@
 
     <FrameLayout
         android:id="@+id/MainLayout"
-        android:layout_width="378dp"
-        android:layout_height="440dp"
+        android:layout_width="1000dp"
+        android:layout_height="1000dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="63dp">
 

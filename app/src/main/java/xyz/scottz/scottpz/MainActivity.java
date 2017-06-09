@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: Game.init()?
-        Game.setMajors(new ArrayList<MajorObject>());
+        Game.init(getResources()) ;
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
         final CustomView vFrame = new CustomView(this);
@@ -77,13 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(null, "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
 
-        // TODO: align to grid; check emptiness
-        // TODO: pick different plants
-        // TODO: Game.onTouch(event);
-        NormalPea pea = new NormalPea(getResources()) ;
-        pea.setX((int)event.getX()) ;
-        pea.setY((int)event.getY()) ;
-        Game.getMajors().add(pea) ;
+        Game.onTouch(event);
 
         v.invalidate();
         return false;

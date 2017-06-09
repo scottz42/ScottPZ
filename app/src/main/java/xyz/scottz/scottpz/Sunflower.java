@@ -37,7 +37,7 @@ public class Sunflower extends Plant {
     void Move()
     {
         if ((System.currentTimeMillis()-LastGenerateTime)>TimePerGenerate) {
-            Sun sun = new Sun(res , x , y) ;
+            Sun sun = new Sun(res , getX(), getY()) ;
             suns.add(sun) ;
             LastGenerateTime += TimePerGenerate ;
         }
