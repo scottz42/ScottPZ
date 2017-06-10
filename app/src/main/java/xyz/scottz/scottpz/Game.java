@@ -40,7 +40,7 @@ public class Game {
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
         Sunflower sunflower = new Sunflower(resources);
-        NormalPea pea = new NormalPea(resources);
+        NormalPea pea = new NormalPea(resources);  // TODO: change
         plantSelections.add(sunflower);
         plantSelections.add(pea);
 
@@ -120,6 +120,18 @@ public class Game {
         }
         return null ;
     }
+
+    // check to see if there's any zombie in front of this plant
+    public static Zombie ExistZombieInFront(int column , int row)
+    {
+        for (MajorObject o : majors) {
+            if (!o.isPlant() && (o.getY()/100==row) && (o.getX()/100>=column)) {
+                return (Zombie) o ;
+            }
+        }
+        return null ;
+    }
+
 
     public static void onDraw(Canvas canvas , Paint p)
     {

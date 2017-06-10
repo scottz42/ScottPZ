@@ -17,12 +17,16 @@ import android.graphics.Rect;
 
 public class NormalPea extends Plant {
     private Bitmap bitmap ;
+    private PeaShot peaShot ;
+    private long lastPeashotTime ;
+    private int TimePerPeashotMove = 100 ;  // ms
+    private int DistancePerPeashotMove = 40 ;
+    Resources res ;
 
     NormalPea(Resources res)
     {
         super(res);
-        // bitmap of pea
-      //  getResources
+        this.res = res ;
        bitmap = BitmapFactory.decodeResource(res, R.drawable.pea1);
         // TODO: need to recycle bitmap?
     }
@@ -37,5 +41,40 @@ public class NormalPea extends Plant {
         dst.set(getX(), getY(), getX() + 92, getY() + 88);
 
         canvas.drawBitmap(bitmap, src,dst,p);
+
+        // pea shot ;
+        if (peaShot!=null) {
+            peaShot.Draw(canvas, p);
+        }
+
     }
+
+
+    void checkZombieHit(Zombie zombie)
+    {
+       // if hits zombie reduce zombie's life if life<=0 remove zombie
+        // if ()
+    }
+
+
+    @Override
+    void Move()
+    {
+        // shoot pea
+        Zombie zombie = (Zombie)Game.ExistZombieInFront(getX()/100 , getY()/100) ;
+        if (zombie!=null) {
+            if (peaShot==null) {
+                peaShot = new PeaShot(res , getX()/100 , getY()/100) ;
+                lastPeashotTime = System.currentTimeMillis() ;
+                checkZombieHit(zombie);
+            } else {
+                if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
+                    peaShot.setX(peaShot.getX() + DistancePerPeashotMove) ;
+                    lastPeashotTime += TimePerPeashotMove ;
+                    checkZombieHit(zombie);
+                }
+            }
+        }
+    }
+
 }

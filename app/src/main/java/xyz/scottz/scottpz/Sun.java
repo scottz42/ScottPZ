@@ -21,7 +21,7 @@ public class Sun extends MinorObject {
     {
         super(res) ;
         this.x = x ;
-        this.y = y ;
+       this.y = y ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.sun);
         createTime = System.currentTimeMillis();
     }
