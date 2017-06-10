@@ -30,9 +30,18 @@ pro: no wasted timer-induced calculation
  */
 
 public class Zombie extends MajorObject {
-
+    protected int life ;
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
     protected int prevDistance = 20 ;
     protected int TimePerStep = 1000; // in ms
     protected int damagePerAttack = 1 ;

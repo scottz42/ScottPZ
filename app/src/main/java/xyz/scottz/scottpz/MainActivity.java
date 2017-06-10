@@ -90,24 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             super(context);
             p = new Paint();
 
-            for (x = 100; x < 300; x += 100) {
-                for (y = 100; y < 500; y += 100) {
-                    Sunflower sunflower = new Sunflower(this.getResources());
-                    sunflower.setX(x);
-                    sunflower.setY(y);
-                    Game.getMajors().add(sunflower);
-                }
-            }
-
-            for (x = 300; x < 500; x += 100) {
-                for (y = 100; y < 500; y += 100) {
-                    NormalPea pea1 = new NormalPea(this.getResources());
-                    pea1.setX(x);
-                    pea1.setY(y);
-                    Game.getMajors().add(pea1);
-                }
-            }
-
             for (x = 1000; x < 1100; x += 100) {
                 for (y = 100; y < 200; y += 100) {
                     NormalZombie pea1 = new NormalZombie(this.getResources());
@@ -116,11 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     Game.getMajors().add(pea1);
                 }
             }
-
+/*
             ConeheadZombie z2 = new ConeheadZombie(this.getResources());
             z2.setX(1100);
             z2.setY(300);
             Game.getMajors().add(z2);
+  */
         }
 
 

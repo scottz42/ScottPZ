@@ -50,9 +50,18 @@ public class Game {
 
     public static void onTimer()
     {
+        generateZombies() ;
+
         for (MajorObject o : majors) {
-            o.Move();   // zombie move; sunflower generate flower; zombie damages plant
+            // zombie: move, damage plant
+            // plant: shoot zombie, generate sun, etc.
+            o.Move();
         }
+    }
+
+    public static void generateZombies()
+    {
+        // TODO: generate new zombies
     }
 
     // on touch: based on what is on screen at that position
@@ -96,6 +105,11 @@ public class Game {
     public static boolean removePlant(Plant plant)
     {
         return majors.remove(plant) ;
+    }
+
+    public static boolean removeZombie(Zombie zombie)
+    {
+        return majors.remove(zombie) ;
     }
 
     public static Plant findPlant(int x , int y)

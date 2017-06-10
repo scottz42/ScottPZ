@@ -20,6 +20,7 @@ public class ConeheadZombie extends Zombie {
         // TODO: need to recycle bitmap?
         // TODO: test only
         TimePerStep = 500;
+        life = 20 ;
     }
 
     @Override

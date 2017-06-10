@@ -52,8 +52,29 @@ public class NormalPea extends Plant {
 
     void checkZombieHit(Zombie zombie)
     {
-       // if hits zombie reduce zombie's life if life<=0 remove zombie
-        // if ()
+        // if out of range
+        if (peaShot.getX()>1000) {
+            peaShot = null ;
+            return ;
+        } else {
+            if (zombie!=null) { // zombie still there
+                int peaX = peaShot.getX() ;
+                int zombieX = zombie.getX() ;
+                int diff = zombieX-peaX ;
+                if (diff<50 && diff>-50) {
+                    peaShot = null ;    // pea shot can only damage one zombie
+                    zombie.setLife(zombie.getLife()-1) ;
+                    if (zombie.getLife()<=0) {
+                        Game.removeZombie(zombie) ;
+                    }
+                }
+            } else { // zombie killed by other plants?
+                return ;
+            }
+        }
+
+       // if hits zombie reduce zombie's life if life<=0 remove zombie & peashot
+        // if out of range remove peashot
     }
 
 
@@ -62,18 +83,21 @@ public class NormalPea extends Plant {
     {
         // shoot pea
         Zombie zombie = (Zombie)Game.ExistZombieInFront(getX()/100 , getY()/100) ;
-        if (zombie!=null) {
-            if (peaShot==null) {
-                peaShot = new PeaShot(res , getX()/100 , getY()/100) ;
-                lastPeashotTime = System.currentTimeMillis() ;
+
+        if (peaShot==null) {
+            if (zombie!=null) {
+                // TODO: add delay between two shots
+                peaShot = new PeaShot(res, getX() / 100, getY() / 100);
+                lastPeashotTime = System.currentTimeMillis();
                 checkZombieHit(zombie);
-            } else {
-                if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
-                    peaShot.setX(peaShot.getX() + DistancePerPeashotMove) ;
-                    lastPeashotTime += TimePerPeashotMove ;
-                    checkZombieHit(zombie);
-                }
             }
+        } else {
+            if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
+                peaShot.setX(peaShot.getX() + DistancePerPeashotMove) ;
+                lastPeashotTime += TimePerPeashotMove ;
+                checkZombieHit(zombie);
+            }
+
         }
     }
 
