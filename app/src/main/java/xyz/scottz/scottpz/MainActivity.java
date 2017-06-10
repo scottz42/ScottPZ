@@ -22,8 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-// TODO: new plant placement: only allowed positions; track space usage(one plant per space)
-// TODO: object interaction: zombie eats plant: fix bugs
+// TODO: zombie eats plant: fix bugs
 // TODO: pea kills zombie
 // TODO: placement of multiple types of plants (plant selection)
 // TODO: zombie generation // 1. one zombie 2.
@@ -126,12 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         @Override
-        protected void onDraw(Canvas canvas) {
-
-            // TODO: Game.onDraw(canvas , p);
-            for (MajorObject o : Game.getMajors()) {
-                o.Draw(canvas, p);
-            }
+        protected void onDraw(Canvas canvas)
+        {
+            Game.onDraw(canvas , p);
         }
     }
 }
