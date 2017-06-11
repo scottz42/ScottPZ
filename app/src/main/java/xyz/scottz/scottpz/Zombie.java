@@ -56,29 +56,31 @@ public class Zombie extends MajorObject {
     @Override
     void Move()
     {
-        /*
+
+
         // zombie eat plant ;
         Plant plant = Game.findPlant(getX(), getY());
-        if (plant != null) {
-            if (LastAttackTime>0 &&(System.currentTimeMillis()-LastAttackTime)>TimePerAttack) {
-                if (DistancePerStep != 0) {
+        if (plant != null) {    // there is plant to eat
+            if (LastAttackTime > 0) { // eating started
+                if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
+                    plant.setLife(plant.getLife() - damagePerAttack);
+                    if (plant.getLife() <= 0) {   // plant is eaten by zombie
+                        Game.removePlant(plant);
+                        DistancePerStep = prevDistance;
+                        LastAttackTime = 0;
+                    } else {
+                        LastAttackTime += TimePerAttack;
+                    }
+                } else {  // wait for this attack to finish
+                }
+            } else {  // start to eat
+                LastAttackTime = System.currentTimeMillis();
+                if (DistancePerStep != 0) {  // stop zombie movement
                     prevDistance = DistancePerStep;
                     DistancePerStep = 0;
                 }
-                plant.setLife(plant.getLife() - damagePerAttack);
-                if (plant.getLife() <= 0) {   // plant is eaten by zombie
-                    Game.removePlant(plant);
-                    DistancePerStep = prevDistance;
-                    LastAttackTime = 0 ;
-                }
-                LastAttackTime += TimePerAttack ;
-            } else {
-                if (LastAttackTime==0) {
-                    LastAttackTime = System.currentTimeMillis() ;
-                }
             }
         }
-        */
 
         // zombie movement
         if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {

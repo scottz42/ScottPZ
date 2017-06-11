@@ -24,6 +24,8 @@ public class Game {
     static int currentPlantSelection ;
 
     static private ArrayList<MajorObject> majors ;
+    static private ArrayList<MajorObject> deletions ;
+
 
     public static ArrayList<MajorObject> getMajors() {
         return majors;
@@ -45,8 +47,17 @@ public class Game {
         plantSelections.add(pea);
 
         setMajors(new ArrayList<MajorObject>());
+        deletions = new ArrayList<MajorObject>();
     }
 
+
+    public static ArrayList<MajorObject> getDeletions() {
+        return deletions;
+    }
+
+    public static void setDeletions(ArrayList<MajorObject> deletions) {
+        Game.deletions = deletions;
+    }
 
     public static void onTimer()
     {
@@ -57,6 +68,12 @@ public class Game {
             // plant: shoot zombie, generate sun, etc.
             o.Move();
         }
+
+        // TODO: use delete flag in each object instead?
+        for (MajorObject o : deletions) {
+            majors.remove(o) ;
+        }
+        deletions.clear() ;
     }
 
     public static void generateZombies()
@@ -104,12 +121,14 @@ public class Game {
 
     public static boolean removePlant(Plant plant)
     {
-        return majors.remove(plant) ;
+        deletions.add(plant) ;
+        return true ;
     }
 
     public static boolean removeZombie(Zombie zombie)
     {
-        return majors.remove(zombie) ;
+        deletions.add(zombie) ;
+        return true ;
     }
 
     public static Plant findPlant(int x , int y)

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by lei on 2017/5/8.
@@ -18,9 +19,16 @@ import android.graphics.Rect;
 public class NormalPea extends Plant {
     private Bitmap bitmap ;
     private PeaShot peaShot ;
+
+    // this controls generation of new peashot
+    private long lastGenerationTime = 0 ;
+    private int TimePerGeneration = 1500 ;  // 1.5s per shot
+
+    // this controls movement of peashot
     private long lastPeashotTime ;
-    private int TimePerPeashotMove = 100 ;  // ms
+    private int TimePerPeashotMove = 50 ;  // ms
     private int DistancePerPeashotMove = 40 ;
+
     Resources res ;
 
     NormalPea(Resources res)
@@ -63,6 +71,7 @@ public class NormalPea extends Plant {
                 int diff = zombieX-peaX ;
                 if (diff<50 && diff>-50) {
                     peaShot = null ;    // pea shot can only damage one zombie
+                    // TODO: damage per shot
                     zombie.setLife(zombie.getLife()-1) ;
                     if (zombie.getLife()<=0) {
                         Game.removeZombie(zombie) ;
@@ -86,10 +95,17 @@ public class NormalPea extends Plant {
 
         if (peaShot==null) {
             if (zombie!=null) {
-                // TODO: add delay between two shots
-                peaShot = new PeaShot(res, getX() / 100, getY() / 100);
-                lastPeashotTime = System.currentTimeMillis();
-                checkZombieHit(zombie);
+                if (lastGenerationTime==0 ||
+                        (lastGenerationTime>0 && System.currentTimeMillis()-lastGenerationTime>TimePerGeneration))
+                {
+                    lastGenerationTime = System.currentTimeMillis();
+                    String msg ;
+                    msg = String.format("lastGenerationTime=%d" , lastGenerationTime) ;
+                    Log.d(null , msg) ;
+                    peaShot = new PeaShot(res, getX() / 100, getY() / 100);
+                    lastPeashotTime = System.currentTimeMillis();
+                    checkZombieHit(zombie);
+               }
             }
         } else {
             if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
