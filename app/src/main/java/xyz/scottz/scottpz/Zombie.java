@@ -30,15 +30,15 @@ pro: no wasted timer-induced calculation
  */
 
 public class Zombie extends MajorObject {
-    protected int life ;
+    protected double life ;
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
 
-    public int getLife() {
+    public double getLife() {
         return life;
     }
 
-    public void setLife(int life) {
+    public void setLife(double life) {
         this.life = life;
     }
 
@@ -54,6 +54,7 @@ public class Zombie extends MajorObject {
     }
 
     @Override
+    // TODO: use thread instead of timer model?
     void Move()
     {
 

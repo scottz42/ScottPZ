@@ -13,15 +13,14 @@ import android.graphics.Rect;
 
 public class Sun extends MinorObject {
     private Bitmap bitmap ;
-    private int x , y ;
     private long createTime ;
     private long duration = 5000 ;  // TODO: 10s or so
 
     Sun (Resources res , int x , int y)
     {
         super(res) ;
-        this.x = x ;
-       this.y = y ;
+        setX(x) ;
+        setY(y) ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.sun);
         createTime = System.currentTimeMillis();
     }
@@ -33,7 +32,7 @@ public class Sun extends MinorObject {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(x , y , x+42, y+ 40);
+        dst.set(getX() , getY() , getX()+42, getY()+ 40);
 
         canvas.drawBitmap(bitmap, src,dst,p);
 

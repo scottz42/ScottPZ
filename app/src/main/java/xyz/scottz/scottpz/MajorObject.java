@@ -3,6 +3,7 @@ package xyz.scottz.scottpz;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 
 /**
  * Created by lei on 2017/5/8.
@@ -48,4 +49,8 @@ public class MajorObject {
 
     void Move(){}
 
+
+    public void checkSun(MotionEvent event)
+    {
+    }
 }

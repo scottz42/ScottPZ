@@ -8,17 +8,17 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
- * Created by lei on 2017/6/8.
+ * Created by lei on 2017/6/11.
  */
 
-public class ConeheadZombie extends Zombie {
+public class BucketheadZombie extends Zombie {
     private Bitmap bitmap;
 
-    public ConeheadZombie(Resources res) {
+    public BucketheadZombie(Resources res) {
         super(res);
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.coneheadzombie);
+        bitmap = BitmapFactory.decodeResource(res, R.drawable.bucketheadzombie);
         // TODO: need to recycle bitmap?
-        life = 27.75 ;
+        life = 65 ;
     }
 
     @Override
@@ -32,5 +32,5 @@ public class ConeheadZombie extends Zombie {
 
         canvas.drawBitmap(bitmap, src, dst, p);
     }
-}
 
+}

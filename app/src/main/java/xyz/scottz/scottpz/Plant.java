@@ -3,6 +3,7 @@ package xyz.scottz.scottpz;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 
 /**
  * Created by lei on 2017/5/8.
@@ -12,11 +13,26 @@ import android.graphics.Paint;
 public class Plant extends MajorObject {
 
     private int life ;  // life left
+    protected int damagePerShot ;
+
+    public int getSunNeeded() {
+        return sunNeeded;
+    }
+
+    public void setSunNeeded(int sunNeeded) {
+        this.sunNeeded = sunNeeded;
+    }
+
+    protected int sunNeeded ;
+
+
 
     public Plant(Resources res)
     {
         super(res);
         life = 3 ;      // TODO: level-based, plant-specific
+        damagePerShot = 1 ;
+        sunNeeded = 50 ;
     }
 
     @Override
@@ -44,4 +60,6 @@ public class Plant extends MajorObject {
     public void setLife(int life) {
         this.life = life;
     }
+
+
 }

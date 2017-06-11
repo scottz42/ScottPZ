@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,19 @@ public class Sunflower extends Plant {
             Sun sun = new Sun(res , getX(), getY()) ;
             suns.add(sun) ;
             LastGenerateTime += TimePerGenerate ;
+        }
+    }
+
+    @Override
+    public void checkSun(MotionEvent event)
+    {
+        for (Sun sun : suns) {
+            int diffX = (int)event.getX()-sun.getX() ;
+            int diffY = (int)event.getY() - sun.getY() ;
+            if (diffX<40 && diffX>0 && diffY<40 && diffY>0) {
+                Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
+                suns.remove(sun) ;
+            }
         }
     }
 

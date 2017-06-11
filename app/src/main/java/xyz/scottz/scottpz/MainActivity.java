@@ -22,15 +22,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-// TODO: zombie eats plant: fix bugs
-// TODO: pea kills zombie
-// TODO: placement of multiple types of plants (plant selection)
 // TODO: zombie generation // 1. one zombie 2.
-// TODO: transparency:
-// TODO: temporary object generation eg. flying beans; pea kills zombie
-// TODO: background & transparency
-// TODO: falling sun
 // TODO: sun accounting
+// TODO: transparency:
+// TODO: background
+// TODO: falling sun
 // TODO: state saving/loading
 
 

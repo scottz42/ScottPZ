@@ -3,6 +3,7 @@ package xyz.scottz.scottpz;
 import android.app.usage.UsageEvents;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 /**
  * Created by lei on 2017/6/9.
  */
+
+// TODO: plant recharge time
+// TODO: shovel
 
 
 // global functionality for whole game
@@ -26,6 +30,15 @@ public class Game {
     static private ArrayList<MajorObject> majors ;
     static private ArrayList<MajorObject> deletions ;
 
+    static int noSun = 50 ;
+
+    public static int getNoSun() {
+        return noSun;
+    }
+
+    public static void setNoSun(int inNoSun) {
+        noSun = inNoSun;
+    }
 
     public static ArrayList<MajorObject> getMajors() {
         return majors;
@@ -38,13 +51,15 @@ public class Game {
     public static void init(Resources res)
     {
         resources = res ;
-        noPlants = 2 ;
+        noPlants = 3 ;
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
         Sunflower sunflower = new Sunflower(resources);
         NormalPea pea = new NormalPea(resources);  // TODO: change
+        Wallnut nut = new Wallnut(resources);
         plantSelections.add(sunflower);
         plantSelections.add(pea);
+        plantSelections.add(nut);
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
@@ -63,6 +78,8 @@ public class Game {
     {
         generateZombies() ;
 
+        // TODO: falling suns
+
         for (MajorObject o : majors) {
             // zombie: move, damage plant
             // plant: shoot zombie, generate sun, etc.
@@ -76,9 +93,37 @@ public class Game {
         deletions.clear() ;
     }
 
+    public static boolean noZombie()
+    {
+        // TODO: make more efficient
+        for (MajorObject o: majors) {
+            if (!o.isPlant()) {
+                return false ;
+            }
+        }
+        return true ;
+    }
+
     public static void generateZombies()
     {
-        // TODO: generate new zombies
+        if (noZombie()) {
+            Zombie zombie = new NormalZombie(resources);
+            int row = (int)(5*Math.random());
+            int zombieKind = (int)(3*Math.random());
+            if (zombieKind==0){
+                zombie = new NormalZombie(resources);
+            }
+            if (zombieKind==1){
+                zombie = new ConeheadZombie(resources);
+            }
+            if (zombieKind==2){
+                zombie = new BucketheadZombie(resources);
+            }
+            zombie.setX(1000);
+            zombie.setY((row+1)*100);
+            majors.add(zombie);
+
+        }
     }
 
     // on touch: based on what is on screen at that position
@@ -90,6 +135,14 @@ public class Game {
         x = (x/100)*100 ;
         y = (y/100)*100 ;
 
+        // TODO: click on sun: 2 types: plant & sky
+        // TODO: add falling sun
+
+
+        for (MajorObject o : majors) {
+            o.checkSun(event) ;
+        }
+
         // select plant
         if (x==0) {
             currentPlantSelection = y/100 -1 ;
@@ -98,8 +151,6 @@ public class Game {
 
 
         // plant new plant
-
-        // align to grid
         // TODO: adjust for screen size
         // TODO: use constants as appropriate
 
@@ -109,12 +160,17 @@ public class Game {
                 newPlant = new Sunflower(resources);
             } else if(currentPlantSelection==1) {
                 newPlant = new NormalPea(resources);
+            } else if(currentPlantSelection==2) {
+                newPlant = new Wallnut(resources);
             } else {
                 newPlant = new Sunflower(resources);
             }
             newPlant.setX(x);
             newPlant.setY(y);
-            majors.add(newPlant);
+            if (getNoSun()>=newPlant.getSunNeeded()) {
+                setNoSun(getNoSun()-newPlant.getSunNeeded());
+                majors.add(newPlant);
+            }
         }
     }
 
@@ -168,6 +224,12 @@ public class Game {
 
     public static void onDraw(Canvas canvas , Paint p)
     {
+        // TODO: better display of sun left
+        p.setColor(Color.BLUE);
+        p.setTextSize(50);
+        String s = String.format("Suns: %d" , getNoSun()) ;
+        canvas.drawText(s , 10 , 70 , p) ;
+
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
             Plant plant = (Plant)plantSelections.get(i) ;
