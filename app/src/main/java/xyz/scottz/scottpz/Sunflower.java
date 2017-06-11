@@ -19,7 +19,7 @@ public class Sunflower extends Plant {
     private Resources res ;
     private ArrayList<Sun> suns ;
     private long LastGenerateTime ;
-    private long TimePerGenerate = 10000 ;   // TODO: actually 30s or so
+    private long TimePerGenerate = 30000 ;   // TODO: find actual time
 
     public Sunflower(Resources res) {
         super(res);

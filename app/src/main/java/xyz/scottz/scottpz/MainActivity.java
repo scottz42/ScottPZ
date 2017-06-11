@@ -22,12 +22,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-// TODO: zombie generation // 1. one zombie 2.
-// TODO: sun accounting
-// TODO: transparency:
-// TODO: background
-// TODO: falling sun
-// TODO: state saving/loading
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {

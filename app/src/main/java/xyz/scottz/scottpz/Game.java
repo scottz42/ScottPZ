@@ -14,6 +14,12 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
+// TODO: zombie generation // 1. one zombie 2.
+// TODO: transparency:
+// TODO: background
+// TODO: falling sun
+// TODO: state saving/loading
+
 // TODO: plant recharge time
 // TODO: shovel
 
