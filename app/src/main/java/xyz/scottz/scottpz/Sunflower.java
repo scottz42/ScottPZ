@@ -19,15 +19,15 @@ public class Sunflower extends Plant {
     private Resources res ;
     private ArrayList<Sun> suns ;
     private long LastGenerateTime ;
-    private long TimePerGenerate = 30000 ;   // TODO: find actual time
+    private long TimePerGenerate = 20000 ;   // TODO: find actual time
 
     public Sunflower(Resources res) {
         super(res);
         this.res = res ;
 
+        rechargeTime = 5000 ;
         suns = new ArrayList<Sun>();
         // bitmap of pea
-        //  getResources
         bitmap = BitmapFactory.decodeResource(res, R.drawable.sunflower);
         // TODO: need to recycle bitmap?
 

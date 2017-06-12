@@ -20,6 +20,7 @@ public class Wallnut extends Plant {
         super(res);
         this.res = res ;
         setLife(40);
+        rechargeTime = 20000 ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.wallnut);
         // TODO: need to recycle bitmap?
     }

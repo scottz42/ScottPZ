@@ -14,14 +14,16 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: zombie generation // 1. one zombie 2.
+// TODO: Ra zombie ; potato mine
+// TODO: zombie generation: do Egypt 1
+// TODO: plant recharge time
+// TODO: falling sun
+// TODO: plant food
 // TODO: transparency:
 // TODO: background
-// TODO: falling sun
-// TODO: state saving/loading
-
-// TODO: plant recharge time
+// TODO: better plant selection UI & logic
 // TODO: shovel
+// TODO: state saving/loading
 
 
 // global functionality for whole game
@@ -36,7 +38,8 @@ public class Game {
     static private ArrayList<MajorObject> majors ;
     static private ArrayList<MajorObject> deletions ;
 
-    static int noSun = 50 ;
+    // TODO: normal is 50
+    static int noSun = 200 ;
 
     public static int getNoSun() {
         return noSun;
@@ -171,6 +174,7 @@ public class Game {
             } else {
                 newPlant = new Sunflower(resources);
             }
+            // TODO: recharge time
             newPlant.setX(x);
             newPlant.setY(y);
             if (getNoSun()>=newPlant.getSunNeeded()) {
@@ -242,6 +246,7 @@ public class Game {
             plant.setX(0);
             plant.setY((i+1)*100);
             plant.Draw(canvas , p) ;
+            // TODO: show recharge time
         }
 
         // plants & zombies ;
@@ -253,3 +258,8 @@ public class Game {
 }
 
 
+/*
+House Day 4
+
+
+ */

@@ -36,6 +36,7 @@ public class NormalPea extends Plant {
         super(res);
         this.res = res ;
         setSunNeeded(100);
+        rechargeTime = 5000 ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.pea1);
         // TODO: need to recycle bitmap?
     }
