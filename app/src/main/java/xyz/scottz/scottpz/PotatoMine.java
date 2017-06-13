@@ -23,6 +23,7 @@ public class PotatoMine extends Plant {
     {
         super(res);
         this.res = res ;
+        setSunNeeded(25);
         damagePerShot = 90 ;    // nds
         rechargeTime = 20000 ;
         bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);
@@ -50,11 +51,31 @@ public class PotatoMine extends Plant {
     @Override
     void Move()
     {
+        boolean exploded = false ;
         if (!armed && ((System.currentTimeMillis()-creationTime)>armingInterval)) {
             armed = true ;
         }
 
-        // TODO: kill zombies
+        if (armed) {
+            for (MajorObject o : Game.getMajors()) {
+                if (!o.isPlant()) {
+                    Zombie zombie = (Zombie) o;
+                    int zombieX = (zombie.getX() / 100) * 100;
+                    int zombieY = (zombie.getY() / 100) * 100;
+                    // kill zombies in this square ;
+                    if (zombieX == getX() && zombieY == getY()) {
+                        exploded = true;
+                        zombie.setLife(zombie.getLife() - damagePerShot);
+                        if (zombie.getLife() <= 0) {
+                            Game.removeZombie(zombie);
+                        }
+                    }
+                }
+            }
+            if (exploded) {
+                Game.removePlant(this);
+            }
+        }
     }
 
 }

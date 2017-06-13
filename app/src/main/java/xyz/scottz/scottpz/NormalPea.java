@@ -37,6 +37,7 @@ public class NormalPea extends Plant {
         this.res = res ;
         setSunNeeded(100);
         rechargeTime = 5000 ;
+        damagePerShot = 1 ;  // nds
         bitmap = BitmapFactory.decodeResource(res, R.drawable.pea1);
         // TODO: need to recycle bitmap?
     }
@@ -73,7 +74,6 @@ public class NormalPea extends Plant {
                 int diff = zombieX-peaX ;
                 if (diff<50 && diff>-50) {
                     peaShot = null ;    // pea shot can only damage one zombie
-                    // TODO: damage per shot
                     zombie.setLife(zombie.getLife()-damagePerShot) ;
                     if (zombie.getLife()<=0) {
                         Game.removeZombie(zombie) ;

@@ -19,7 +19,7 @@ public class Sunflower extends Plant {
     private Resources res ;
     private ArrayList<Sun> suns ;
     private long LastGenerateTime ;
-    private long TimePerGenerate = 20000 ;   // TODO: find actual time
+    private long TimePerGenerate = 24000 ;   // ms
 
     public Sunflower(Resources res) {
         super(res);
@@ -50,7 +50,7 @@ public class Sunflower extends Plant {
         for (Sun sun : suns) {
             int diffX = (int)event.getX()-sun.getX() ;
             int diffY = (int)event.getY() - sun.getY() ;
-            if (diffX<40 && diffX>0 && diffY<40 && diffY>0) {
+            if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
                 Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
                 suns.remove(sun) ;
             }

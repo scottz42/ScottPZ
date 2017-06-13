@@ -14,12 +14,15 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: Ra zombie ; potato mine
-// TODO: zombie generation: do Egypt 1
 // TODO: plant recharge time
+// TODO: Ra zombie
+// TODO: zombie generation: do Egypt 1
+// TODO: zombie win
 // TODO: falling sun
+// TODO: cabbage pult
+// TODO: allow multiple levels
 // TODO: plant food
-// TODO: transparency:
+// TODO: transparency
 // TODO: background
 // TODO: better plant selection UI & logic
 // TODO: shovel
@@ -60,15 +63,17 @@ public class Game {
     public static void init(Resources res)
     {
         resources = res ;
-        noPlants = 3 ;
+        noPlants = 4 ;
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
         Sunflower sunflower = new Sunflower(resources);
         NormalPea pea = new NormalPea(resources);  // TODO: change
         Wallnut nut = new Wallnut(resources);
+        PotatoMine mine = new PotatoMine(resources);
         plantSelections.add(sunflower);
         plantSelections.add(pea);
         plantSelections.add(nut);
+        plantSelections.add(mine) ;
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
@@ -171,6 +176,8 @@ public class Game {
                 newPlant = new NormalPea(resources);
             } else if(currentPlantSelection==2) {
                 newPlant = new Wallnut(resources);
+            } else if (currentPlantSelection==3) {
+                newPlant = new PotatoMine(resources);
             } else {
                 newPlant = new Sunflower(resources);
             }

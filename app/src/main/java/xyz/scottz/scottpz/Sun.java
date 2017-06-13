@@ -32,7 +32,7 @@ public class Sun extends MinorObject {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX() , getY() , getX()+42, getY()+ 40);
+        dst.set(getX() , getY() , getX()+63, getY()+ 60);
 
         canvas.drawBitmap(bitmap, src,dst,p);
 
