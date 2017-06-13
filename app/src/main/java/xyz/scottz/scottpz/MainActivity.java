@@ -46,8 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Game.onTimer();
-
+                try {
+                    Game.onTimer();
+                } catch (Exception e) {
+                    Log.d(null , "onTimer exception: "+e) ;
+                }
                 runOnUiThread(new Runnable() {
 
                     @Override
@@ -65,7 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(null, "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
 
-        Game.onTouch(event);
+        try {
+            Game.onTouch(event);
+        } catch (Exception e) {
+            Log.d(null , "onTouch exception: "+e) ;
+        }
 
         v.invalidate();
         return false;
@@ -80,27 +87,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             super(context);
             p = new Paint();
 
-            for (x = 1000; x < 1100; x += 100) {
-                for (y = 100; y < 200; y += 100) {
-                    NormalZombie pea1 = new NormalZombie(this.getResources());
-                    pea1.setX(x);
-                    pea1.setY(y);
-                    Game.getMajors().add(pea1);
-                }
-            }
-/*
-            ConeheadZombie z2 = new ConeheadZombie(this.getResources());
-            z2.setX(1100);
-            z2.setY(300);
-            Game.getMajors().add(z2);
-  */
-        }
+      }
 
 
         @Override
         protected void onDraw(Canvas canvas)
         {
-            Game.onDraw(canvas , p);
+            try {
+                Game.onDraw(canvas , p);
+            } catch (Exception e) {
+                Log.d(null , "onDraw exception: "+e) ;
+            }
         }
     }
 }

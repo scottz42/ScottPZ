@@ -40,6 +40,11 @@ public class Game {
 
     static private ArrayList<MajorObject> majors ;
     static private ArrayList<MajorObject> deletions ;
+    static private ArrayList<ZombieInfo> zombies;
+    static private long levelStartTime ;
+
+    // zombies to be generated for one level ;
+    static private ArrayList level ;
 
     // TODO: normal is 50
     static int noSun = 200 ;
@@ -77,6 +82,28 @@ public class Game {
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
+
+        generateHouse4();
+        levelStartTime = System.currentTimeMillis() ;
+
+        long time = 0 ;
+        zombies = new ArrayList<ZombieInfo>();
+
+        for (Object o: level) {
+            ArrayList wave = (ArrayList) o ;
+            time++ ;
+            for (Object o2: wave) {
+                ZombieInfo info = (ZombieInfo) o2 ;
+                int row = info.getRow() ;
+                if (row==0) {
+                    row = ((int)(Math.random()*5))+1;
+                }
+                info.zombie.setX(1000);
+                info.zombie.setY(row*100);
+                info.setTime((time*15 + ((int)(Math.random()*10))-5)*1000);
+                zombies.add(info);
+            }
+        }
     }
 
 
@@ -118,26 +145,75 @@ public class Game {
         return true ;
     }
 
+    public static void generateHouse4()
+    {
+        ArrayList wave = new ArrayList();
+        level = new ArrayList() ;
+
+        // wave 1
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 3)) ;
+        level.add(wave) ;
+
+        // wave 2
+        wave = new ArrayList() ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 4));
+        level.add(wave) ;
+
+        // wave 3
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        level.add(wave) ;
+
+        // wave 4
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        level.add(wave) ;
+
+        // wave 5
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        level.add(wave) ;
+
+        // wave 6
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        level.add(wave) ;
+
+        // wave 7
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new BucketheadZombie(resources) , 3)) ;
+        level.add(wave) ;
+
+        // wave 8
+        wave = new ArrayList();
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        level.add(wave) ;
+    }
+
+    public static void generateEgypt1()
+    {
+
+    }
+
     public static void generateZombies()
     {
-        if (noZombie()) {
-            Zombie zombie = new NormalZombie(resources);
-            int row = (int)(5*Math.random());
-            int zombieKind = (int)(3*Math.random());
-            if (zombieKind==0){
-                zombie = new NormalZombie(resources);
+        for (ZombieInfo info: zombies) {
+            if ((System.currentTimeMillis()-levelStartTime)>info.getTime()) {
+                majors.add(info.getZombie());
+                zombies.remove(info);
             }
-            if (zombieKind==1){
-                zombie = new ConeheadZombie(resources);
-            }
-            if (zombieKind==2){
-                zombie = new BucketheadZombie(resources);
-            }
-            zombie.setX(1000);
-            zombie.setY((row+1)*100);
-            majors.add(zombie);
-
         }
+
+
     }
 
     // on touch: based on what is on screen at that position
@@ -264,9 +340,3 @@ public class Game {
     }
 }
 
-
-/*
-House Day 4
-
-
- */
