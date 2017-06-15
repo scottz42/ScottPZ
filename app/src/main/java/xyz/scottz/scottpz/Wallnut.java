@@ -23,6 +23,20 @@ public class Wallnut extends Plant {
         return rechargeTime ;
     }
 
+
+    private static long rechargeTimeLeft = 1000 ;
+
+    public static void setRechargeTimeLeft(long rechargeTimeLeft) {
+        Wallnut.rechargeTimeLeft = rechargeTimeLeft;
+    }
+
+    @Override
+
+    public long getRechargeTimeLeft() {
+        return rechargeTimeLeft;
+    }
+
+
     Wallnut(Resources res)
     {
         super(res);

@@ -80,6 +80,11 @@ public class Game {
         plantSelections.add(pea);
         plantSelections.add(nut);
         plantSelections.add(mine) ;
+        sunflower.setRechargeTimeLeft(sunflower.getRechargeTime());
+        pea.setRechargeTimeLeft(pea.getRechargeTime());
+        nut.setRechargeTimeLeft(nut.getRechargeTime());
+        mine.setRechargeTimeLeft(mine.getRechargeTime());
+
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
@@ -119,6 +124,8 @@ public class Game {
     public static void onTimer()
     {
         generateZombies() ;
+
+        // TODO: decrement plant recharge time
 
         // TODO: falling suns
 
@@ -267,6 +274,7 @@ public class Game {
                 if (getNoSun() >= newPlant.getSunNeeded()) {
                     setNoSun(getNoSun() - newPlant.getSunNeeded());
                     majors.add(newPlant);
+                    // TODO: reset recharge time
                 }
             }
         }

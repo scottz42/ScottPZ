@@ -29,6 +29,20 @@ public class Sunflower extends Plant {
         return rechargeTime ;
     }
 
+
+    private static long rechargeTimeLeft = 1000 ;
+
+    public void setRechargeTimeLeft(long rechargeTimeLeft) {
+        Sunflower.rechargeTimeLeft = rechargeTimeLeft;
+    }
+
+    @Override
+
+    public long getRechargeTimeLeft() {
+        return rechargeTimeLeft;
+    }
+
+
     public Sunflower(Resources res) {
         super(res);
         this.res = res ;

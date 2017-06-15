@@ -33,12 +33,24 @@ public class NormalPea extends Plant {
 
     private static long rechargeTime = 5000 ;
 
+
     @Override
     public long getRechargeTime()
     {
         return rechargeTime ;
     }
 
+    private static long rechargeTimeLeft = 1000 ;
+
+    public static void setRechargeTimeLeft(long rechargeTimeLeft) {
+        NormalPea.rechargeTimeLeft = rechargeTimeLeft;
+    }
+
+    @Override
+
+    public long getRechargeTimeLeft() {
+        return rechargeTimeLeft;
+    }
 
     NormalPea(Resources res)
     {

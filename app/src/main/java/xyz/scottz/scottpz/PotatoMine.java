@@ -27,6 +27,20 @@ public class PotatoMine extends Plant {
         return rechargeTime ;
     }
 
+
+    private static long rechargeTimeLeft = 1000 ;
+
+    public static void setRechargeTimeLeft(long rechargeTimeLeft) {
+        PotatoMine.rechargeTimeLeft = rechargeTimeLeft;
+    }
+
+    @Override
+
+    public long getRechargeTimeLeft() {
+        return rechargeTimeLeft;
+    }
+
+
     PotatoMine(Resources res)
     {
         super(res);
