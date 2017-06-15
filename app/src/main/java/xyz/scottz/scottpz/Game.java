@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: plant recharge time
 // TODO: Ra zombie
 // TODO: zombie win
 // TODO: falling sun
@@ -352,9 +351,11 @@ public class Game {
             plant.setX(0);
             plant.setY((i+1)*100);
             plant.Draw(canvas , p) ;
-            p.setAlpha(10);
-            p.setColor(Color.BLUE);
-   //         canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+100 , p) ;
+            p.setColor(0xc0ffffff);
+            long diff = (System.currentTimeMillis()-rechargeStartTime[i])*100/rechargeTime[i] ;
+            if (diff>100) diff=100 ;
+            diff = 100-diff ;
+            canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+diff , p) ;
             p.setAlpha(255);
         }
 
