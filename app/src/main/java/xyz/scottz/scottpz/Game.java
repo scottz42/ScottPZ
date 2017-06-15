@@ -43,6 +43,9 @@ public class Game {
     static private ArrayList<MajorObject> deletions ;
     static private ArrayList<ZombieInfo> zombies;
     static private long levelStartTime ;
+    static private long rechargeTime[] ;
+    static private long rechargeStartTime[] ;
+
 
     // zombies to be generated for one level ;
     static private ArrayList level ;
@@ -80,11 +83,15 @@ public class Game {
         plantSelections.add(pea);
         plantSelections.add(nut);
         plantSelections.add(mine) ;
-        sunflower.setRechargeTimeLeft(sunflower.getRechargeTime());
-        pea.setRechargeTimeLeft(pea.getRechargeTime());
-        nut.setRechargeTimeLeft(nut.getRechargeTime());
-        mine.setRechargeTimeLeft(mine.getRechargeTime());
-
+        rechargeTime = new long[noPlants] ;
+        rechargeTime[0] = Sunflower.getRechargeTime() ;
+        rechargeTime[1] = NormalPea.getRechargeTime() ;
+        rechargeTime[2] = Wallnut.getRechargeTime() ;
+        rechargeTime[3] = PotatoMine.getRechargeTime() ;
+        rechargeStartTime = new long[noPlants] ;
+        for (int i=0 ; i<noPlants ; i++) {
+            rechargeStartTime[i] = System.currentTimeMillis() ;
+        }
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
@@ -125,7 +132,9 @@ public class Game {
     {
         generateZombies() ;
 
-        // TODO: decrement plant recharge time
+        for (int i=0 ; i<noPlants ; i++) {
+            Plant plant = (Plant) plantSelections.get(i) ;
+        }
 
         // TODO: falling suns
 
@@ -268,13 +277,13 @@ public class Game {
             } else {
                 newPlant = new Sunflower(resources);
             }
-            if (newPlant.getRechargeTimeLeft()<=0) {
+            if ((System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
                 newPlant.setX(x);
                 newPlant.setY(y);
                 if (getNoSun() >= newPlant.getSunNeeded()) {
                     setNoSun(getNoSun() - newPlant.getSunNeeded());
                     majors.add(newPlant);
-                    // TODO: reset recharge time
+                    rechargeStartTime[currentPlantSelection] = System.currentTimeMillis() ;
                 }
             }
         }
@@ -330,6 +339,7 @@ public class Game {
 
     public static void onDraw(Canvas canvas , Paint p)
     {
+
         // TODO: better display of sun left
         p.setColor(Color.BLUE);
         p.setTextSize(50);
@@ -342,7 +352,10 @@ public class Game {
             plant.setX(0);
             plant.setY((i+1)*100);
             plant.Draw(canvas , p) ;
-            // TODO: show recharge time
+            p.setAlpha(10);
+            p.setColor(Color.BLUE);
+   //         canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+100 , p) ;
+            p.setAlpha(255);
         }
 
         // plants & zombies ;

@@ -26,7 +26,6 @@ public class Plant extends MajorObject {
     protected int sunNeeded ;
 
 
-
     public Plant(Resources res)
     {
         super(res);
@@ -34,10 +33,6 @@ public class Plant extends MajorObject {
         damagePerShot = 1 ;
         sunNeeded = 50 ;
     }
-
-    public long getRechargeTime() { return 5000 ; }     // need to override in each plant class
-
-    public long getRechargeTimeLeft() { return 1000 ; }     // need to overrride in each plant class
 
     @Override
     public boolean isPlant()
