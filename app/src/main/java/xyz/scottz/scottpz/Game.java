@@ -206,13 +206,16 @@ public class Game {
 
     public static void generateZombies()
     {
+        ArrayList<ZombieInfo> removeList = new ArrayList<>();
+
         for (ZombieInfo info: zombies) {
             if ((System.currentTimeMillis()-levelStartTime)>info.getTime()) {
+                info.getZombie().setLastMoveTime(System.currentTimeMillis());
                 majors.add(info.getZombie());
-                zombies.remove(info);
+                removeList.add(info);
             }
         }
-
+        zombies.removeAll(removeList);
 
     }
 

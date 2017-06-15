@@ -34,6 +34,14 @@ public class Zombie extends MajorObject {
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
 
+    public long getLastMoveTime() {
+        return LastMoveTime;
+    }
+
+    public void setLastMoveTime(long lastMoveTime) {
+        LastMoveTime = lastMoveTime;
+    }
+
     public double getLife() {
         return life;
     }
