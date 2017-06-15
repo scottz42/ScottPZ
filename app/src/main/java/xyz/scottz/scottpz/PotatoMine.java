@@ -19,13 +19,20 @@ public class PotatoMine extends Plant {
     Resources res ;
     long creationTime ;     // time when mine is planted
 
+    private static long rechargeTime = 20000 ;
+
+    @Override
+    public long getRechargeTime()
+    {
+        return rechargeTime ;
+    }
+
     PotatoMine(Resources res)
     {
         super(res);
         this.res = res ;
         setSunNeeded(25);
         damagePerShot = 90 ;    // nds
-        rechargeTime = 20000 ;
         bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);
         bitmapArmed = BitmapFactory.decodeResource(res, R.drawable.potatominearmed);
         armed = false ;

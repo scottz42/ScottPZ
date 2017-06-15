@@ -14,7 +14,6 @@ public class Plant extends MajorObject {
 
     private int life ;  // life left
     protected int damagePerShot ;   // nds
-    protected int rechargeTime = 5000 ;    // ms    // TODO: static for each plant class
 
     public int getSunNeeded() {
         return sunNeeded;
@@ -35,6 +34,8 @@ public class Plant extends MajorObject {
         damagePerShot = 1 ;
         sunNeeded = 50 ;
     }
+
+    public long getRechargeTime() { return 5000 ; }
 
     @Override
     public boolean isPlant()

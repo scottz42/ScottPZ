@@ -66,7 +66,6 @@ public class Zombie extends MajorObject {
     void Move()
     {
 
-
         // zombie eat plant ;
         Plant plant = Game.findPlant(getX(), getY());
         if (plant != null) {    // there is plant to eat

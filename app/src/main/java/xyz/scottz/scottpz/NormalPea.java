@@ -31,6 +31,15 @@ public class NormalPea extends Plant {
 
     Resources res ;
 
+    private static long rechargeTime = 5000 ;
+
+    @Override
+    public long getRechargeTime()
+    {
+        return rechargeTime ;
+    }
+
+
     NormalPea(Resources res)
     {
         super(res);

@@ -15,12 +15,19 @@ public class Wallnut extends Plant {
     private Bitmap bitmap ;
     Resources res ;
 
+    private static long rechargeTime = 20000 ;
+
+    @Override
+    public long getRechargeTime()
+    {
+        return rechargeTime ;
+    }
+
     Wallnut(Resources res)
     {
         super(res);
         this.res = res ;
         setLife(40);
-        rechargeTime = 20000 ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.wallnut);
         // TODO: need to recycle bitmap?
     }

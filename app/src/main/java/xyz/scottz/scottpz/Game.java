@@ -16,11 +16,12 @@ import java.util.ArrayList;
 
 // TODO: plant recharge time
 // TODO: Ra zombie
-// TODO: zombie generation: do Egypt 1
 // TODO: zombie win
 // TODO: falling sun
-// TODO: cabbage pult
 // TODO: allow multiple levels
+// TODO: cleanup plant selection code
+// TODO: plant levels
+// TODO: cabbage pult
 // TODO: plant food
 // TODO: transparency
 // TODO: background
@@ -260,12 +261,13 @@ public class Game {
             } else {
                 newPlant = new Sunflower(resources);
             }
-            // TODO: recharge time
-            newPlant.setX(x);
-            newPlant.setY(y);
-            if (getNoSun()>=newPlant.getSunNeeded()) {
-                setNoSun(getNoSun()-newPlant.getSunNeeded());
-                majors.add(newPlant);
+            if (newPlant.getRechargeTimeLeft()<=0) {
+                newPlant.setX(x);
+                newPlant.setY(y);
+                if (getNoSun() >= newPlant.getSunNeeded()) {
+                    setNoSun(getNoSun() - newPlant.getSunNeeded());
+                    majors.add(newPlant);
+                }
             }
         }
     }

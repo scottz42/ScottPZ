@@ -21,11 +21,18 @@ public class Sunflower extends Plant {
     private long LastGenerateTime ;
     private long TimePerGenerate = 24000 ;   // ms
 
+    private static long rechargeTime = 5000 ;
+
+    @Override
+    public long getRechargeTime()
+    {
+        return rechargeTime ;
+    }
+
     public Sunflower(Resources res) {
         super(res);
         this.res = res ;
 
-        rechargeTime = 5000 ;
         suns = new ArrayList<Sun>();
         // bitmap of pea
         bitmap = BitmapFactory.decodeResource(res, R.drawable.sunflower);
