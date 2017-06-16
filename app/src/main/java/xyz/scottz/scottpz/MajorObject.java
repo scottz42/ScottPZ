@@ -53,4 +53,8 @@ public class MajorObject {
     public void checkSun(MotionEvent event)
     {
     }
+
+    // used for stealing sun from plant
+    int calcCanStealSun() { return 0 ; }
+    void stealSun(Zombie zombie , int noSun) {}
 }

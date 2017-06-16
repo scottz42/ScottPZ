@@ -64,6 +64,29 @@ public class Sunflower extends Plant {
         }
     }
 
+    // TODO: same logic for all sun-producing plants
+    @Override
+    int calcCanStealSun()
+    {
+        int result = 0 ;
+        for (Sun sun : suns) {
+            result += 50 ;
+        }
+        return result ;
+    }
+
+    @Override
+    void stealSun(Zombie zombie , int noSun)
+    {
+        int total = 0 ;
+        for (Sun sun : suns) {
+            if（total<noSun) {
+                Sun.Steal(zombie) ;
+                total += 50 ;
+            }
+        }
+
+    }
 
     @Override
     void Draw(Canvas canvas , Paint p) {

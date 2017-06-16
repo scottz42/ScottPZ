@@ -16,6 +16,11 @@ public class Sun extends MinorObject {
     private long createTime ;
     private long duration = 5000 ;  // TODO: 10s or so
 
+    // sun-stealing
+    private long startStealTime ;
+    private long stealFrameTime = 500 ;
+    private int stealSteps = 4 ;
+
     Sun (Resources res , int x , int y)
     {
         super(res) ;
@@ -23,6 +28,7 @@ public class Sun extends MinorObject {
         setY(y) ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.sun);
         createTime = System.currentTimeMillis();
+        startStealTime = 0 ;
     }
 
     void Draw(Canvas canvas , Paint p)

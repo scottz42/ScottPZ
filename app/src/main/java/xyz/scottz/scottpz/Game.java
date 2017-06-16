@@ -167,7 +167,8 @@ public class Game {
         level = new ArrayList() ;
 
         // wave 1
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 3)) ;
+        // TODO: test only
+        wave.add(new ZombieInfo(new RaZombie(resources) , 3)) ;
         level.add(wave) ;
 
         // wave 2
