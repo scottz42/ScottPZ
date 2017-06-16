@@ -18,7 +18,7 @@ public class Sunflower extends Plant {
     private Bitmap bitmap ;
     private Resources res ;
     private ArrayList<Sun> suns ;
-    private long LastGenerateTime ;
+    private long LastGenerateTime ; // TODO; test
     private long TimePerGenerate = 24000 ;   // ms
 
     private static long rechargeTime = 5000 ;
@@ -70,7 +70,7 @@ public class Sunflower extends Plant {
     {
         int result = 0 ;
         for (Sun sun : suns) {
-            result += 50 ;
+            result += sun.calcCanSteal() ;
         }
         return result ;
     }
@@ -80,8 +80,8 @@ public class Sunflower extends Plant {
     {
         int total = 0 ;
         for (Sun sun : suns) {
-            if（total<noSun) {
-                Sun.Steal(zombie) ;
+            if (total<noSun) {
+                sun.steal(zombie) ;
                 total += 50 ;
             }
         }

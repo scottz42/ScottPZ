@@ -11,6 +11,8 @@ import android.graphics.Rect;
  * Created by lei on 2017/6/16.
  */
 
+// TODO; recover sun when zombie dies
+
 public class RaZombie extends Zombie {
     private Bitmap bitmap ;
     private int sunsStolen = 0 ;
@@ -37,24 +39,28 @@ public class RaZombie extends Zombie {
 
     @Override
     void Move() {
-        super() ;
+        super.Move();
         // TODO: falling sun, shoveled sun, sun bean effect
 
-        int canSteal ;
+        int canSteal = 0 ;
+        /*
+        // TODO: need to differentiate between sun stolen and sun being stolen
         if (sunsStolen<250) {
-            for (MajorObject o: Game.getMajors()) {
-                canSteal = o.calcCanStealSun() ;
-                if (canSteal>0) {
-                    if (sunsStolen+canSteal>320) {
-                        canSteal = 320 - sunsStolenlen ;
+            for (MajorObject o : Game.getMajors()) {
+                canSteal = o.calcCanStealSun();
+                if (canSteal > 0) {
+                    if (sunsStolen + canSteal > 320) {
+                        canSteal = 320 - sunsStolen;
                     }
-                    o.stealSun(canSteal) ;
+                    o.stealSun(this , canSteal);
                 }
             }
-            sunsStolen += canSteal ;
-            if (sunsStolen>320) {
-                sunsStolen = 320 ;
+            sunsStolen += canSteal;
+            if (sunsStolen > 320) {
+                sunsStolen = 320;
             }
+        }
+        */
     }
 
 }

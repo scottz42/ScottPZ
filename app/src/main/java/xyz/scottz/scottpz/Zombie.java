@@ -65,7 +65,6 @@ public class Zombie extends MajorObject {
     // TODO: use thread instead of timer model?
     void Move()
     {
-
         // zombie eat plant ;
         Plant plant = Game.findPlant(getX(), getY());
         if (plant != null) {    // there is plant to eat

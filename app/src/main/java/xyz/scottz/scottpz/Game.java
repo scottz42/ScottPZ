@@ -1,37 +1,38 @@
 package xyz.scottz.scottpz;
 
-import android.app.usage.UsageEvents;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by lei on 2017/6/9.
  */
 
+// TODO: falling sun: 6s per sun, falling time 3s, disappearing time, 3s for initial sun
 // TODO: Ra zombie
-// TODO: zombie win
-// TODO: falling sun
 // TODO: allow multiple levels
 // TODO: cleanup plant selection code
 // TODO: plant levels
+// TODO: tombstone
 // TODO: cabbage pult
 // TODO: plant food
 // TODO: transparency
 // TODO: background
-// TODO: better plant selection UI & logic
-// TODO: shovel
+// TODO: ambush zombies
 // TODO: state saving/loading
 
 
 // global functionality for whole game
 public class Game {
     static private Resources resources ;
+
+    static boolean lost = false ;
+    static boolean won = false ;
+
+    static Shovel shovel ;
 
     static int noPlants ;
     static ArrayList plantSelections ;
@@ -95,6 +96,9 @@ public class Game {
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
 
+        // shovel
+        shovel = new Shovel(resources , 1000 , 600) ;
+
         generateHouse4();
         levelStartTime = System.currentTimeMillis() ;
 
@@ -129,6 +133,7 @@ public class Game {
 
     public static void onTimer()
     {
+        if (lost || won) return ;
         generateZombies() ;
 
         for (int i=0 ; i<noPlants ; i++) {
@@ -141,6 +146,9 @@ public class Game {
             // zombie: move, damage plant
             // plant: shoot zombie, generate sun, etc.
             o.Move();
+            if (!o.isPlant() && o.getX()<20) {
+                lost = true ;
+            }
         }
 
         // TODO: use delete flag in each object instead?
@@ -148,6 +156,10 @@ public class Game {
             majors.remove(o) ;
         }
         deletions.clear() ;
+
+        if (zombies.isEmpty() && noZombie()) {
+            won = true ;
+        }
     }
 
     public static boolean noZombie()
@@ -167,8 +179,7 @@ public class Game {
         level = new ArrayList() ;
 
         // wave 1
-        // TODO: test only
-        wave.add(new ZombieInfo(new RaZombie(resources) , 3)) ;
+        wave.add(new ZombieInfo(new NormalZombie(resources) , 3)) ;
         level.add(wave) ;
 
         // wave 2
@@ -240,10 +251,24 @@ public class Game {
     // possibilities: suns, plant new plant
     public static void onTouch(MotionEvent event)
     {
+        if (lost || won) return ;
+
         int x = (int) event.getX() ;
         int y = (int) event.getY() ;
         x = (x/100)*100 ;
         y = (y/100)*100 ;
+
+        if (shovel.isShovelMode()) {
+            Plant plant = existPlant(x , y) ;
+            if (plant!=null) {
+                // TODO: generate suns
+                removePlant(plant) ;
+                shovel.setShovelMode(false);
+            }
+            return ;
+        }
+
+        shovel.onTouch(event) ;
 
         // TODO: click on sun: 2 types: plant & sky
         // TODO: add falling sun
@@ -252,6 +277,7 @@ public class Game {
         for (MajorObject o : majors) {
             o.checkSun(event) ;
         }
+
 
         // select plant
         if (x==0) {
@@ -302,6 +328,16 @@ public class Game {
         return true ;
     }
 
+    // TODO: currently unusedd
+    public static int noZombies()
+    {
+        int result = 0 ;
+        for (MajorObject o : majors) {
+            if (!o.isPlant()) result++ ;
+        }
+        return result ;
+    }
+
     public static Plant findPlant(int x , int y)
     {
         for (MajorObject o : majors) {
@@ -339,12 +375,27 @@ public class Game {
 
     public static void onDraw(Canvas canvas , Paint p)
     {
-
         // TODO: better display of sun left
         p.setColor(Color.BLUE);
         p.setTextSize(50);
         String s = String.format("Suns: %d" , getNoSun()) ;
         canvas.drawText(s , 10 , 70 , p) ;
+
+        if (lost) {
+            p.setColor(Color.GREEN);
+            p.setTextSize(100);
+            s = String.format("THE ZOMBIES ATE YOUR BRAIN!") ;
+            canvas.drawText(s , 100 , 300 , p) ;
+        }
+
+        if (won) {
+            p.setColor(Color.RED);
+            p.setTextSize(200);
+            s = String.format("YOU WON!") ;
+            canvas.drawText(s , 400 , 300 , p) ;
+        }
+
+        shovel.Draw(canvas , p);
 
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
