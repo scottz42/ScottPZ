@@ -46,6 +46,7 @@ public class Game {
     static private long rechargeTime[] ;
     static private long rechargeStartTime[] ;
 
+    static private ArrayList fallingSuns ;
 
     // zombies to be generated for one level ;
     static private ArrayList level ;
@@ -93,6 +94,8 @@ public class Game {
             rechargeStartTime[i] = System.currentTimeMillis() ;
         }
 
+        fallingSuns = new ArrayList() ;
+
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
 
@@ -131,6 +134,22 @@ public class Game {
         Game.deletions = deletions;
     }
 
+    // generate new falling suns & move existing falling suns & destroy suns that haven't been picked up
+    // generate: if falling sun mode & enough time elapsed from last sun generated
+    // move: has not reached final position & enough time to move to next position
+    // destroy：enough time since final position
+    void generateFallingSuns()
+    {
+
+    }
+
+    // similar to check for plant-generated suns
+    void checkFallingSuns(MotionEvent event)
+    {
+
+    }
+
+
     public static void onTimer()
     {
         if (lost || won) return ;
@@ -140,7 +159,7 @@ public class Game {
             Plant plant = (Plant) plantSelections.get(i) ;
         }
 
-        // TODO: falling suns
+        generateFallingSuns() ;
 
         for (MajorObject o : majors) {
             // zombie: move, damage plant
@@ -270,9 +289,7 @@ public class Game {
 
         shovel.onTouch(event) ;
 
-        // TODO: click on sun: 2 types: plant & sky
-        // TODO: add falling sun
-
+        checkFallingSuns(event) ;
 
         for (MajorObject o : majors) {
             o.checkSun(event) ;
@@ -394,8 +411,9 @@ public class Game {
             s = String.format("YOU WON!") ;
             canvas.drawText(s , 400 , 300 , p) ;
         }
-
         shovel.Draw(canvas , p);
+
+        // TODO: indicate shovel mode
 
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
@@ -409,6 +427,12 @@ public class Game {
             diff = 100-diff ;
             canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+diff , p) ;
             p.setAlpha(255);
+        }
+
+        // falling suns
+        for (Object o: fallingSuns) {
+            Sun sun = (Sun)o ;
+            sun.Draw(canvas , p);
         }
 
         // plants & zombies ;
