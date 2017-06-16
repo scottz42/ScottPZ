@@ -54,14 +54,16 @@ public class Sunflower extends Plant {
     @Override
     public void checkSun(MotionEvent event)
     {
+        ArrayList removeSuns = new ArrayList() ;
         for (Sun sun : suns) {
             int diffX = (int)event.getX()-sun.getX() ;
             int diffY = (int)event.getY() - sun.getY() ;
             if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
                 Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
-                suns.remove(sun) ;
+                removeSuns.add(suns) ;
             }
         }
+        suns.removeAll(removeSuns) ;
     }
 
     // TODO: same logic for all sun-producing plants
@@ -99,6 +101,7 @@ public class Sunflower extends Plant {
 
         canvas.drawBitmap(bitmap, src,dst,p);
 
+        // TODO: move to onTimer?
         for (Sun sun :suns) {
             if (sun.isDead()) {
                 suns.remove(sun) ;

@@ -11,11 +11,11 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: falling sun: 6s per sun, falling time 3s, disappearing time, 3s for initial sun
-// TODO: Ra zombie
+// TODO: falling sun: 6s per sun, falling time 3s, disappearing time same as plant-generated sun, 3s for initial sun
 // TODO: allow multiple levels
+
+// TODO: Ra zombie
 // TODO: cleanup plant selection code
-// TODO: plant levels
 // TODO: tombstone
 // TODO: cabbage pult
 // TODO: plant food
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 // TODO: background
 // TODO: ambush zombies
 // TODO: state saving/loading
+// TODO: plant levels
 
 
 // global functionality for whole game
@@ -33,6 +34,11 @@ public class Game {
     static boolean won = false ;
 
     static Shovel shovel ;
+
+    // falling suns
+    static boolean fallingSunMode = true ;
+    static long lastFallingSunTime = 0 ;
+
 
     static int noPlants ;
     static ArrayList plantSelections ;
@@ -94,6 +100,7 @@ public class Game {
             rechargeStartTime[i] = System.currentTimeMillis() ;
         }
 
+        lastFallingSunTime = System.currentTimeMillis() ;
         fallingSuns = new ArrayList() ;
 
         setMajors(new ArrayList<MajorObject>());
@@ -134,19 +141,60 @@ public class Game {
         Game.deletions = deletions;
     }
 
+
+    static long fallingSunInterval = 6000 ;
+
     // generate new falling suns & move existing falling suns & destroy suns that haven't been picked up
     // generate: if falling sun mode & enough time elapsed from last sun generated
     // move: has not reached final position & enough time to move to next position
     // destroy：enough time since final position
-    void generateFallingSuns()
+    static void generateFallingSuns()
     {
+        if (fallingSunMode) {
+            // generate
+            // TODO: initial vs. subsequent ones
+           if ((System.currentTimeMillis()-lastFallingSunTime)>fallingSunInterval) {
+               lastFallingSunTime = System.currentTimeMillis() ;
+               // TODO: figure out rule for initial position
+               int x = ((int)(Math.random()*500))+300 ;
+               int y = 50 ;
+               Sun sun = new Sun(resources , x , y) ;
+               fallingSuns.add(sun) ;
+           }
 
+           // move
+            for (Object o: fallingSuns) {
+                Sun sun = (Sun) o ;
+                sun.move() ;
+            }
+
+            // destroy
+            ArrayList sunsToRemove = new ArrayList() ;
+            for (Object o: fallingSuns) {
+                Sun sun = (Sun) o ;
+                if (sun.isDead()) {
+                    sunsToRemove.add(sun) ;
+                }
+            }
+            fallingSuns.removeAll(sunsToRemove) ;
+        }
     }
 
     // similar to check for plant-generated suns
-    void checkFallingSuns(MotionEvent event)
+    // true if it touches a sun
+    static boolean checkFallingSuns(MotionEvent event)
     {
-
+        for (Object o: fallingSuns) {
+            Sun sun = (Sun) o ;
+            int diffX = (int)event.getX()-sun.getX() ;
+            int diffY = (int)event.getY() - sun.getY() ;
+            if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
+                Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
+                fallingSuns.remove(o) ;
+                return true ;
+            }
+        }
+        return false ;
     }
 
 
@@ -289,7 +337,7 @@ public class Game {
 
         shovel.onTouch(event) ;
 
-        checkFallingSuns(event) ;
+        if (checkFallingSuns(event)) return ;
 
         for (MajorObject o : majors) {
             o.checkSun(event) ;
@@ -345,7 +393,7 @@ public class Game {
         return true ;
     }
 
-    // TODO: currently unusedd
+    // TODO: currently unused
     public static int noZombies()
     {
         int result = 0 ;
