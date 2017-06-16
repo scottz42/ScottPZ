@@ -11,9 +11,10 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: falling sun: 6s per sun, falling time 3s, disappearing time same as plant-generated sun, 3s for initial sun
+// TODO: fix picking up sunflower-generated suns
 // TODO: allow multiple levels
 
+// TODO: transparent zombies
 // TODO: Ra zombie
 // TODO: cleanup plant selection code
 // TODO: tombstone
@@ -57,8 +58,7 @@ public class Game {
     // zombies to be generated for one level ;
     static private ArrayList level ;
 
-    // TODO: normal is 50
-    static int noSun = 200 ;
+    static int noSun = 50 ;
 
     public static int getNoSun() {
         return noSun;
@@ -477,17 +477,17 @@ public class Game {
             p.setAlpha(255);
         }
 
-        // falling suns
-        for (Object o: fallingSuns) {
-            Sun sun = (Sun)o ;
-            sun.Draw(canvas , p);
-        }
 
         // plants & zombies ;
         for (MajorObject o : Game.getMajors()) {
             o.Draw(canvas, p);
         }
 
+        // falling suns
+        for (Object o: fallingSuns) {
+            Sun sun = (Sun)o ;
+            sun.Draw(canvas , p);
+        }
     }
 }
 

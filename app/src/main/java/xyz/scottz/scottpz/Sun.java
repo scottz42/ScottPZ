@@ -20,7 +20,7 @@ public class Sun extends MinorObject {
     private long createTime ;
     private long duration = 10000 ;  // TODO: 10s or so
 
-    private long fallingDuration = 4000 ;   // ms
+    private long fallingDuration = 3000 ;   // ms
     private static int timePerSunMove = 100 ;   // ms
     private static int distancePerSunMove = 10 ;
     private long lastSunMoveTime ;

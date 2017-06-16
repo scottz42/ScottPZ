@@ -18,7 +18,7 @@ public class Sunflower extends Plant {
     private Bitmap bitmap ;
     private Resources res ;
     private ArrayList<Sun> suns ;
-    private long LastGenerateTime ; // TODO; test
+    private long LastGenerateTime ;
     private long TimePerGenerate = 24000 ;   // ms
 
     private static long rechargeTime = 5000 ;
