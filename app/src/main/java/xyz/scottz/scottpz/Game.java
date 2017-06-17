@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 
 // TODO: fix picking up sunflower-generated suns
+// TODO: shovel sun
 // TODO: allow multiple levels
 
 // TODO: transparent zombies
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 // TODO: background
 // TODO: ambush zombies
 // TODO: state saving/loading
+// TODO: gain new plant
 // TODO: plant levels
 
 
@@ -39,6 +41,11 @@ public class Game {
     // falling suns
     static boolean fallingSunMode = true ;
     static long lastFallingSunTime = 0 ;
+
+    // lawnmower logic
+    static boolean hasLawnmower = true ;
+    static LawnMower mowers[] = {null , null , null , null , null} ;
+    static LawnMower movingMower = null ;
 
 
     static int noPlants ;
@@ -105,6 +112,13 @@ public class Game {
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
+
+        // initialize lawn mowers
+        if (hasLawnmower) {
+            for (int i=0 ; i<mowers.length ; i++) {
+                mowers[i] = new LawnMower(res , 0 , (i+1)*100) ;
+            }
+        }
 
         // shovel
         shovel = new Shovel(resources , 1000 , 600) ;
@@ -197,6 +211,24 @@ public class Game {
         return false ;
     }
 
+    // check to see if there is lawnmower in that lane to destroy zombies
+    // return true if there is a lawnmower, false if lost
+    static boolean checkLawnmower(MajorObject o)
+    {
+        Zombie zombie = (Zombie) o ;
+        int row = zombie.getY()/100 - 1 ;
+        if (hasLawnmower && mowers[row]!=null) {
+            movingMower = mowers[row] ;
+            movingMower.setLastMowerMoveTime(System.currentTimeMillis());
+            mowers[row] = null ;
+            return true ;
+        } else {
+            return false ;
+        }
+    }
+
+
+
 
     public static void onTimer()
     {
@@ -209,12 +241,17 @@ public class Game {
 
         generateFallingSuns() ;
 
+        if (movingMower!=null) {
+            movingMower.move() ;
+            if (movingMower.getX()>1100) movingMower = null ;
+        }
+
         for (MajorObject o : majors) {
             // zombie: move, damage plant
             // plant: shoot zombie, generate sun, etc.
             o.Move();
-            if (!o.isPlant() && o.getX()<20) {
-                lost = true ;
+            if (movingMower==null && !o.isPlant() && o.getX()<20) {
+                lost = !checkLawnmower(o) ;
             }
         }
 
@@ -460,6 +497,16 @@ public class Game {
             canvas.drawText(s , 400 , 300 , p) ;
         }
         shovel.Draw(canvas , p);
+
+
+        // draw mowers
+        for (int i=0 ; i<mowers.length ; i++) {
+            if (mowers[i]!=null) mowers[i].Draw(canvas , p);
+        }
+        // moving mower
+        if (movingMower!=null) {
+            movingMower.Draw(canvas, p);
+        }
 
         // TODO: indicate shovel mode
 
