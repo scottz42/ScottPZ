@@ -51,6 +51,7 @@ public class Sunflower extends Plant {
         }
     }
 
+    // TODO: should only pick one sun at a time
     @Override
     public void checkSun(MotionEvent event)
     {
@@ -60,7 +61,7 @@ public class Sunflower extends Plant {
             int diffY = (int)event.getY() - sun.getY() ;
             if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
                 Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
-                removeSuns.add(suns) ;
+                removeSuns.add(sun) ;
             }
         }
         suns.removeAll(removeSuns) ;

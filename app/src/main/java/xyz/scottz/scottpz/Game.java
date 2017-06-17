@@ -11,22 +11,28 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: fix picking up sunflower-generated suns
 // TODO: shovel sun
 // TODO: allow multiple levels
+// TODO: tombstone
 
 // TODO: transparent zombies
 // TODO: Ra zombie
 // TODO: cleanup plant selection code
-// TODO: tombstone
 // TODO: cabbage pult
 // TODO: plant food
 // TODO: transparency
 // TODO: background
 // TODO: ambush zombies
+// TODO: many animations
 // TODO: state saving/loading
 // TODO: gain new plant
 // TODO: plant levels
+// TODO: music
+
+// reorganize logic:
+// 5 major functions: init, finish, onTimer , OnTouch,  onDraw
+// in each function, just call the same virtual function for each object: init will add the list of objects
+// most variables will move into each object
 
 
 // global functionality for whole game
