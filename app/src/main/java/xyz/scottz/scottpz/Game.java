@@ -14,13 +14,11 @@ import java.util.ArrayList;
 // TODO: allow multiple levels
 // TODO: Dave & truck
 
-// TODO: clean up Game class
-// TODO: ice shouldn't freeze tombstone
-// TODO: lawnmower shouldn't remove tombstone
 // TODO: clean up positioning of everything on screen
 // TODO: transparent zombies
 // TODO: Ra zombie
 // TODO: cleanup plant selection code
+// TODO: clean up Game class
 // TODO: cabbage pult
 // TODO: plant food
 // TODO: transparency
@@ -49,19 +47,14 @@ public class Game {
     static ShovelLogic shovelLogic ;
     static LawnmowerLogic mowerLogic ;
     static PlantSelectLogic selectLogic;
+    static GenZombieLogic genZombieLogic;
 
     static private ArrayList<MajorObject> majors ;
     static private ArrayList<MajorObject> deletions ;
-    static private ArrayList<ZombieInfo> zombies;
-    static private long levelStartTime ;
 
-
-    // zombies to be generated for one level ;
-    static private ArrayList level ;
     public static Resources getResources() {
         return resources;
     }
-
 
     public static ArrayList<MajorObject> getMajors() {
         return majors;
@@ -102,33 +95,9 @@ public class Game {
         selectLogic = new PlantSelectLogic();
         selectLogic.init();
 
-        // TODO: test tombstone
-        Tombstone stone1 = new Tombstone(2 , 5) ;
-        Tombstone stone2 = new Tombstone(3 , 0) ;
-        majors.add(stone1) ;
-        majors.add(stone2) ;
-
-        generateHouse4();
-        levelStartTime = System.currentTimeMillis() ;
-
-        long time = 0 ;
-        zombies = new ArrayList<ZombieInfo>();
-
-        for (Object o: level) {
-            ArrayList wave = (ArrayList) o ;
-            time++ ;
-            for (Object o2: wave) {
-                ZombieInfo info = (ZombieInfo) o2 ;
-                int row = info.getRow() ;
-                if (row==0) {
-                    row = ((int)(Math.random()*5))+1;
-                }
-                info.zombie.setX(1000);
-                info.zombie.setY(row*100);
-                info.setTime((time*15 + ((int)(Math.random()*10))-5)*1000);
-                zombies.add(info);
-            }
-        }
+        // zombie generation
+        genZombieLogic = new GenZombieLogic();
+        genZombieLogic.init();
     }
 
 
@@ -141,12 +110,11 @@ public class Game {
     }
 
 
-
     public static void onTimer()
     {
         if (lost || won) return ;
-        generateZombies() ;
 
+        genZombieLogic.onTimer();
         sunLogic.onTimer();
         mowerLogic.onTimer();
 
@@ -165,7 +133,7 @@ public class Game {
         }
         deletions.clear() ;
 
-        if (zombies.isEmpty() && noZombie()) {
+        if (genZombieLogic.finished() && noZombie()) {
             won = true ;
         }
     }
@@ -181,97 +149,18 @@ public class Game {
         return true ;
     }
 
-    public static void generateHouse4()
-    {
-        ArrayList wave = new ArrayList();
-        level = new ArrayList() ;
-
-        // wave 1
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 3)) ;
-        level.add(wave) ;
-
-        // wave 2
-        wave = new ArrayList() ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 4));
-        level.add(wave) ;
-
-        // wave 3
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        level.add(wave) ;
-
-        // wave 4
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        level.add(wave) ;
-
-        // wave 5
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
-        level.add(wave) ;
-
-        // wave 6
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        level.add(wave) ;
-
-        // wave 7
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new BucketheadZombie(resources) , 3)) ;
-        level.add(wave) ;
-
-        // wave 8
-        wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
-        level.add(wave) ;
-    }
-
-    public static void generateEgypt1()
-    {
-
-    }
-
-    public static void generateZombies()
-    {
-        ArrayList<ZombieInfo> removeList = new ArrayList<>();
-
-        for (ZombieInfo info: zombies) {
-            if ((System.currentTimeMillis()-levelStartTime)>info.getTime()) {
-                info.getZombie().setLastMoveTime(System.currentTimeMillis());
-                majors.add(info.getZombie());
-                removeList.add(info);
-            }
-        }
-        zombies.removeAll(removeList);
-
-    }
 
     // on touch: based on what is on screen at that position
-    // possibilities: suns, plant new plant
+    // possibilities: suns, plant new plant, shovel
     public static void onTouch(MotionEvent event) {
         if (lost || won) return;
 
         if (shovelLogic.onTouch(event)) {
             return;
         }
-
         if (sunLogic.onTouch(event)) {
             return;
         }
-
-        for (MajorObject o : majors) {
-            o.checkSun(event);
-        }
-
         selectLogic.onTouch(event);
     }
 
@@ -371,7 +260,6 @@ public class Game {
         shovelLogic.onDraw(canvas , p);
         mowerLogic.onDraw(canvas , p);
         selectLogic.onDraw(canvas ,p);
-
 
         // plants & zombies ;
         for (MajorObject o : Game.getMajors()) {

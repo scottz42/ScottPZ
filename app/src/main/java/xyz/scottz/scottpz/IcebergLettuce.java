@@ -49,7 +49,7 @@ public class IcebergLettuce extends Plant {
     void Move()
     {
            for (MajorObject o : Game.getMajors()) {
-                if (!o.isPlant()) {
+                if (!o.isPlant() && !o.isTombstone()) {
                     Zombie zombie = (Zombie) o;
                     int zombieX = (zombie.getX() / 100) * 100;
                     int zombieY = (zombie.getY() / 100) * 100;

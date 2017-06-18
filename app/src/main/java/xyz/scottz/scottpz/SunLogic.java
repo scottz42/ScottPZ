@@ -48,6 +48,10 @@ public class SunLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
+        for (MajorObject o : Game.getMajors()) {
+            o.checkSun(event);
+        }
+
         for (Object o: fallingSuns) {
             Sun sun = (Sun) o ;
             int diffX = (int)event.getX()-sun.getX() ;

@@ -69,7 +69,7 @@ public class LawnMower extends MinorObject {
         int mowerY = getY() ;
         ArrayList toRemove = new ArrayList() ;
         for (MajorObject o: Game.getMajors()) {
-            if (!o.isPlant() && mowerY==o.getY() && o.getX()<mowerX) {
+            if (!o.isPlant() && !o.isTombstone() && mowerY==o.getY() && o.getX()<mowerX) {
                 toRemove.add(o) ;
             }
         }
