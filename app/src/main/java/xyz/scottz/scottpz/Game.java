@@ -12,9 +12,12 @@ import java.util.ArrayList;
  */
 
 // TODO: allow multiple levels
-// TODO: iceberg lettuce
 // TODO: Dave & truck
 
+// TODO: clean up Game class
+// TODO: ice shouldn't freeze tombstone
+// TODO: lawnmower shouldn't remove tombstone
+// TODO: clean up positioning of everything on screen
 // TODO: transparent zombies
 // TODO: Ra zombie
 // TODO: cleanup plant selection code
@@ -44,25 +47,13 @@ public class Game {
 
     static SunLogic sunLogic ;
     static ShovelLogic shovelLogic ;
-
-
-    // lawnmower logic
-    static boolean hasLawnmower = true ;
-    static LawnMower mowers[] = {null , null , null , null , null} ;
-    static LawnMower movingMower = null ;
-
-
-    static int noPlants ;
-    static ArrayList plantSelections ;
-
-    static int currentPlantSelection ;
+    static LawnmowerLogic mowerLogic ;
+    static PlantSelectLogic selectLogic;
 
     static private ArrayList<MajorObject> majors ;
     static private ArrayList<MajorObject> deletions ;
     static private ArrayList<ZombieInfo> zombies;
     static private long levelStartTime ;
-    static private long rechargeTime[] ;
-    static private long rechargeStartTime[] ;
 
 
     // zombies to be generated for one level ;
@@ -91,40 +82,9 @@ public class Game {
     public static void init(Resources res)
     {
         resources = res ;
-        noPlants = 5 ;
-        currentPlantSelection = 0 ;
-        plantSelections = new ArrayList() ;
-        Sunflower sunflower = new Sunflower(resources);
-        NormalPea pea = new NormalPea(resources);  // TODO: change
-        Wallnut nut = new Wallnut(resources);
-        PotatoMine mine = new PotatoMine(resources);
-        IcebergLettuce iceberg = new IcebergLettuce(resources);
-        plantSelections.add(sunflower);
-        plantSelections.add(pea);
-        plantSelections.add(nut);
-        plantSelections.add(mine) ;
-        plantSelections.add(iceberg) ;
-        rechargeTime = new long[noPlants] ;
-        rechargeTime[0] = Sunflower.getRechargeTime() ;
-        rechargeTime[1] = NormalPea.getRechargeTime() ;
-        rechargeTime[2] = Wallnut.getRechargeTime() ;
-        rechargeTime[3] = PotatoMine.getRechargeTime() ;
-        rechargeTime[4] = IcebergLettuce.getRechargeTime() ;
-        rechargeStartTime = new long[noPlants] ;
-        for (int i=0 ; i<noPlants ; i++) {
-            rechargeStartTime[i] = System.currentTimeMillis() ;
-        }
-
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
-
-        // initialize lawn mowers
-        if (hasLawnmower) {
-            for (int i=0 ; i<mowers.length ; i++) {
-                mowers[i] = new LawnMower(res , 0 , (i+1)*100) ;
-            }
-        }
 
         // sun
         sunLogic = new SunLogic();
@@ -133,6 +93,14 @@ public class Game {
         // shovel
         shovelLogic = new ShovelLogic();
         shovelLogic.init() ;
+
+        // lawnmower
+        mowerLogic = new LawnmowerLogic();
+        mowerLogic.init();
+
+        // plant selection
+        selectLogic = new PlantSelectLogic();
+        selectLogic.init();
 
         // TODO: test tombstone
         Tombstone stone1 = new Tombstone(2 , 5) ;
@@ -173,47 +141,21 @@ public class Game {
     }
 
 
-    // check to see if there is lawnmower in that lane to destroy zombies
-    // return true if there is a lawnmower, false if lost
-    static boolean checkLawnmower(MajorObject o)
-    {
-        Zombie zombie = (Zombie) o ;
-        int row = zombie.getY()/100 - 1 ;
-        if (hasLawnmower && mowers[row]!=null) {
-            movingMower = mowers[row] ;
-            movingMower.setLastMowerMoveTime(System.currentTimeMillis());
-            mowers[row] = null ;
-            return true ;
-        } else {
-            return false ;
-        }
-    }
-
-
-
 
     public static void onTimer()
     {
         if (lost || won) return ;
         generateZombies() ;
 
-        for (int i=0 ; i<noPlants ; i++) {
-            Plant plant = (Plant) plantSelections.get(i) ;
-        }
-
         sunLogic.onTimer();
-
-        if (movingMower!=null) {
-            movingMower.move() ;
-            if (movingMower.getX()>1100) movingMower = null ;
-        }
+        mowerLogic.onTimer();
 
         for (MajorObject o : majors) {
             // zombie: move, damage plant
             // plant: shoot zombie, generate sun, etc.
             o.Move();
-            if (movingMower==null && !o.isPlant() && o.getX()<20) {
-                lost = !checkLawnmower(o) ;
+            if (!mowerLogic.hasMovingMower() && !o.isPlant() && o.getX()<20) {
+                lost = !mowerLogic.checkLawnmower(o) ;
             }
         }
 
@@ -315,63 +257,22 @@ public class Game {
 
     // on touch: based on what is on screen at that position
     // possibilities: suns, plant new plant
-    public static void onTouch(MotionEvent event)
-    {
-        if (lost || won) return ;
-
-        int x = (int) event.getX() ;
-        int y = (int) event.getY() ;
-        x = (x/100)*100 ;
-        y = (y/100)*100 ;
+    public static void onTouch(MotionEvent event) {
+        if (lost || won) return;
 
         if (shovelLogic.onTouch(event)) {
-            return ;
+            return;
         }
 
         if (sunLogic.onTouch(event)) {
-            return ;
+            return;
         }
 
         for (MajorObject o : majors) {
-            o.checkSun(event) ;
+            o.checkSun(event);
         }
 
-        // select plant
-        if (x==0) {
-            currentPlantSelection = y/100 -1 ;
-        // TODO: visual indication for current selection
-        }
-
-
-        // plant new plant
-        // TODO: adjust for screen size
-        // TODO: use constants as appropriate
-
-        if (x>=100 && x<=900 && y>=100 && y<=500 && canPlant(x,y)) {
-            Plant newPlant ;
-            if (currentPlantSelection==0) {
-                newPlant = new Sunflower(resources);
-            } else if(currentPlantSelection==1) {
-                newPlant = new NormalPea(resources);
-            } else if(currentPlantSelection==2) {
-                newPlant = new Wallnut(resources);
-            } else if (currentPlantSelection==3) {
-                newPlant = new PotatoMine(resources);
-            } else if (currentPlantSelection==4) {
-                newPlant = new IcebergLettuce(resources);
-            } else {
-                newPlant = new Sunflower(resources);
-            }
-            if ((System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
-                newPlant.setX(x);
-                newPlant.setY(y);
-                if (getNoSun() >= newPlant.getSunNeeded()) {
-                    setNoSun(getNoSun() - newPlant.getSunNeeded());
-                    majors.add(newPlant);
-                    rechargeStartTime[currentPlantSelection] = System.currentTimeMillis() ;
-                }
-            }
-        }
+        selectLogic.onTouch(event);
     }
 
 
@@ -468,30 +369,8 @@ public class Game {
             canvas.drawText(s , 400 , 300 , p) ;
         }
         shovelLogic.onDraw(canvas , p);
-
-        // draw mowers
-        for (int i=0 ; i<mowers.length ; i++) {
-            if (mowers[i]!=null) mowers[i].onDraw(canvas , p);
-        }
-        // moving mower
-        if (movingMower!=null) {
-            movingMower.onDraw(canvas, p);
-        }
-
-
-        // plant selection panel
-        for (int i = 0 ; i<noPlants ; i++) {
-            Plant plant = (Plant)plantSelections.get(i) ;
-            plant.setX(0);
-            plant.setY((i+1)*100);
-            plant.Draw(canvas , p) ;
-            p.setColor(0xc0ffffff);
-            long diff = (System.currentTimeMillis()-rechargeStartTime[i])*100/rechargeTime[i] ;
-            if (diff>100) diff=100 ;
-            diff = 100-diff ;
-            canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+diff , p) ;
-            p.setAlpha(255);
-        }
+        mowerLogic.onDraw(canvas , p);
+        selectLogic.onDraw(canvas ,p);
 
 
         // plants & zombies ;
