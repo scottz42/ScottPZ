@@ -112,4 +112,9 @@ public class SunLogic extends Logic {
             sun.onDraw(canvas , paint);
         }
     }
+
+    public static void addFallingSun(Sun sun)
+    {
+        fallingSuns.add(sun);
+    }
 }

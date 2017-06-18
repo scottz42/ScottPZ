@@ -3,6 +3,7 @@ package xyz.scottz.scottpz;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.provider.Settings;
 
 import xyz.scottz.scottpz.MajorObject;
 
@@ -56,6 +57,9 @@ public class Zombie extends MajorObject {
     protected int TimePerAttack = 1000 ; // in ms
     protected long LastAttackTime = 0 ;
 
+    protected long freezeDuration=0;
+    protected long startFreezeTime=0;
+
     public  Zombie(Resources res) {
         super(res);
         LastMoveTime = System.currentTimeMillis() ;
@@ -65,6 +69,15 @@ public class Zombie extends MajorObject {
     // TODO: use thread instead of timer model?
     void Move()
     {
+        if (startFreezeTime>0 && (System.currentTimeMillis()<startFreezeTime+freezeDuration)){
+            return;
+        }
+        if (startFreezeTime>0 && (System.currentTimeMillis()>startFreezeTime+freezeDuration)){
+            LastMoveTime += System.currentTimeMillis() - startFreezeTime ;  // continue moving
+            startFreezeTime=0;
+        }
+
+
         // zombie eat plant ;
         Plant plant = Game.findPlant(getX(), getY());
         if (plant != null) {    // there is plant to eat
@@ -101,6 +114,12 @@ public class Zombie extends MajorObject {
             }
             LastMoveTime += TimePerStep ;
         }
+    }
+
+    public void freeze(long duration)
+    {
+        freezeDuration=duration;
+        startFreezeTime= System.currentTimeMillis();
     }
 
     @Override

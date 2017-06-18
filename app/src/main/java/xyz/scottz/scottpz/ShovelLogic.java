@@ -35,11 +35,13 @@ public class ShovelLogic extends Logic {
         if (shovel.isShovelMode()) {
             Plant plant = Game.existPlant(x, y);
             if (plant != null) {
-                // TODO: generate suns
+                Sun sun = new Sun(Game.getResources(),x,y);
+                SunLogic.addFallingSun(sun);
                 Game.removePlant(plant);
                 shovel.setShovelMode(false);
             }
             return true ;
+
         }
 
         return shovel.onTouch(event);

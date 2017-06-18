@@ -11,8 +11,9 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: shovel sun
 // TODO: allow multiple levels
+// TODO: iceberg lettuce
+// TODO: Dave & truck
 
 // TODO: transparent zombies
 // TODO: Ra zombie
@@ -25,8 +26,8 @@ import java.util.ArrayList;
 // TODO: many animations
 // TODO: state saving/loading
 // TODO: gain new plant
-// TODO: plant levels
 // TODO: music
+// TODO: plant levels
 
 // reorganize logic:
 // 5 major functions: init, finish, onTimer , OnTouch,  onDraw
@@ -90,22 +91,25 @@ public class Game {
     public static void init(Resources res)
     {
         resources = res ;
-        noPlants = 4 ;
+        noPlants = 5 ;
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
         Sunflower sunflower = new Sunflower(resources);
         NormalPea pea = new NormalPea(resources);  // TODO: change
         Wallnut nut = new Wallnut(resources);
         PotatoMine mine = new PotatoMine(resources);
+        IcebergLettuce iceberg = new IcebergLettuce(resources);
         plantSelections.add(sunflower);
         plantSelections.add(pea);
         plantSelections.add(nut);
         plantSelections.add(mine) ;
+        plantSelections.add(iceberg) ;
         rechargeTime = new long[noPlants] ;
         rechargeTime[0] = Sunflower.getRechargeTime() ;
         rechargeTime[1] = NormalPea.getRechargeTime() ;
         rechargeTime[2] = Wallnut.getRechargeTime() ;
         rechargeTime[3] = PotatoMine.getRechargeTime() ;
+        rechargeTime[4] = IcebergLettuce.getRechargeTime() ;
         rechargeStartTime = new long[noPlants] ;
         for (int i=0 ; i<noPlants ; i++) {
             rechargeStartTime[i] = System.currentTimeMillis() ;
@@ -353,6 +357,8 @@ public class Game {
                 newPlant = new Wallnut(resources);
             } else if (currentPlantSelection==3) {
                 newPlant = new PotatoMine(resources);
+            } else if (currentPlantSelection==4) {
+                newPlant = new IcebergLettuce(resources);
             } else {
                 newPlant = new Sunflower(resources);
             }
