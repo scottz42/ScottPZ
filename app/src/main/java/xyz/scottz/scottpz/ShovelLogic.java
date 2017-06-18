@@ -57,5 +57,7 @@ public class ShovelLogic extends Logic {
     {
         super.onDraw(canvas, paint);
         shovel.onDraw(canvas , paint);
+        // TODO: indicate shovel mode
+
     }
 }

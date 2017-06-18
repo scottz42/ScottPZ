@@ -41,12 +41,9 @@ public class Game {
     static boolean lost = false ;
     static boolean won = false ;
 
+    static SunLogic sunLogic ;
     static ShovelLogic shovelLogic ;
-    static Shovel shovel ;
 
-    // falling suns
-    static boolean fallingSunMode = true ;
-    static long lastFallingSunTime = 0 ;
 
     // lawnmower logic
     static boolean hasLawnmower = true ;
@@ -66,24 +63,13 @@ public class Game {
     static private long rechargeTime[] ;
     static private long rechargeStartTime[] ;
 
-    static private ArrayList fallingSuns ;
 
     // zombies to be generated for one level ;
     static private ArrayList level ;
-
-    static int noSun = 50 ;
-
-    public static int getNoSun() {
-        return noSun;
-    }
-
     public static Resources getResources() {
         return resources;
     }
 
-    public static void setNoSun(int inNoSun) {
-        noSun = inNoSun;
-    }
 
     public static ArrayList<MajorObject> getMajors() {
         return majors;
@@ -92,6 +78,14 @@ public class Game {
     public static void setMajors(ArrayList<MajorObject> majors) {
         Game.majors = majors;
     }
+
+    public static int getNoSun() {
+        return sunLogic.getNoSun() ;
+    }
+    public static void setNoSun(int inNoSun) {
+        sunLogic.setNoSun(inNoSun);
+    }
+
 
     public static void init(Resources res)
     {
@@ -117,8 +111,6 @@ public class Game {
             rechargeStartTime[i] = System.currentTimeMillis() ;
         }
 
-        lastFallingSunTime = System.currentTimeMillis() ;
-        fallingSuns = new ArrayList() ;
 
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
@@ -129,6 +121,10 @@ public class Game {
                 mowers[i] = new LawnMower(res , 0 , (i+1)*100) ;
             }
         }
+
+        // sun
+        sunLogic = new SunLogic();
+        sunLogic.init();
 
         // shovel
         shovelLogic = new ShovelLogic();
@@ -173,61 +169,6 @@ public class Game {
     }
 
 
-    static long fallingSunInterval = 6000 ;
-
-    // generate new falling suns & move existing falling suns & destroy suns that haven't been picked up
-    // generate: if falling sun mode & enough time elapsed from last sun generated
-    // move: has not reached final position & enough time to move to next position
-    // destroy：enough time since final position
-    static void generateFallingSuns()
-    {
-        if (fallingSunMode) {
-            // generate
-            // TODO: initial vs. subsequent ones
-           if ((System.currentTimeMillis()-lastFallingSunTime)>fallingSunInterval) {
-               lastFallingSunTime = System.currentTimeMillis() ;
-               // TODO: figure out rule for initial position
-               int x = ((int)(Math.random()*500))+300 ;
-               int y = 50 ;
-               Sun sun = new Sun(resources , x , y) ;
-               fallingSuns.add(sun) ;
-           }
-
-           // move
-            for (Object o: fallingSuns) {
-                Sun sun = (Sun) o ;
-                sun.move() ;
-            }
-
-            // destroy
-            ArrayList sunsToRemove = new ArrayList() ;
-            for (Object o: fallingSuns) {
-                Sun sun = (Sun) o ;
-                if (sun.isDead()) {
-                    sunsToRemove.add(sun) ;
-                }
-            }
-            fallingSuns.removeAll(sunsToRemove) ;
-        }
-    }
-
-    // similar to check for plant-generated suns
-    // true if it touches a sun
-    static boolean checkFallingSuns(MotionEvent event)
-    {
-        for (Object o: fallingSuns) {
-            Sun sun = (Sun) o ;
-            int diffX = (int)event.getX()-sun.getX() ;
-            int diffY = (int)event.getY() - sun.getY() ;
-            if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
-                Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
-                fallingSuns.remove(o) ;
-                return true ;
-            }
-        }
-        return false ;
-    }
-
     // check to see if there is lawnmower in that lane to destroy zombies
     // return true if there is a lawnmower, false if lost
     static boolean checkLawnmower(MajorObject o)
@@ -256,7 +197,7 @@ public class Game {
             Plant plant = (Plant) plantSelections.get(i) ;
         }
 
-        generateFallingSuns() ;
+        sunLogic.onTimer();
 
         if (movingMower!=null) {
             movingMower.move() ;
@@ -383,12 +324,13 @@ public class Game {
             return ;
         }
 
-        if (checkFallingSuns(event)) return ;
+        if (sunLogic.onTouch(event)) {
+            return ;
+        }
 
         for (MajorObject o : majors) {
             o.checkSun(event) ;
         }
-
 
         // select plant
         if (x==0) {
@@ -530,7 +472,6 @@ public class Game {
             movingMower.onDraw(canvas, p);
         }
 
-        // TODO: indicate shovel mode
 
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
@@ -553,10 +494,7 @@ public class Game {
         }
 
         // falling suns
-        for (Object o: fallingSuns) {
-            Sun sun = (Sun)o ;
-            sun.onDraw(canvas , p);
-        }
+        sunLogic.onDraw(canvas , p);
     }
 }
 
