@@ -51,9 +51,9 @@ public class LawnMower extends MinorObject {
     }
 
     @Override
-    public void Draw(Canvas canvas , Paint p)
+    public void onDraw(Canvas canvas , Paint p)
     {
-        super.Draw(canvas,p);
+        super.onDraw(canvas,p);
 
         Rect src = new Rect() ;
         Rect dst = new Rect() ;

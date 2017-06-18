@@ -62,7 +62,7 @@ public class NormalPea extends Plant {
 
         // pea shot ;
         if (peaShot!=null) {
-            peaShot.Draw(canvas, p);
+            peaShot.onDraw(canvas, p);
         }
 
     }

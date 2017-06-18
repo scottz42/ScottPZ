@@ -40,6 +40,8 @@ public class MajorObject {
         return false ;
     }
 
+    public boolean isTombstone() { return false ; }
+
     public boolean canBite(int x , int y)
     {
         return false ;

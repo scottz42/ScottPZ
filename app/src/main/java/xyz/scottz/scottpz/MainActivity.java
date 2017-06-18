@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;

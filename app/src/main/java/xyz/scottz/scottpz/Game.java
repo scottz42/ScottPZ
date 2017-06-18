@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 // TODO: shovel sun
 // TODO: allow multiple levels
-// TODO: tombstone
 
 // TODO: transparent zombies
 // TODO: Ra zombie
@@ -77,6 +76,10 @@ public class Game {
         return noSun;
     }
 
+    public static Resources getResources() {
+        return resources;
+    }
+
     public static void setNoSun(int inNoSun) {
         noSun = inNoSun;
     }
@@ -128,6 +131,12 @@ public class Game {
 
         // shovel
         shovel = new Shovel(resources , 1000 , 600) ;
+
+        // TODO: test tombstone
+        Tombstone stone1 = new Tombstone(2 , 5) ;
+        Tombstone stone2 = new Tombstone(3 , 0) ;
+        majors.add(stone1) ;
+        majors.add(stone2) ;
 
         generateHouse4();
         levelStartTime = System.currentTimeMillis() ;
@@ -398,7 +407,7 @@ public class Game {
         // TODO: adjust for screen size
         // TODO: use constants as appropriate
 
-        if (x>=100 && x<=900 && y>=100 && y<=500 && existPlant(x,y)==null) {
+        if (x>=100 && x<=900 && y>=100 && y<=500 && canPlant(x,y)) {
             Plant newPlant ;
             if (currentPlantSelection==0) {
                 newPlant = new Sunflower(resources);
@@ -469,6 +478,20 @@ public class Game {
         return null ;
     }
 
+    // is there a plant at normalized cooordinate (x,y)
+    // if there is already tombstone, can not plant either
+    // TODO: make it more efficient
+    public static boolean canPlant(int x , int y)
+    {
+        for (MajorObject o : majors) {
+            if ((o.isPlant()||o.isTombstone()) && o.getX()==x && o.getY()==y) {
+                return false ;
+            }
+        }
+        return true ;
+    }
+
+
     // check to see if there's any zombie in front of this plant
     public static Zombie ExistZombieInFront(int column , int row)
     {
@@ -502,16 +525,16 @@ public class Game {
             s = String.format("YOU WON!") ;
             canvas.drawText(s , 400 , 300 , p) ;
         }
-        shovel.Draw(canvas , p);
+        shovel.onDraw(canvas , p);
 
 
         // draw mowers
         for (int i=0 ; i<mowers.length ; i++) {
-            if (mowers[i]!=null) mowers[i].Draw(canvas , p);
+            if (mowers[i]!=null) mowers[i].onDraw(canvas , p);
         }
         // moving mower
         if (movingMower!=null) {
-            movingMower.Draw(canvas, p);
+            movingMower.onDraw(canvas, p);
         }
 
         // TODO: indicate shovel mode
@@ -539,7 +562,7 @@ public class Game {
         // falling suns
         for (Object o: fallingSuns) {
             Sun sun = (Sun)o ;
-            sun.Draw(canvas , p);
+            sun.onDraw(canvas , p);
         }
     }
 }

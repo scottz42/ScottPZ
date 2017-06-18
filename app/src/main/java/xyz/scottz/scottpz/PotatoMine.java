@@ -50,8 +50,6 @@ public class PotatoMine extends Plant {
         dst.set(getX(), getY(), getX() + 92, getY() + 88);
 
         canvas.drawBitmap(bitmap, src,dst,p);
-
-
     }
 
     @Override

@@ -33,8 +33,8 @@ public class Shovel extends MinorObject {
     }
 
     @Override
-    void Draw(Canvas c, Paint p) {
-        super.Draw(c, p);
+    void onDraw(Canvas c, Paint p) {
+        super.onDraw(c, p);
 
         Rect src = new Rect() ;
         Rect dst = new Rect() ;

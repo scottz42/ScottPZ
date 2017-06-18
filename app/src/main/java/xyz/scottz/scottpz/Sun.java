@@ -64,9 +64,9 @@ public class Sun extends MinorObject {
         startStealTime = System.currentTimeMillis() ;
     }
 
-    void Draw(Canvas canvas , Paint p)
+    void onDraw(Canvas canvas , Paint p)
     {
-        super.Draw(canvas,p);
+        super.onDraw(canvas,p);
 
         // TODO: move stealing code to onTimer instead？
         // if stealing, recalculate sun position & finish stealing if time is up

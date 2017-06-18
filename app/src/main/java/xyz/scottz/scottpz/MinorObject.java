@@ -32,8 +32,7 @@ public class MinorObject {
     public MinorObject(Resources res) {
     }
 
-    void Draw(Canvas c, Paint p){}
+    void onDraw(Canvas c, Paint p){}
 
     void Move(){}
 }
-

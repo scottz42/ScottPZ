@@ -107,7 +107,7 @@ public class Sunflower extends Plant {
             if (sun.isDead()) {
                 suns.remove(sun) ;
             } else {
-                sun.Draw(canvas, p);
+                sun.onDraw(canvas, p);
             }
         }
 
