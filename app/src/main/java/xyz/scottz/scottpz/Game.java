@@ -41,6 +41,7 @@ public class Game {
     static boolean lost = false ;
     static boolean won = false ;
 
+    static ShovelLogic shovelLogic ;
     static Shovel shovel ;
 
     // falling suns
@@ -130,7 +131,8 @@ public class Game {
         }
 
         // shovel
-        shovel = new Shovel(resources , 1000 , 600) ;
+        shovelLogic = new ShovelLogic();
+        shovelLogic.init() ;
 
         // TODO: test tombstone
         Tombstone stone1 = new Tombstone(2 , 5) ;
@@ -377,17 +379,9 @@ public class Game {
         x = (x/100)*100 ;
         y = (y/100)*100 ;
 
-        if (shovel.isShovelMode()) {
-            Plant plant = existPlant(x , y) ;
-            if (plant!=null) {
-                // TODO: generate suns
-                removePlant(plant) ;
-                shovel.setShovelMode(false);
-            }
+        if (shovelLogic.onTouch(event)) {
             return ;
         }
-
-        shovel.onTouch(event) ;
 
         if (checkFallingSuns(event)) return ;
 
@@ -525,8 +519,7 @@ public class Game {
             s = String.format("YOU WON!") ;
             canvas.drawText(s , 400 , 300 , p) ;
         }
-        shovel.onDraw(canvas , p);
-
+        shovelLogic.onDraw(canvas , p);
 
         // draw mowers
         for (int i=0 ; i<mowers.length ; i++) {
