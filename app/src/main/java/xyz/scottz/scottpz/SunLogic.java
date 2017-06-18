@@ -1,6 +1,7 @@
 package xyz.scottz.scottpz;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
@@ -110,6 +111,12 @@ public class SunLogic extends Logic {
     public void onDraw(Canvas canvas, Paint paint)
     {
         super.onDraw(canvas, paint);
+
+        // TODO: better display of sun left
+        paint.setColor(Color.BLUE);
+        paint.setTextSize(50);
+        String s = String.format("Suns: %d" , getNoSun()) ;
+        canvas.drawText(s , 10 , 70 , paint) ;
 
         for (Object o: fallingSuns) {
             Sun sun = (Sun)o ;

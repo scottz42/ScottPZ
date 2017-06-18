@@ -43,6 +43,8 @@ public class Game {
     static boolean lost = false ;
     static boolean won = false ;
 
+    static ArrayList allLogic ;
+
     static SunLogic sunLogic ;
     static ShovelLogic shovelLogic ;
     static LawnmowerLogic mowerLogic ;
@@ -76,28 +78,26 @@ public class Game {
     {
         resources = res ;
 
+        allLogic = new ArrayList();
+
         setMajors(new ArrayList<MajorObject>());
         deletions = new ArrayList<MajorObject>();
 
-        // sun
         sunLogic = new SunLogic();
-        sunLogic.init();
-
-        // shovel
+        allLogic.add(sunLogic);
         shovelLogic = new ShovelLogic();
-        shovelLogic.init() ;
-
-        // lawnmower
+        allLogic.add(shovelLogic);
         mowerLogic = new LawnmowerLogic();
-        mowerLogic.init();
-
-        // plant selection
+        allLogic.add(mowerLogic);
         selectLogic = new PlantSelectLogic();
-        selectLogic.init();
-
-        // zombie generation
+        allLogic.add(selectLogic);
         genZombieLogic = new GenZombieLogic();
-        genZombieLogic.init();
+        allLogic.add(genZombieLogic);
+
+        for (Object o: allLogic) {
+            Logic logic = (Logic) o;
+            logic.init();
+        }
     }
 
 
@@ -114,9 +114,10 @@ public class Game {
     {
         if (lost || won) return ;
 
-        genZombieLogic.onTimer();
-        sunLogic.onTimer();
-        mowerLogic.onTimer();
+        for (Object o: allLogic) {
+            Logic logic = (Logic) o;
+            logic.onTimer();
+        }
 
         for (MajorObject o : majors) {
             // zombie: move, damage plant
@@ -155,13 +156,12 @@ public class Game {
     public static void onTouch(MotionEvent event) {
         if (lost || won) return;
 
-        if (shovelLogic.onTouch(event)) {
-            return;
+        for (Object o: allLogic) {
+            Logic logic = (Logic) o;
+            if (logic.onTouch(event)) {
+                return ;
+            };
         }
-        if (sunLogic.onTouch(event)) {
-            return;
-        }
-        selectLogic.onTouch(event);
     }
 
 
@@ -238,11 +238,7 @@ public class Game {
 
     public static void onDraw(Canvas canvas , Paint p)
     {
-        // TODO: better display of sun left
-        p.setColor(Color.BLUE);
-        p.setTextSize(50);
-        String s = String.format("Suns: %d" , getNoSun()) ;
-        canvas.drawText(s , 10 , 70 , p) ;
+        String s ;
 
         if (lost) {
             p.setColor(Color.GREEN);
@@ -257,17 +253,16 @@ public class Game {
             s = String.format("YOU WON!") ;
             canvas.drawText(s , 400 , 300 , p) ;
         }
-        shovelLogic.onDraw(canvas , p);
-        mowerLogic.onDraw(canvas , p);
-        selectLogic.onDraw(canvas ,p);
+
+        for (Object o: allLogic) {
+            Logic logic = (Logic) o;
+            logic.onDraw(canvas , p);
+        }
 
         // plants & zombies ;
         for (MajorObject o : Game.getMajors()) {
             o.Draw(canvas, p);
         }
-
-        // falling suns
-        sunLogic.onDraw(canvas , p);
     }
 }
 
