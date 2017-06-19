@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Game.init(getResources()) ;
+        Game.initOnce(getResources()) ;
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.MainLayout);
         final CustomView vFrame = new CustomView(this);

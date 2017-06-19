@@ -9,7 +9,7 @@ import android.view.MotionEvent;
  */
 
 public class LawnmowerLogic extends Logic {
-    static boolean hasLawnmower = true ;
+    static boolean hasLawnmower = false ;
     static LawnMower mowers[] = {null , null , null , null , null} ;
     static LawnMower movingMower = null ;
 
@@ -22,6 +22,7 @@ public class LawnmowerLogic extends Logic {
             for (int i=0 ; i<mowers.length ; i++) {
                 mowers[i] = new LawnMower(Game.getResources() , 0 , (i+1)*100) ;
             }
+            movingMower = null;
         }
     }
 

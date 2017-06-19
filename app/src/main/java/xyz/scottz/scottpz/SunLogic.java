@@ -35,6 +35,8 @@ public class SunLogic extends Logic {
     {
         super.init();
 
+        noSun = 50 ;
+
         lastFallingSunTime = System.currentTimeMillis() ;
         fallingSuns = new ArrayList() ;
 
