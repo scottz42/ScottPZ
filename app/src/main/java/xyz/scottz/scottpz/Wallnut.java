@@ -38,7 +38,7 @@ public class Wallnut extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
 

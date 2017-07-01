@@ -56,7 +56,7 @@ public class NormalPea extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
 
@@ -71,6 +71,7 @@ public class NormalPea extends Plant {
     void checkZombieHit(Zombie zombie)
     {
         // if out of range
+        // TODO: GridLogic
         if (peaShot.getX()>1000) {
             peaShot = null ;
             return ;
@@ -79,6 +80,7 @@ public class NormalPea extends Plant {
                 int peaX = peaShot.getX() ;
                 int zombieX = zombie.getX() ;
                 int diff = zombieX-peaX ;
+                // TODO: GridLogic
                 if (diff<50 && diff>-50) {
                     peaShot = null ;    // pea shot can only damage one zombie
                     zombie.setLife(zombie.getLife()-damagePerShot) ;
@@ -100,7 +102,7 @@ public class NormalPea extends Plant {
     void Move()
     {
         // shoot pea
-        Zombie zombie = (Zombie)Game.ExistZombieInFront(getX()/100 , getY()/100) ;
+        Zombie zombie = (Zombie)Game.ExistZombieInFront(GridLogic.calcCol(getX()) , GridLogic.calcRow(getY())) ;
 
         if (peaShot==null) {
             if (zombie!=null) {
@@ -111,6 +113,7 @@ public class NormalPea extends Plant {
                     String msg ;
                     msg = String.format("lastGenerationTime=%d" , lastGenerationTime) ;
                     Log.d(null , msg) ;
+                    // TODO: GridLogic
                     peaShot = new PeaShot(res, getX() / 100, getY() / 100);
                     lastPeashotTime = System.currentTimeMillis();
                     checkZombieHit(zombie);

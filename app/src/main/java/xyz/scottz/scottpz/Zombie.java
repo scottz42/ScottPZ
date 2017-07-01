@@ -105,11 +105,12 @@ public class Zombie extends MajorObject {
         // zombie movement
         if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
             x -= DistancePerStep ;
+            // TODO: GridLogic
             if (x<0) {
                 x = 1000 ;
                 y = 100*((int)(Math.random()*4)+1);
             }
-            if (x>1000) {
+            if (x>1200) {
                 x = 0;
             }
             LastMoveTime += TimePerStep ;

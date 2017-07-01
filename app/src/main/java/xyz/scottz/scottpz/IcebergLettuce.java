@@ -12,10 +12,12 @@ import android.graphics.Rect;
  */
 
 public class IcebergLettuce extends Plant {
+    private static long rechargeTime = 20000 ;      // ms
+    private static long freezeTime = 10000 ;    // ms
+
     Bitmap bitmap;
     Resources res ;
 
-    private static long rechargeTime = 20000 ;
 
     public static long getRechargeTime()
     {
@@ -29,7 +31,6 @@ public class IcebergLettuce extends Plant {
         setSunNeeded(0);
         damagePerShot = 0 ;    // nds
         bitmap = BitmapFactory.decodeResource(res, R.drawable.iceberglettuce);
-
        // TODO: need to recycle bitmap?
     }
 
@@ -40,7 +41,7 @@ public class IcebergLettuce extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }
@@ -51,12 +52,10 @@ public class IcebergLettuce extends Plant {
            for (MajorObject o : Game.getMajors()) {
                 if (!o.isPlant() && !o.isTombstone()) {
                     Zombie zombie = (Zombie) o;
-                    int zombieX = (zombie.getX() / 100) * 100;
-                    int zombieY = (zombie.getY() / 100) * 100;
-                    // kill zombies in this square ;
-                    if (zombieX == getX() && zombieY == getY()) {
+                    // freeze zombies in this square ;
+                    if (GridLogic.isZombieInPlantSquare(zombie , this)) {
                         Game.removePlant(this);
-                        zombie.freeze(10000);
+                        zombie.freeze(freezeTime);
                     }
                 }
             }

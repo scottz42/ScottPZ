@@ -15,7 +15,7 @@ public class ShovelLogic extends Logic {
     public void init() {
         super.init();
 
-        shovel = new Shovel(Game.getResources() , 1000 , 600) ;
+        shovel = new Shovel(Game.getResources() , GridLogic.getShovelX() , GridLogic.getShovelY()) ;
     }
 
     @Override
@@ -29,11 +29,9 @@ public class ShovelLogic extends Logic {
 
         int x = (int) event.getX() ;
         int y = (int) event.getY() ;
-        x = (x/100)*100 ;
-        y = (y/100)*100 ;
 
         if (shovel.isShovelMode()) {
-            Plant plant = Game.existPlant(x, y);
+            Plant plant = Game.existPlant(GridLogic.calcCol(x), GridLogic.calcRow(y));
             if (plant != null) {
                 Sun sun = new Sun(Game.getResources(),x,y);
                 SunLogic.addFallingSun(sun);

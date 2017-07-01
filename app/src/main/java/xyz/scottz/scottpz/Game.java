@@ -11,20 +11,20 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: allow multiple levels
-// TODO: clean up positioning of everything on screen
+// TODO: transparent zombies
+
+// TODO: background
 // TODO: Dave & truck
 // TODO: bug: shovel-generated sun shouldn't drop
-// TODO: background
-// TODO: transparent zombies
+// TODO: use fullscreen
 // TODO: Ra zombie
 // TODO: cleanup plant selection code
-// TODO: clean up Game class
 // TODO: cabbage pult
 // TODO: plant food
 // TODO: transparency
 // TODO: ambush zombies
 // TODO: many animations
+// TODO: clean up Game class
 // TODO: state saving/loading
 // TODO: gain new plant
 // TODO: music
@@ -50,20 +50,10 @@ public class Game {
     static LawnmowerLogic mowerLogic ;
     static PlantSelectLogic selectLogic;
     static GenZombieLogic genZombieLogic;
-
-    static private ArrayList<MajorObject> majors ;
-    static private ArrayList<MajorObject> deletions ;
+    static GridLogic gridLogic;
 
     public static Resources getResources() {
         return resources;
-    }
-
-    public static ArrayList<MajorObject> getMajors() {
-        return majors;
-    }
-
-    public static void setMajors(ArrayList<MajorObject> majors) {
-        Game.majors = majors;
     }
 
     public static int getNoSun() {
@@ -87,6 +77,8 @@ public class Game {
         allLogic.add(selectLogic);
         genZombieLogic = new GenZombieLogic();
         allLogic.add(genZombieLogic);
+        gridLogic = new GridLogic();
+        allLogic.add(gridLogic);
 
         GenZombieLogic.generateHouse4(res);
 //        GenZombieLogic.generateEgypt1(res);
@@ -98,24 +90,12 @@ public class Game {
     {
         resources = res ;
 
-        setMajors(new ArrayList<MajorObject>());
-        deletions = new ArrayList<MajorObject>();
-
         for (Object o: allLogic) {
             Logic logic = (Logic) o;
             logic.init();
         }
         lost = false ;
         won = false ;
-    }
-
-
-    public static ArrayList<MajorObject> getDeletions() {
-        return deletions;
-    }
-
-    public static void setDeletions(ArrayList<MajorObject> deletions) {
-        Game.deletions = deletions;
     }
 
 
@@ -128,22 +108,7 @@ public class Game {
             logic.onTimer();
         }
 
-        for (MajorObject o : majors) {
-            // zombie: move, damage plant
-            // plant: shoot zombie, generate sun, etc.
-            o.Move();
-            if (!mowerLogic.hasMovingMower() && !o.isPlant() && o.getX()<20) {
-                lost = !mowerLogic.checkLawnmower(o) ;
-            }
-        }
-
-        // TODO: use delete flag in each object instead?
-        for (MajorObject o : deletions) {
-            majors.remove(o) ;
-        }
-        deletions.clear() ;
-
-        if (genZombieLogic.finished() && noZombie()) {
+        if (genZombieLogic.finished() && gridLogic.noZombie()) {
             won = true ;
         }
     }
@@ -207,95 +172,67 @@ public class Game {
             Logic logic = (Logic) o;
             logic.onDraw(canvas , p);
         }
+ }
 
-        // plants & zombies ;
-        for (MajorObject o : Game.getMajors()) {
-            o.Draw(canvas, p);
-        }
+    // TODO: any way to do it more generically? avoiding hardcoding the variable mowerLogic
+    public static boolean hasMovingMower()
+    {
+        return mowerLogic.hasMovingMower();
     }
 
 
-    public static boolean noZombie()
+    public static boolean checkLawnmower(MajorObject o)
     {
-        // TODO: make more efficient
-        for (MajorObject o: majors) {
-            if (!o.isPlant()) {
-                return false ;
-            }
-        }
-        return true ;
+        return mowerLogic.checkLawnmower(o);
     }
 
-
-    public static boolean removePlant(Plant plant)
+    // TODO: move to separate logic class？
+    public static void setLost(boolean lost)
     {
-        deletions.add(plant) ;
-        return true ;
+        Game.lost = lost ;
     }
 
-    public static boolean removeZombie(Zombie zombie)
+    public static ArrayList<MajorObject> getMajors()
     {
-        deletions.add(zombie) ;
-        return true ;
-    }
-
-    // TODO: currently unused
-    public static int noZombies()
-    {
-        int result = 0 ;
-        for (MajorObject o : majors) {
-            if (!o.isPlant()) result++ ;
-        }
-        return result ;
+        return gridLogic.getMajors();
     }
 
     public static Plant findPlant(int x , int y)
     {
-        for (MajorObject o : majors) {
-            if (o.isPlant()&& o.canBite(x , y)) {
-                return (Plant) o ;
-            }
-        }
-
-        return null ;
+        return gridLogic.findPlant(x , y);
     }
 
-    // is there a plant at normalized cooordinate (x,y)
-    // TODO: make it more efficient
-    public static Plant existPlant(int x , int y)
+    public static boolean addPlant(Plant plant)
     {
-        for (MajorObject o : majors) {
-            if (o.isPlant() && o.getX()==x && o.getY()==y) {
-                return (Plant)o ;
-            }
-        }
-        return null ;
+        return gridLogic.addPlant(plant);
     }
 
-    // is there a plant at normalized cooordinate (x,y)
-    // if there is already tombstone, can not plant either
-    // TODO: make it more efficient
+    public static boolean addZombie(Zombie zombie)
+    {
+        return gridLogic.addZombie(zombie);
+    }
+
+    public static boolean removePlant(Plant plant)
+    {
+        return gridLogic.removePlant(plant);
+    }
+
+    public static boolean removeZombie(Zombie zombie)
+    {
+        return gridLogic.removeZombie(zombie);
+    }
+
+    public static Plant existPlant(int col , int row) {
+        return gridLogic.existPlant(col , row);
+    }
+
     public static boolean canPlant(int x , int y)
     {
-        for (MajorObject o : majors) {
-            if ((o.isPlant()||o.isTombstone()) && o.getX()==x && o.getY()==y) {
-                return false ;
-            }
-        }
-        return true ;
+        return gridLogic.canPlant(x , y);
     }
 
-
-    // check to see if there's any zombie in front of this plant
     public static Zombie ExistZombieInFront(int column , int row)
     {
-        for (MajorObject o : majors) {
-            if (!o.isPlant() && (o.getY()/100==row) && (o.getX()/100>=column)) {
-                return (Zombie) o ;
-            }
-        }
-        return null ;
+        return gridLogic.ExistZombieInFront(column , row);
     }
-
 }
-

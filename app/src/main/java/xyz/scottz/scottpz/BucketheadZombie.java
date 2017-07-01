@@ -12,13 +12,16 @@ import android.graphics.Rect;
  */
 
 public class BucketheadZombie extends Zombie {
+    private final static int bucketheadLife = 65 ;
+
+
     private Bitmap bitmap;
 
     public BucketheadZombie(Resources res) {
         super(res);
         bitmap = BitmapFactory.decodeResource(res, R.drawable.bucketheadzombie);
         // TODO: need to recycle bitmap?
-        life = 65 ;
+        life = bucketheadLife ;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class BucketheadZombie extends Zombie {
         Rect src = new Rect();
         Rect dst = new Rect();
         src.set(0, 0, bitmap.getWidth() - 1, bitmap.getHeight() - 1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getZombieWidth(), getY() + GridLogic.getZombieHeight());
 
         canvas.drawBitmap(bitmap, src, dst, p);
     }

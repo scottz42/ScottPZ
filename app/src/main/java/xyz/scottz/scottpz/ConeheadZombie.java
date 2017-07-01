@@ -12,13 +12,15 @@ import android.graphics.Rect;
  */
 
 public class ConeheadZombie extends Zombie {
+    private static final double coneheadLife = 27.75 ;
+
     private Bitmap bitmap;
 
     public ConeheadZombie(Resources res) {
         super(res);
         bitmap = BitmapFactory.decodeResource(res, R.drawable.coneheadzombie);
         // TODO: need to recycle bitmap?
-        life = 27.75 ;
+        life = coneheadLife ;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class ConeheadZombie extends Zombie {
         Rect src = new Rect();
         Rect dst = new Rect();
         src.set(0, 0, bitmap.getWidth() - 1, bitmap.getHeight() - 1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getZombieWidth(), getY() + GridLogic.getZombieHeight());
 
         canvas.drawBitmap(bitmap, src, dst, p);
     }

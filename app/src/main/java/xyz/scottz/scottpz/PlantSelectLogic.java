@@ -50,6 +50,9 @@ public class PlantSelectLogic extends Logic {
         rechargeStartTime = new long[noPlants] ;
         for (int i=0 ; i<noPlants ; i++) {
             rechargeStartTime[i] = System.currentTimeMillis() ;
+            Plant plant = (Plant) plantSelections.get(i);
+            plant.setX(GridLogic.getSelectX());
+            plant.setY(GridLogic.getSelectY(i));
         }
 
     }
@@ -66,13 +69,15 @@ public class PlantSelectLogic extends Logic {
         Resources resources = Game.getResources();
         int x = (int) event.getX();
         int y = (int) event.getY();
+
         x = (x / 100) * 100;
         y = (y / 100) * 100;
 
 
         // select plant
-        if (x==0) {
-            currentPlantSelection = y/100 -1 ;
+        int selection = GridLogic.checkSelectPlant(x,y);
+        if (selection>=0 && selection<noPlants) {
+            currentPlantSelection = selection ;
             // TODO: visual indication for current selection
         }
 
@@ -100,7 +105,7 @@ public class PlantSelectLogic extends Logic {
                 newPlant.setY(y);
                 if (Game.getNoSun() >= newPlant.getSunNeeded()) {
                     Game.setNoSun(Game.getNoSun() - newPlant.getSunNeeded());
-                    Game.getMajors().add(newPlant);
+                    Game.addPlant(newPlant);
                     rechargeStartTime[currentPlantSelection] = System.currentTimeMillis() ;
                     return true ;
                 }
@@ -124,14 +129,13 @@ public class PlantSelectLogic extends Logic {
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
             Plant plant = (Plant)plantSelections.get(i) ;
-            plant.setX(0);
-            plant.setY((i+1)*100);
-            plant.Draw(canvas , paint) ;
+                 plant.Draw(canvas , paint) ;
             paint.setColor(0xc0ffffff);
             long diff = (System.currentTimeMillis()-rechargeStartTime[i])*100/rechargeTime[i] ;
             if (diff>100) diff=100 ;
             diff = 100-diff ;
-            canvas.drawRect(0 , (i+1)*100 , 100 , (i+1)*100+diff , paint) ;
+            canvas.drawRect(GridLogic.getSelectX() , GridLogic.getSelectY(i) ,
+                    GridLogic.getSelectX()+GridLogic.getSelectWidth() , GridLogic.getSelectY(i)+diff , paint) ;
             paint.setAlpha(255);
         }
 

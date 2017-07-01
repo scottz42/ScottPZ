@@ -58,7 +58,7 @@ public class LawnMower extends MinorObject {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX() , getY() , getX()+185, getY()+131);
+        dst.set(getX() , getY() , getX()+GridLogic.getMowerWidth(), getY()+GridLogic.getMowerHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }
@@ -69,7 +69,8 @@ public class LawnMower extends MinorObject {
         int mowerY = getY() ;
         ArrayList toRemove = new ArrayList() ;
         for (MajorObject o: Game.getMajors()) {
-            if (!o.isPlant() && !o.isTombstone() && mowerY==o.getY() && o.getX()<mowerX) {
+            // TODO: mower collision checking
+            if (!o.isPlant() && !o.isTombstone() && GridLogic.calcRow(mowerY)==GridLogic.calcRow(o.getY()) && o.getX()<mowerX) {
                 toRemove.add(o) ;
             }
         }

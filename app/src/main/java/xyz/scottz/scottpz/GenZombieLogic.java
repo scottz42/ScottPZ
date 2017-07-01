@@ -40,8 +40,8 @@ public class GenZombieLogic extends Logic {
                 if (row==0) {
                     row = ((int)(Math.random()*5))+1;
                 }
-                info.zombie.setX(1000);
-                info.zombie.setY(row*100);
+                info.zombie.setX(GridLogic.getZombieX());
+                info.zombie.setY(GridLogic.getZombieY(row-1));
                 info.setTime((time*15 + ((int)(Math.random()*10))-5)*1000);
                 zombies.add(info);
             }
@@ -87,7 +87,7 @@ public class GenZombieLogic extends Logic {
         for (ZombieInfo info: zombies) {
             if ((System.currentTimeMillis()-levelStartTime)>info.getTime()) {
                 info.getZombie().setLastMoveTime(System.currentTimeMillis());
-                Game.getMajors().add(info.getZombie());
+                Game.addZombie(info.getZombie());
                 removeList.add(info);
             }
         }

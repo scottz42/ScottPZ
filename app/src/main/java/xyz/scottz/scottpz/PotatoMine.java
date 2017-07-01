@@ -47,7 +47,7 @@ public class PotatoMine extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + 92, getY() + 88);
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }
@@ -64,10 +64,8 @@ public class PotatoMine extends Plant {
             for (MajorObject o : Game.getMajors()) {
                 if (!o.isPlant()) {
                     Zombie zombie = (Zombie) o;
-                    int zombieX = (zombie.getX() / 100) * 100;
-                    int zombieY = (zombie.getY() / 100) * 100;
                     // kill zombies in this square ;
-                    if (zombieX == getX() && zombieY == getY()) {
+                    if (GridLogic.isZombieInPlantSquare(zombie , this)) {
                         exploded = true;
                         zombie.setLife(zombie.getLife() - damagePerShot);
                         if (zombie.getLife() <= 0) {

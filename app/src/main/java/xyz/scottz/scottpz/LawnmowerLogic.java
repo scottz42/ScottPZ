@@ -9,7 +9,7 @@ import android.view.MotionEvent;
  */
 
 public class LawnmowerLogic extends Logic {
-    static boolean hasLawnmower = false ;
+    static boolean hasLawnmower = true ;
     static LawnMower mowers[] = {null , null , null , null , null} ;
     static LawnMower movingMower = null ;
 
@@ -20,7 +20,7 @@ public class LawnmowerLogic extends Logic {
         // initialize lawn mowers
         if (hasLawnmower) {
             for (int i=0 ; i<mowers.length ; i++) {
-                mowers[i] = new LawnMower(Game.getResources() , 0 , (i+1)*100) ;
+                mowers[i] = new LawnMower(Game.getResources() , GridLogic.getMowerX(i) , GridLogic.getMowerY(i)) ;
             }
             movingMower = null;
         }
@@ -34,9 +34,9 @@ public class LawnmowerLogic extends Logic {
     @Override
     public boolean onTimer()
     {
-
         if (movingMower!=null) {
             movingMower.move() ;
+            // TODO: GridLogic
             if (movingMower.getX()>1100) movingMower = null ;
         }
         return movingMower!=null;
@@ -68,7 +68,7 @@ public class LawnmowerLogic extends Logic {
     static boolean checkLawnmower(MajorObject o)
     {
         Zombie zombie = (Zombie) o ;
-        int row = zombie.getY()/100 - 1 ;
+        int row = GridLogic.calcRow(zombie.getY())  ;
         if (hasLawnmower && mowers[row]!=null) {
             movingMower = mowers[row] ;
             movingMower.setLastMowerMoveTime(System.currentTimeMillis());
@@ -78,8 +78,5 @@ public class LawnmowerLogic extends Logic {
             return false ;
         }
     }
-
-
-
 
 }
