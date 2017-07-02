@@ -117,11 +117,26 @@ public class Zombie extends MajorObject {
         }
     }
 
+    // true if dead
+    public boolean takeDamage(int damage)
+    {
+        setLife(getLife() - damage);
+        if (getLife() <= 0) {
+            Game.removeZombie(this);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public void freeze(long duration)
     {
         freezeDuration=duration;
         startFreezeTime= System.currentTimeMillis();
     }
+
+
 
     @Override
     void Draw(Canvas c , Paint p) {

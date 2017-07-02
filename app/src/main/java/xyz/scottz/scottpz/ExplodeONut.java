@@ -59,10 +59,7 @@ public class ExplodeONut extends Plant {
 
                 // kill zombies in 3*3 square ;
                 if ((zombieRow>=row-1 && zombieRow<=row+1) && (zombieCol>=col-1 && zombieCol<=col+1)) {
-                    zombie.setLife(zombie.getLife() - damagePerShot);
-                    if (zombie.getLife() <= 0) {
-                        Game.removeZombie(zombie);
-                    }
+                    zombie.takeDamage(damagePerShot);
                 }
             }
         }

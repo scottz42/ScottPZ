@@ -59,10 +59,7 @@ public class Jalapeno extends Plant {
                     Zombie zombie = (Zombie) o;
                     // kill zombies in this row
                     if (GridLogic.calcRow(o.getY())==row) {
-                        zombie.setLife(zombie.getLife() - damagePerShot);
-                        if (zombie.getLife() <= 0) {
-                            Game.removeZombie(zombie);
-                        }
+                        zombie.takeDamage(damagePerShot);
                     }
                 }
             }

@@ -83,10 +83,7 @@ public class NormalPea extends Plant {
                 // TODO: GridLogic
                 if (diff<50 && diff>-50) {
                     peaShot = null ;    // pea shot can only damage one zombie
-                    zombie.setLife(zombie.getLife()-damagePerShot) ;
-                    if (zombie.getLife()<=0) {
-                        Game.removeZombie(zombie) ;
-                    }
+                    zombie.takeDamage(damagePerShot);
                 }
             } else { // zombie killed by other plants?
                 return ;

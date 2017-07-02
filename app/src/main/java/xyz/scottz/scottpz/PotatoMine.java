@@ -67,10 +67,7 @@ public class PotatoMine extends Plant {
                     // kill zombies in this square ;
                     if (GridLogic.isZombieInPlantSquare(zombie , this)) {
                         exploded = true;
-                        zombie.setLife(zombie.getLife() - damagePerShot);
-                        if (zombie.getLife() <= 0) {
-                            Game.removeZombie(zombie);
-                        }
+                        zombie.takeDamage(damagePerShot);
                     }
                 }
             }
