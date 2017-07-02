@@ -11,17 +11,14 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: transparent zombies
-
-// TODO: background
+// TODO: cleanup plant selection code
+// TODO: level selection
 // TODO: Dave & truck
 // TODO: bug: shovel-generated sun shouldn't drop
 // TODO: use fullscreen
 // TODO: Ra zombie
-// TODO: cleanup plant selection code
 // TODO: cabbage pult
 // TODO: plant food
-// TODO: transparency
 // TODO: ambush zombies
 // TODO: many animations
 // TODO: clean up Game class
@@ -168,8 +165,8 @@ public class Game {
         }
 
 
-        for (Object o: allLogic) {
-            Logic logic = (Logic) o;
+        for (int i=allLogic.size()-1; i>=0 ; i--) {
+            Logic logic = (Logic) allLogic.get(i);
             logic.onDraw(canvas , p);
         }
  }

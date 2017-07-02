@@ -1,7 +1,10 @@
 package xyz.scottz.scottpz;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -15,7 +18,6 @@ import java.util.ArrayList;
 // TODO: zombie can be almost anywhere, be careful about row/col calculation for zombies
 
 // mower, plant selection panel, grid, shovel
-
 
 // whole layout & plant/zombie positioning
 // TODO: separare out plant/zombie part?
@@ -52,10 +54,13 @@ public class GridLogic extends Logic {
     static private ArrayList<MajorObject> majors;
     static private ArrayList<MajorObject> deletions;
 
+    static private Bitmap lawn;
 
     @Override
     public void init() {
         super.init();
+
+        lawn = BitmapFactory.decodeResource(Game.getResources(), R.drawable.lawn);
 
         majors = new ArrayList<MajorObject>();
         deletions = new ArrayList<MajorObject>();
@@ -86,10 +91,23 @@ public class GridLogic extends Logic {
     public void onDraw(Canvas canvas, Paint paint) {
         super.onDraw(canvas, paint);
 
+        // TODO: test
+        for (int row=0 ; row<5 ; row++) {
+            for (int col=0 ; col<9 ; col++) {
+                Rect src = new Rect() ;
+                Rect dst = new Rect() ;
+                src.set(0,0,lawn.getWidth()-1,lawn.getHeight()-1);
+                dst.set(gridX+gridWidth*col , gridY+gridHeight*row, gridX+gridWidth*(col+1) , gridY+gridHeight*(row+1));
+                canvas.drawBitmap(lawn, src,dst,paint);
+
+            }
+        }
+
         // plants & zombies ;
         for (MajorObject o : majors) {
             o.Draw(canvas, paint);
         }
+
     }
 
 
@@ -111,6 +129,7 @@ public class GridLogic extends Logic {
 
     public static boolean removePlant(Plant plant) {
         deletions.add(plant);
+        plant.onFinal();
         return true;
     }
 

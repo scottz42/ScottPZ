@@ -20,7 +20,7 @@ public class NormalZombie extends Zombie {
         // bitmap of pea
         //  getResources
         life = 10 ;
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.normalzombie);
+        bitmap = BitmapFactory.decodeResource(res, R.drawable.normalzombie2);
         // TODO: need to recycle bitmap?
     }
 

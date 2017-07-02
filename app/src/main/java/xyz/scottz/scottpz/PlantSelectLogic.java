@@ -28,7 +28,7 @@ public class PlantSelectLogic extends Logic {
 
         Resources resources = Game.getResources();
 
-        noPlants = 5 ;
+        noPlants = 7 ;
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
         Sunflower sunflower = new Sunflower(resources);
@@ -36,17 +36,23 @@ public class PlantSelectLogic extends Logic {
         Wallnut nut = new Wallnut(resources);
         PotatoMine mine = new PotatoMine(resources);
         IcebergLettuce iceberg = new IcebergLettuce(resources);
+        ExplodeONut explodeONut = new ExplodeONut(resources);
+        Jalapeno jalapeno = new Jalapeno(resources);
         plantSelections.add(sunflower);
         plantSelections.add(pea);
         plantSelections.add(nut);
         plantSelections.add(mine) ;
         plantSelections.add(iceberg) ;
+        plantSelections.add(explodeONut);
+        plantSelections.add(jalapeno);
         rechargeTime = new long[noPlants] ;
         rechargeTime[0] = Sunflower.getRechargeTime() ;
         rechargeTime[1] = NormalPea.getRechargeTime() ;
         rechargeTime[2] = Wallnut.getRechargeTime() ;
         rechargeTime[3] = PotatoMine.getRechargeTime() ;
         rechargeTime[4] = IcebergLettuce.getRechargeTime() ;
+        rechargeTime[5] = ExplodeONut.getRechargeTime() ;
+        rechargeTime[6] = Jalapeno.getRechargeTime();
         rechargeStartTime = new long[noPlants] ;
         for (int i=0 ; i<noPlants ; i++) {
             rechargeStartTime[i] = System.currentTimeMillis() ;
@@ -70,9 +76,9 @@ public class PlantSelectLogic extends Logic {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
+        // TODO: GridLogic
         x = (x / 100) * 100;
         y = (y / 100) * 100;
-
 
         // select plant
         int selection = GridLogic.checkSelectPlant(x,y);
@@ -97,8 +103,12 @@ public class PlantSelectLogic extends Logic {
                 newPlant = new PotatoMine(resources);
             } else if (currentPlantSelection==4) {
                 newPlant = new IcebergLettuce(resources);
+            } else if (currentPlantSelection==5) {
+                newPlant = new ExplodeONut(resources);
+            } else if (currentPlantSelection==6) {
+                newPlant = new Jalapeno(resources);
             } else {
-                newPlant = new Sunflower(resources);
+                    newPlant = new Sunflower(resources);
             }
             if ((System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
                 newPlant.setX(x);

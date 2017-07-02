@@ -52,6 +52,8 @@ public class Plant extends MajorObject {
         super.Draw(c,p);
     }
 
+    void onFinal() {}
+
     public int getLife() {
         return life;
     }
