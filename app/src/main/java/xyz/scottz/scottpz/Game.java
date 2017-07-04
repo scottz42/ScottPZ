@@ -11,11 +11,18 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: cleanup plant selection code
+// TODO: cleanup plant selection code, different plant selection image
+// TODO: big plant selection from all available plants
+    // TODO: separate per-plant and per-plant-class logic
 // TODO: level selection
+// TODO: torchwood
+// TODO: zombie movement animation
 // TODO: Dave & truck
+// TODO: fig
 // TODO: bug: shovel-generated sun shouldn't drop
 // TODO: use fullscreen
+// TODO: more accurate hit-testing
+// TODO: shrinking violet
 // TODO: Ra zombie
 // TODO: cabbage pult
 // TODO: plant food
@@ -48,6 +55,7 @@ public class Game {
     static PlantSelectLogic selectLogic;
     static GenZombieLogic genZombieLogic;
     static GridLogic gridLogic;
+    static SelectAllLogic selectAllLogic;
 
     public static Resources getResources() {
         return resources;
@@ -63,6 +71,7 @@ public class Game {
 
     public static void initOnce(Resources res)
     {
+        // added in increasing Z-order
         allLogic = new ArrayList();
         sunLogic = new SunLogic();
         allLogic.add(sunLogic);
@@ -76,6 +85,7 @@ public class Game {
         allLogic.add(genZombieLogic);
         gridLogic = new GridLogic();
         allLogic.add(gridLogic);
+        selectAllLogic = new SelectAllLogic();  // add only when needed
 
         GenZombieLogic.generateHouse4(res);
 //        GenZombieLogic.generateEgypt1(res);
@@ -86,6 +96,9 @@ public class Game {
     public static void init(Resources res)
     {
         resources = res ;
+
+        // pick plants for each new level
+        allLogic.add(selectAllLogic);
 
         for (Object o: allLogic) {
             Logic logic = (Logic) o;
@@ -130,17 +143,28 @@ public class Game {
             return;
         }
 
+        // TODO: finish all plant selection
+
+        // assumption: hit only counts for one logic
         for (Object o: allLogic) {
             Logic logic = (Logic) o;
             if (logic.onTouch(event)) {
                 return ;
             };
         }
+
     }
 
     public static void onDraw(Canvas canvas , Paint p)
     {
         String s ;
+
+        // draw in decreasing Z-order
+        for (int i=allLogic.size()-1; i>=0 ; i--) {
+            Logic logic = (Logic) allLogic.get(i);
+            logic.onDraw(canvas , p);
+        }
+
 
         if (lost) {
             p.setColor(Color.GREEN);
@@ -165,11 +189,7 @@ public class Game {
         }
 
 
-        for (int i=allLogic.size()-1; i>=0 ; i--) {
-            Logic logic = (Logic) allLogic.get(i);
-            logic.onDraw(canvas , p);
-        }
- }
+    }
 
     // TODO: any way to do it more generically? avoiding hardcoding the variable mowerLogic
     public static boolean hasMovingMower()

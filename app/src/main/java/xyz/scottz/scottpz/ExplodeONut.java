@@ -33,6 +33,11 @@ public class ExplodeONut extends Plant {
     }
 
     @Override
+    ExplodeONut copy() {
+        return new ExplodeONut(res);
+    }
+
+    @Override
     void Draw(Canvas canvas , Paint p) {
         super.Draw(canvas,p);
 

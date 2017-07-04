@@ -46,6 +46,16 @@ public class GridLogic extends Logic {
     static private int selectWidth = 100;
     static private int selectHeight = 100;
 
+    static private int selectAllCols = 5;
+    static private int selectAllX = 300;
+    static private int selectAllY = 200;
+    static private int selectAllWidth = 570;
+    static private int selectAllHeight = 600;
+    static private int selectOKX = 900;
+    static private int selectOKY = 750;
+    static private int selectOKWidth = 120;
+    static private int selectOKHeihgt = 50;
+
     static private int shovelX = 1000;
     static private int shovelY = 600;
 
@@ -316,4 +326,42 @@ public class GridLogic extends Logic {
     {
         return gridY + row*gridHeight;
     }
+
+    public static int getSelectAllCols() {
+        return selectAllCols;
+    }
+
+    public static int getSelectAllX() {
+        return selectAllX;
+    }
+
+    public static int getSelectAllY() {
+        return selectAllY;
+    }
+
+    public static int getSelectAllWidth() {
+        return selectAllWidth;
+    }
+
+    public static int getSelectAllHeight() {
+        return selectAllHeight;
+    }
+
+    public static int getSelectOKX() {
+        return selectOKX;
+    }
+
+    public static int getSelectOKY() {
+        return selectOKY;
+    }
+
+    public static int getSelectOKWidth() {
+        return selectOKWidth;
+    }
+
+    public static int getSelectOKHeihgt() {
+        return selectOKHeihgt;
+    }
 }
+
+

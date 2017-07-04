@@ -31,20 +31,6 @@ public class PlantSelectLogic extends Logic {
         noPlants = 7 ;
         currentPlantSelection = 0 ;
         plantSelections = new ArrayList() ;
-        Sunflower sunflower = new Sunflower(resources);
-        NormalPea pea = new NormalPea(resources);  // TODO: change
-        Wallnut nut = new Wallnut(resources);
-        PotatoMine mine = new PotatoMine(resources);
-        IcebergLettuce iceberg = new IcebergLettuce(resources);
-        ExplodeONut explodeONut = new ExplodeONut(resources);
-        Jalapeno jalapeno = new Jalapeno(resources);
-        plantSelections.add(sunflower);
-        plantSelections.add(pea);
-        plantSelections.add(nut);
-        plantSelections.add(mine) ;
-        plantSelections.add(iceberg) ;
-        plantSelections.add(explodeONut);
-        plantSelections.add(jalapeno);
         rechargeTime = new long[noPlants] ;
         rechargeTime[0] = Sunflower.getRechargeTime() ;
         rechargeTime[1] = NormalPea.getRechargeTime() ;
@@ -92,25 +78,13 @@ public class PlantSelectLogic extends Logic {
         // TODO: use constants as appropriate
 
         if (x>=100 && x<=900 && y>=100 && y<=500 && Game.canPlant(x,y)) {
-            Plant newPlant ;
-            if (currentPlantSelection==0) {
-                newPlant = new Sunflower(resources);
-            } else if(currentPlantSelection==1) {
-                newPlant = new NormalPea(resources);
-            } else if(currentPlantSelection==2) {
-                newPlant = new Wallnut(resources);
-            } else if (currentPlantSelection==3) {
-                newPlant = new PotatoMine(resources);
-            } else if (currentPlantSelection==4) {
-                newPlant = new IcebergLettuce(resources);
-            } else if (currentPlantSelection==5) {
-                newPlant = new ExplodeONut(resources);
-            } else if (currentPlantSelection==6) {
-                newPlant = new Jalapeno(resources);
-            } else {
-                    newPlant = new Sunflower(resources);
+            Plant newPlant = null;
+            try {
+                newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
+            } catch (Exception e) {
+                newPlant = null;
             }
-            if ((System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
+            if (newPlant!=null && (System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
                 newPlant.setX(x);
                 newPlant.setY(y);
                 if (Game.getNoSun() >= newPlant.getSunNeeded()) {

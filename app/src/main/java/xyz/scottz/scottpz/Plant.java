@@ -54,6 +54,9 @@ public class Plant extends MajorObject {
 
     void onFinal() {}
 
+
+    Plant copy() { return null; }
+
     public int getLife() {
         return life;
     }
