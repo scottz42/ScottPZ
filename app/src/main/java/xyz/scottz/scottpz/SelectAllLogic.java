@@ -19,17 +19,12 @@ public class SelectAllLogic extends Logic {
     // all plants in the game
     static int noTotalPlants;
     static ArrayList allPlants;
+    static boolean[] selected;
 
-    static int noPlants ;
-    static ArrayList plantSelections ;
-    static int currentPlantSelection ;
-
-    static private long rechargeTime[] ;
-    static private long rechargeStartTime[] ;
-
+    // TODO: this should be init once
     @Override
-    public void init() {
-        super.init();
+    public void initOnce() {
+        super.initOnce();
 
         Resources resources = Game.getResources();
 
@@ -37,13 +32,13 @@ public class SelectAllLogic extends Logic {
         // change this part when adding a new plant
         noTotalPlants = 7;
         allPlants = new ArrayList();
-        Sunflower sunflower = new Sunflower(resources);
-        NormalPea pea = new NormalPea(resources);  // TODO: change
-        Wallnut nut = new Wallnut(resources);
-        PotatoMine mine = new PotatoMine(resources);
-        IcebergLettuce iceberg = new IcebergLettuce(resources);
-        ExplodeONut explodeONut = new ExplodeONut(resources);
-        Jalapeno jalapeno = new Jalapeno(resources);
+        Sunflower sunflower = new Sunflower();
+        NormalPea pea = new NormalPea();
+        Wallnut nut = new Wallnut();
+        PotatoMine mine = new PotatoMine();
+        IcebergLettuce iceberg = new IcebergLettuce();
+        ExplodeONut explodeONut = new ExplodeONut();
+        Jalapeno jalapeno = new Jalapeno();
         allPlants.add(sunflower);
         allPlants.add(pea);
         allPlants.add(nut);
@@ -51,19 +46,43 @@ public class SelectAllLogic extends Logic {
         allPlants.add(iceberg) ;
         allPlants.add(explodeONut);
         allPlants.add(jalapeno);
-
-        for (int i=0 ; i<noPlants ; i++) {
-            rechargeStartTime[i] = System.currentTimeMillis() ;
-            Plant plant = (Plant) plantSelections.get(i);
-            plant.setX(GridLogic.getSelectX());
-            plant.setY(GridLogic.getSelectY(i));
-        }
-
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
+    public void init()
+    {
+        selected = new boolean[noTotalPlants];
+        for (int i=0 ; i<noTotalPlants ; i++) {
+            selected[i] = false;
+        }
+    }
+
+    private boolean hitSelectOKButton(int x , int y)
+    {
+        int okX = GridLogic.getSelectOKX();
+        int okY = GridLogic.getSelectOKY();
+        int okWidth = GridLogic.getSelectOKWidth();
+        int okHeight = GridLogic.getSelectOKHeihgt();
+
+        return (x>okX && x<okX+okWidth && y>okY && y<okY+okHeight);
+    }
+
+    private boolean inPlantGrid(int x , int y , int row , int col)
+    {
+        // TODO: GridLogic, more accurate hit test
+        return (row>=0 && col>=0 && col< GridLogic.getSelectAllCols());
+
+    }
+
+    public boolean unselectPlant(Plant plant)
+    {
+        for (int i=0 ; i<noTotalPlants ; i++) {
+            if (plant==allPlants.get(i)) {
+                selected[i] = false;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -74,52 +93,47 @@ public class SelectAllLogic extends Logic {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        // TODO: GridLogic
-        x = (x / 100) * 100;
-        y = (y / 100) * 100;
-
-        // select plant
-        int selection = GridLogic.checkSelectPlant(x,y);
-        if (selection>=0 && selection<noPlants) {
-            currentPlantSelection = selection ;
-            // TODO: visual indication for current selection
+        // check ok button
+        if (hitSelectOKButton(x,y)&&Game.selectionFull()) {
+            Game.finishSelection();
+            return true;
         }
 
-        // plant new plant
-        // TODO: adjust for screen size
-        // TODO: use constants as appropriate
+        // TODO: GridLogic
+        int allX = GridLogic.getSelectAllX();
+        int allY = GridLogic.getSelectAllY();
+        int row = (y-allY-20)/100;
+        int col = (x-allX-20)/100 ;
 
-       // TODO: pick new plant to add to plant selection
+        if (inPlantGrid(x,y,row,col)) {
+            int plantNo = row*GridLogic.getSelectAllCols() + col ;
+            if (plantNo<noTotalPlants && !selected[plantNo]) {
+                if (!Game.selectionFull()) {
+                    // add to plants
+                    Game.addPlantSelection((Plant)allPlants.get(plantNo));
+                    selected[plantNo] = true;
+                    return true;
+                }
+            }
+        }
 
-        // TODO: check ok button
-
-        return false ;
+        return false;
     }
 
-
-    @Override
-    public boolean onTimer()
-    {
-        return super.onTimer();
-    }
 
     @Override
     public void onDraw(Canvas canvas, Paint paint)
     {
         super.onDraw(canvas, paint);
 
+        // draw border
         int x = GridLogic.getSelectAllX();
         int y = GridLogic.getSelectAllY();
         int width = GridLogic.getSelectAllWidth();
         int height = GridLogic.getSelectAllHeight();
-
         paint.setColor(Color.GRAY);
         paint.setStrokeWidth(5);
-
-        // draw border
         canvas.drawRect(x , y , x+width, y+height, paint);
-
-        // draw border and draw grid
 
         // draw ok button
         int okX = GridLogic.getSelectOKX();
@@ -129,7 +143,7 @@ public class SelectAllLogic extends Logic {
         canvas.drawRect(okX , okY , okX+okWidth , okY+okHeight , paint);
         paint.setColor(Color.WHITE);
         paint.setTextSize(30);
-        canvas.drawText("LET'S ROCK" , okX+30 , okY+20 , paint) ;
+        canvas.drawText("LET'S ROCK!" , okX+20 , okY+40 , paint) ;
 
         // draw each plant
         for (int i = 0 ; i<noTotalPlants ; i++) {
@@ -142,8 +156,7 @@ public class SelectAllLogic extends Logic {
             plant.setX(x+20+col*100);
             plant.setY(y+20+row*100);
             plant.Draw(canvas , paint) ;
+            // TODO: indicate if already selected
         }
-
     }
-
 }

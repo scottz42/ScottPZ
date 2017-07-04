@@ -26,9 +26,9 @@ public class Plant extends MajorObject {
     protected int sunNeeded ;
 
 
-    public Plant(Resources res)
+    public Plant()
     {
-        super(res);
+        super();
         life = 3 ;      // TODO: level-based, plant-specific
         damagePerShot = 1 ;
         sunNeeded = 50 ;
@@ -54,8 +54,6 @@ public class Plant extends MajorObject {
 
     void onFinal() {}
 
-
-    Plant copy() { return null; }
 
     public int getLife() {
         return life;

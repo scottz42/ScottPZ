@@ -26,7 +26,7 @@ public class GenZombieLogic extends Logic {
 
         resources = Game.getResources();
 
-        levelStartTime = System.currentTimeMillis() ;
+        levelStartTime = 0;
 
         long time = 0 ;
         zombies = new ArrayList<ZombieInfo>();
@@ -64,7 +64,14 @@ public class GenZombieLogic extends Logic {
     {
         super.onTimer();
 
-        return generateZombies();
+        if (Game.isNormalPlay() && levelStartTime==0) {
+            levelStartTime = System.currentTimeMillis() ;
+        }
+        if (Game.isNormalPlay()) {
+            return generateZombies();
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -104,51 +111,51 @@ public class GenZombieLogic extends Logic {
         level = new ArrayList() ;
 
         // wave 1
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 3)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 3)) ;
         level.add(wave) ;
 
         // wave 2
         wave = new ArrayList() ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 4));
+        wave.add(new ZombieInfo(new NormalZombie() , 4));
         level.add(wave) ;
 
         // wave 3
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 4
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 5
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 6
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 7
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new BucketheadZombie(resources) , 3)) ;
+        wave.add(new ZombieInfo(new BucketheadZombie() , 3)) ;
         level.add(wave) ;
 
         // wave 8
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         level.add(wave) ;
     }
 
@@ -158,51 +165,51 @@ public class GenZombieLogic extends Logic {
         level = new ArrayList() ;
 
         // wave 1
-        wave.add(new ZombieInfo(new BucketheadZombie(resources) , 2)) ;
+        wave.add(new ZombieInfo(new BucketheadZombie() , 2)) ;
         level.add(wave) ;
 
         // wave 2
         wave = new ArrayList() ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 1));
+        wave.add(new ZombieInfo(new NormalZombie() , 1));
         level.add(wave) ;
 
         // wave 3
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 4
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 2)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 2)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 5
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 6
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
         level.add(wave) ;
 
         // wave 7
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new BucketheadZombie(resources) , 3)) ;
+        wave.add(new ZombieInfo(new BucketheadZombie() , 3)) ;
         level.add(wave) ;
 
         // wave 8
         wave = new ArrayList();
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new NormalZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
-        wave.add(new ZombieInfo(new ConeheadZombie(resources) , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
+        wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         level.add(wave) ;
 
     }

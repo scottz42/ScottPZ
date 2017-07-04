@@ -17,11 +17,11 @@ public class RaZombie extends Zombie {
     private Bitmap bitmap ;
     private int sunsStolen = 0 ;
 
-    RaZombie(Resources res)
+    RaZombie()
     {
-        super(res);
+        super();
         life = 9.25 ;
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.razombie);
+        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.razombie);
         // TODO: need to recycle bitmap?
     }
 

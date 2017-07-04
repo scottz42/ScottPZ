@@ -34,6 +34,7 @@ public class LawnmowerLogic extends Logic {
     @Override
     public boolean onTimer()
     {
+        if (!Game.isNormalPlay()) return false;
         if (movingMower!=null) {
             movingMower.move() ;
             // TODO: GridLogic

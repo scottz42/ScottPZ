@@ -24,10 +24,10 @@ public class IcebergLettuce extends Plant {
         return rechargeTime ;
     }
 
-  IcebergLettuce(Resources res)
+  IcebergLettuce()
     {
-        super(res);
-        this.res = res ;
+        super();
+        this.res = Game.getResources() ;
         setSunNeeded(0);
         damagePerShot = 0 ;    // nds
         bitmap = BitmapFactory.decodeResource(res, R.drawable.iceberglettuce);

@@ -18,7 +18,7 @@ public class Tombstone extends Zombie {
 
     Tombstone (int row , int column)
     {
-        super(Game.getResources()) ;
+        super() ;
         Resources res = Game.getResources() ;
         setX((column+1)*100) ;
         setY((row+1)*100) ;

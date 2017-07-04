@@ -11,9 +11,10 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: cleanup plant selection code, different plant selection image
-// TODO: big plant selection from all available plants
-    // TODO: separate per-plant and per-plant-class logic
+// TODO: different plant selection image
+
+// TODO: separate per-plant and per-plant-class logic
+// TODO: scrolling in plant selection
 // TODO: level selection
 // TODO: torchwood
 // TODO: zombie movement animation
@@ -47,6 +48,9 @@ public class Game {
     static boolean lost = false ;
     static boolean won = false ;
 
+    // picking plants or normal playing
+    static boolean normalPlay = false;
+
     static ArrayList allLogic ;
 
     static SunLogic sunLogic ;
@@ -71,6 +75,8 @@ public class Game {
 
     public static void initOnce(Resources res)
     {
+        resources = res ;
+
         // added in increasing Z-order
         allLogic = new ArrayList();
         sunLogic = new SunLogic();
@@ -87,18 +93,24 @@ public class Game {
         allLogic.add(gridLogic);
         selectAllLogic = new SelectAllLogic();  // add only when needed
 
+        for (Object o: allLogic) {
+            Logic logic = (Logic) o;
+            logic.initOnce();
+        }
+        // how to make this cleaner?
+        selectAllLogic.initOnce();
+
         GenZombieLogic.generateHouse4(res);
 //        GenZombieLogic.generateEgypt1(res);
 
-        init(res);
+        init();
     }
 
-    public static void init(Resources res)
+    public static void init()
     {
-        resources = res ;
 
         // pick plants for each new level
-        allLogic.add(selectAllLogic);
+        allLogic.add(0 , selectAllLogic);
 
         for (Object o: allLogic) {
             Logic logic = (Logic) o;
@@ -106,6 +118,7 @@ public class Game {
         }
         lost = false ;
         won = false ;
+        normalPlay = false; // pick plant first then normal play
     }
 
 
@@ -133,10 +146,10 @@ public class Game {
             if (x>200 & x<600) {
                 if (y>450 & y<500) {
                     GenZombieLogic.generateHouse4(resources);
-                    init(resources);
+                    init();
                 } else if (y>500 & y<550) {
                     GenZombieLogic.generateEgypt1(resources);
-                    init(resources);
+                    init();
                 }
             }
 
@@ -189,6 +202,25 @@ public class Game {
         }
 
 
+    }
+
+    // plant selection finished
+    public static void finishSelection()
+    {
+        // do initilizations based on selected plants
+        selectLogic.finishSelection();
+        // remove dialog
+        allLogic.remove(0);
+        normalPlay = true;
+    }
+
+
+    public static boolean isNormalPlay() {
+        return normalPlay;
+    }
+
+    public static void setNormalPlay(boolean normalPlay) {
+        Game.normalPlay = normalPlay;
     }
 
     // TODO: any way to do it more generically? avoiding hardcoding the variable mowerLogic
@@ -251,5 +283,19 @@ public class Game {
     public static Zombie ExistZombieInFront(int column , int row)
     {
         return gridLogic.ExistZombieInFront(column , row);
+    }
+
+    public static boolean selectionFull() {
+        return selectLogic.selectionFull();
+    }
+
+    public static boolean addPlantSelection(Plant plant)
+    {
+        return selectLogic.addPlantSelection(plant);
+    }
+
+    public static boolean unselectPlant(Plant plant)
+    {
+        return selectAllLogic.unselectPlant(plant);
     }
 }

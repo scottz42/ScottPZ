@@ -15,6 +15,8 @@ import java.util.ArrayList;
 // plant selection logic during normal play
 public class PlantSelectLogic extends Logic {
 
+    static int plantSlots = 7;
+    static int defaultRechargeTime = 5000;     // TODO: move to Plant class?
     static int noPlants ;
     static ArrayList plantSelections ;
     static int currentPlantSelection ;
@@ -28,25 +30,30 @@ public class PlantSelectLogic extends Logic {
 
         Resources resources = Game.getResources();
 
-        noPlants = 7 ;
+        noPlants = 0 ;
         currentPlantSelection = 0 ;
-        plantSelections = new ArrayList() ;
-        rechargeTime = new long[noPlants] ;
-        rechargeTime[0] = Sunflower.getRechargeTime() ;
-        rechargeTime[1] = NormalPea.getRechargeTime() ;
-        rechargeTime[2] = Wallnut.getRechargeTime() ;
-        rechargeTime[3] = PotatoMine.getRechargeTime() ;
-        rechargeTime[4] = IcebergLettuce.getRechargeTime() ;
-        rechargeTime[5] = ExplodeONut.getRechargeTime() ;
-        rechargeTime[6] = Jalapeno.getRechargeTime();
-        rechargeStartTime = new long[noPlants] ;
+        plantSelections = new ArrayList(plantSlots) ;
+        rechargeTime = new long[plantSlots] ;
+        rechargeStartTime = new long[plantSlots] ;
+    }
+
+    // init based on selected plants
+    public void finishSelection()
+    {
+
         for (int i=0 ; i<noPlants ; i++) {
-            rechargeStartTime[i] = System.currentTimeMillis() ;
-            Plant plant = (Plant) plantSelections.get(i);
-            plant.setX(GridLogic.getSelectX());
-            plant.setY(GridLogic.getSelectY(i));
+            try {
+                Object[] args = new Object[0];
+                Class[] argsClass = new Class[0];
+                rechargeTime[i] = ((Integer) plantSelections.get(i).getClass().getMethod("getRechargeTime", argsClass).invoke(null, args)).intValue();
+            } catch (Exception e) {
+                rechargeTime[i] = defaultRechargeTime;
+            }
         }
 
+        for (int i=0 ; i<noPlants ; i++) {
+            rechargeStartTime[i] = System.currentTimeMillis() ;
+        }
     }
 
     @Override
@@ -58,6 +65,10 @@ public class PlantSelectLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
+
+        // TODO: two modes: normal play mode & all plant select mode
+        // select mode: if click on plant, remove from selection
+
         Resources resources = Game.getResources();
         int x = (int) event.getX();
         int y = (int) event.getY();
@@ -66,24 +77,33 @@ public class PlantSelectLogic extends Logic {
         x = (x / 100) * 100;
         y = (y / 100) * 100;
 
+
         // select plant
         int selection = GridLogic.checkSelectPlant(x,y);
         if (selection>=0 && selection<noPlants) {
-            currentPlantSelection = selection ;
-            // TODO: visual indication for current selection
+            if (Game.isNormalPlay()) {
+                currentPlantSelection = selection;
+                // TODO: visual indication for current selection
+            } else {
+                Game.unselectPlant((Plant)plantSelections.get(selection));
+                plantSelections.remove(selection);
+                noPlants--;
+            }
         }
+
 
         // plant new plant
         // TODO: adjust for screen size
         // TODO: use constants as appropriate
 
-        if (x>=100 && x<=900 && y>=100 && y<=500 && Game.canPlant(x,y)) {
+        if (Game.isNormalPlay() && x>=100 && x<=900 && y>=100 && y<=500 && Game.canPlant(x,y)) {
             Plant newPlant = null;
             try {
                 newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
             } catch (Exception e) {
                 newPlant = null;
             }
+
             if (newPlant!=null && (System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
                 newPlant.setX(x);
                 newPlant.setY(y);
@@ -94,6 +114,7 @@ public class PlantSelectLogic extends Logic {
                     return true ;
                 }
             }
+
         }
         return false ;
     }
@@ -113,15 +134,40 @@ public class PlantSelectLogic extends Logic {
         // plant selection panel
         for (int i = 0 ; i<noPlants ; i++) {
             Plant plant = (Plant)plantSelections.get(i) ;
-                 plant.Draw(canvas , paint) ;
+            plant.setX(GridLogic.getSelectX());
+            plant.setY(GridLogic.getSelectY(i));
+            plant.Draw(canvas , paint) ;
+
+
             paint.setColor(0xc0ffffff);
-            long diff = (System.currentTimeMillis()-rechargeStartTime[i])*100/rechargeTime[i] ;
-            if (diff>100) diff=100 ;
-            diff = 100-diff ;
-            canvas.drawRect(GridLogic.getSelectX() , GridLogic.getSelectY(i) ,
-                    GridLogic.getSelectX()+GridLogic.getSelectWidth() , GridLogic.getSelectY(i)+diff , paint) ;
+            if (Game.isNormalPlay()) {
+                long diff = (System.currentTimeMillis() - rechargeStartTime[i]) * 100 / rechargeTime[i];
+                if (diff > 100) diff = 100;
+                diff = 100 - diff;
+
+
+                canvas.drawRect(GridLogic.getSelectX(), GridLogic.getSelectY(i),
+                        GridLogic.getSelectX() + GridLogic.getSelectWidth(), GridLogic.getSelectY(i) + diff, paint);
+            }
             paint.setAlpha(255);
+
         }
 
+    }
+
+    public boolean selectionFull()
+    {
+        return noPlants==plantSlots;
+    }
+
+    public boolean addPlantSelection(Plant plant)
+    {
+        if (noPlants<plantSlots) {
+            plantSelections.add(plant);
+            noPlants++;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

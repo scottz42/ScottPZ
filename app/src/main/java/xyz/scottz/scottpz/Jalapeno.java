@@ -24,10 +24,10 @@ public class Jalapeno extends Plant {
         return rechargeTime ;
     }
 
-    Jalapeno(Resources res)
+    Jalapeno()
     {
-        super(res);
-        this.res = res ;
+        super();
+        this.res = Game.getResources() ;
         setSunNeeded(125);
         damagePerShot = 90 ;    // nds
         bitmap = BitmapFactory.decodeResource(res, R.drawable.jalapeno);

@@ -25,9 +25,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    int x, y;
     Timer timer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

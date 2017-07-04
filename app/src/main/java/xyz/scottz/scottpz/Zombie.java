@@ -60,8 +60,8 @@ public class Zombie extends MajorObject {
     protected long freezeDuration=0;
     protected long startFreezeTime=0;
 
-    public  Zombie(Resources res) {
-        super(res);
+    public  Zombie() {
+        super();
         LastMoveTime = System.currentTimeMillis() ;
     }
 

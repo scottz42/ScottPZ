@@ -13,6 +13,11 @@ import android.view.MotionEvent;
 
 public class Logic {
 
+    public void initOnce()
+    {
+    }
+
+    // init() really is the start of a new level, change name?
     public void init()
     {
     }
@@ -33,7 +38,6 @@ public class Logic {
 
     public void onDraw(Canvas canvas , Paint paint)
     {
-
     }
 
 }

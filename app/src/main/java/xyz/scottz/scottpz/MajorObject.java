@@ -16,7 +16,7 @@ public class MajorObject {
     protected int x;
     protected int y ;
 
-    public MajorObject(Resources res) {
+    public MajorObject() {
     }
 
     public int getX() {

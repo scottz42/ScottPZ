@@ -29,9 +29,9 @@ public class Sunflower extends Plant {
     }
 
 
-    public Sunflower(Resources res) {
-        super(res);
-        this.res = res ;
+    public Sunflower() {
+        super();
+        this.res = Game.getResources();
 
         suns = new ArrayList<Sun>();
         // bitmap of pea

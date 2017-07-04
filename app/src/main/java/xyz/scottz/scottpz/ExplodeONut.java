@@ -22,20 +22,17 @@ public class ExplodeONut extends Plant {
         return rechargeTime ;
     }
 
-    ExplodeONut(Resources res)
+    ExplodeONut()
     {
-        super(res);
-        this.res = res ;
+        super();
+        this.res = Game.getResources() ;
         setLife(30);
         damagePerShot = 90;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.explodeonutcostume);
         // TODO: need to recycle bitmap?
     }
 
-    @Override
-    ExplodeONut copy() {
-        return new ExplodeONut(res);
-    }
+
 
     @Override
     void Draw(Canvas canvas , Paint p) {

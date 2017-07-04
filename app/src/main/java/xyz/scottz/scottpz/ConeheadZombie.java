@@ -16,9 +16,9 @@ public class ConeheadZombie extends Zombie {
 
     private Bitmap bitmap;
 
-    public ConeheadZombie(Resources res) {
-        super(res);
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.coneheadzombie);
+    public ConeheadZombie() {
+        super();
+        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coneheadzombie);
         // TODO: need to recycle bitmap?
         life = coneheadLife ;
     }

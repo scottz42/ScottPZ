@@ -38,10 +38,10 @@ public class NormalPea extends Plant {
         return rechargeTime ;
     }
 
-    NormalPea(Resources res)
+    NormalPea()
     {
-        super(res);
-        this.res = res ;
+        super();
+        this.res = Game.getResources() ;
         setSunNeeded(100);
         rechargeTime = 5000 ;
         damagePerShot = 1 ;  // nds

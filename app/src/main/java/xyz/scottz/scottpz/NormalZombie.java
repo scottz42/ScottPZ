@@ -14,13 +14,12 @@ import android.graphics.Rect;
 public class NormalZombie extends Zombie {
     private Bitmap bitmap ;
 
-    NormalZombie(Resources res)
+    NormalZombie()
     {
-        super(res);
-        // bitmap of pea
+        super();
         //  getResources
         life = 10 ;
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.normalzombie2);
+        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombie2);
         // TODO: need to recycle bitmap?
     }
 

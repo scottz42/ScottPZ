@@ -27,6 +27,8 @@ public class ShovelLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
+        if (!Game.isNormalPlay()) return false;
+
         int x = (int) event.getX() ;
         int y = (int) event.getY() ;
 

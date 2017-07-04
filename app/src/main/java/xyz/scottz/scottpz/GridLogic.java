@@ -52,11 +52,11 @@ public class GridLogic extends Logic {
     static private int selectAllWidth = 570;
     static private int selectAllHeight = 600;
     static private int selectOKX = 900;
-    static private int selectOKY = 750;
-    static private int selectOKWidth = 120;
-    static private int selectOKHeihgt = 50;
+    static private int selectOKY = 740;
+    static private int selectOKWidth = 200;
+    static private int selectOKHeihgt = 60;
 
-    static private int shovelX = 1000;
+    static private int shovelX = 1100;
     static private int shovelY = 600;
 
     static private int zombieX = 1100;
@@ -78,6 +78,8 @@ public class GridLogic extends Logic {
 
     @Override
     public boolean onTimer() {
+        if (!Game.isNormalPlay()) return false;
+
         for (MajorObject o : majors) {
             // zombie: move, damage plant
             // plant: shoot zombie, generate sun, etc.
@@ -101,9 +103,8 @@ public class GridLogic extends Logic {
     public void onDraw(Canvas canvas, Paint paint) {
         super.onDraw(canvas, paint);
 
-        // TODO: test
-        for (int row=0 ; row<5 ; row++) {
-            for (int col=0 ; col<9 ; col++) {
+        for (int row=0 ; row<noRows ; row++) {
+            for (int col=0 ; col<noCols; col++) {
                 Rect src = new Rect() ;
                 Rect dst = new Rect() ;
                 src.set(0,0,lawn.getWidth()-1,lawn.getHeight()-1);

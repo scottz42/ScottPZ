@@ -51,6 +51,8 @@ public class SunLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
+        if (!Game.isNormalPlay()) return false;
+
         for (MajorObject o : Game.getMajors()) {
             o.checkSun(event);
         }
@@ -78,6 +80,8 @@ public class SunLogic extends Logic {
     public boolean onTimer()
     {
         super.onTimer();
+
+        if (!Game.isNormalPlay()) return false;
         if (fallingSunMode) {
             // generate
             // TODO: initial vs. subsequent ones

@@ -26,10 +26,10 @@ public class PotatoMine extends Plant {
         return rechargeTime ;
     }
 
-    PotatoMine(Resources res)
+    PotatoMine()
     {
-        super(res);
-        this.res = res ;
+        super();
+        this.res = Game.getResources() ;
         setSunNeeded(25);
         damagePerShot = 90 ;    // nds
         bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);

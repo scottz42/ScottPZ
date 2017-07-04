@@ -17,9 +17,9 @@ public class BucketheadZombie extends Zombie {
 
     private Bitmap bitmap;
 
-    public BucketheadZombie(Resources res) {
-        super(res);
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.bucketheadzombie);
+    public BucketheadZombie() {
+        super();
+        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.bucketheadzombie);
         // TODO: need to recycle bitmap?
         life = bucketheadLife ;
     }
