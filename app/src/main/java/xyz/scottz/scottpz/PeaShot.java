@@ -19,6 +19,7 @@ public class PeaShot extends MinorObject {
     PeaShot (Resources res , int column , int row)
     {
         super(res);
+        // TODO: GridLogic
         setX(column*100) ;
         setY(row*100) ;
         bitmap = BitmapFactory.decodeResource(res, R.drawable.peashot) ;

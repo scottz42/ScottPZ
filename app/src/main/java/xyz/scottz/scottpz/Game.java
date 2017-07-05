@@ -13,15 +13,18 @@ import java.util.ArrayList;
 
 // TODO: different plant selection image
 
-// TODO: separate per-plant and per-plant-class logic
-// TODO: scrolling in plant selection
 // TODO: level selection
+
+// TODO: transparency: pea, sun, conehead
+// TODO: scrolling in plant selection
 // TODO: torchwood
 // TODO: zombie movement animation
 // TODO: Dave & truck
 // TODO: fig
+// TODO: separate per-plant and per-plant-class logic
 // TODO: bug: shovel-generated sun shouldn't drop
 // TODO: use fullscreen
+    // TODO: shovel generate variable amount of sun
 // TODO: more accurate hit-testing
 // TODO: shrinking violet
 // TODO: Ra zombie

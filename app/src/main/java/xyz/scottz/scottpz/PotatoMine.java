@@ -13,7 +13,7 @@ import android.graphics.Rect;
 
 public class PotatoMine extends Plant {
 
-    private Bitmap bitmapUnarmed , bitmapArmed ;
+    private static Bitmap bitmapUnarmed=null , bitmapArmed=null;
     private boolean armed ;
     private long armingInterval = 15000 ;   // ms
     Resources res ;
@@ -32,8 +32,10 @@ public class PotatoMine extends Plant {
         this.res = Game.getResources() ;
         setSunNeeded(25);
         damagePerShot = 90 ;    // nds
-        bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);
-        bitmapArmed = BitmapFactory.decodeResource(res, R.drawable.potatominearmed);
+        if (bitmapArmed==null) {
+            bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);
+            bitmapArmed = BitmapFactory.decodeResource(res, R.drawable.potatominearmed);
+        }
         armed = false ;
         creationTime = System.currentTimeMillis() ;
         // TODO: need to recycle bitmap?

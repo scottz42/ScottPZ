@@ -17,7 +17,7 @@ import android.util.Log;
  */
 
 public class NormalPea extends Plant {
-    private Bitmap bitmap ;
+    private static Bitmap bitmap=null ;
     private PeaShot peaShot ;
 
     // this controls generation of new peashot
@@ -29,7 +29,6 @@ public class NormalPea extends Plant {
     private int TimePerPeashotMove = 50 ;  // ms
     private int DistancePerPeashotMove = 40 ;
 
-    Resources res ;
 
     private static long rechargeTime = 5000 ;
 
@@ -38,15 +37,15 @@ public class NormalPea extends Plant {
         return rechargeTime ;
     }
 
-    NormalPea()
-    {
+    NormalPea() {
         super();
-        this.res = Game.getResources() ;
         setSunNeeded(100);
-        rechargeTime = 5000 ;
-        damagePerShot = 1 ;  // nds
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.pea1);
-        // TODO: need to recycle bitmap?
+        rechargeTime = 5000;
+        damagePerShot = 1;  // nds
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pea1);
+            // TODO: need to recycle bitmap?
+        }
     }
 
     @Override
@@ -111,7 +110,7 @@ public class NormalPea extends Plant {
                     msg = String.format("lastGenerationTime=%d" , lastGenerationTime) ;
                     Log.d(null , msg) ;
                     // TODO: GridLogic
-                    peaShot = new PeaShot(res, getX() / 100, getY() / 100);
+                    peaShot = new PeaShot(Game.getResources(), getX() / 100, getY() / 100);
                     lastPeashotTime = System.currentTimeMillis();
                     checkZombieHit(zombie);
                }
@@ -125,5 +124,4 @@ public class NormalPea extends Plant {
 
         }
     }
-
 }
