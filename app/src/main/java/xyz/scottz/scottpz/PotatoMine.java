@@ -14,9 +14,9 @@ import android.graphics.Rect;
 public class PotatoMine extends Plant {
 
     private static Bitmap bitmapUnarmed=null , bitmapArmed=null;
+    private static Bitmap selectBitmap=null;
     private boolean armed ;
     private long armingInterval = 15000 ;   // ms
-    Resources res ;
     long creationTime ;     // time when mine is planted
 
     private static long rechargeTime = 20000 ;
@@ -29,16 +29,15 @@ public class PotatoMine extends Plant {
     PotatoMine()
     {
         super();
-        this.res = Game.getResources() ;
         setSunNeeded(25);
         damagePerShot = 90 ;    // nds
         if (bitmapArmed==null) {
-            bitmapUnarmed = BitmapFactory.decodeResource(res, R.drawable.potatomineunarmed);
-            bitmapArmed = BitmapFactory.decodeResource(res, R.drawable.potatominearmed);
+            bitmapUnarmed = BitmapFactory.decodeResource(Game.getResources(), R.drawable.potatomineunarmed);
+            bitmapArmed = BitmapFactory.decodeResource(Game.getResources(), R.drawable.potatominearmed);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.potatominearmed);
         }
         armed = false ;
         creationTime = System.currentTimeMillis() ;
-        // TODO: need to recycle bitmap?
     }
 
     @Override
@@ -54,10 +53,26 @@ public class PotatoMine extends Plant {
         canvas.drawBitmap(bitmap, src,dst,p);
     }
 
+
+    @Override
+    void drawSelect(Canvas canvas , Paint p) {
+        super.Draw(canvas,p);
+
+        Rect src = new Rect() ;
+        Rect dst = new Rect() ;
+        src.set(0,0,selectBitmap.getWidth()-1,selectBitmap.getHeight()-1);
+        dst.set(getX(), getY(), getX() + GridLogic.getSelectWidth(), getY() + GridLogic.getSelectHeight());
+
+        canvas.drawBitmap(selectBitmap, src,dst,p);
+    }
+
+
+
     @Override
     void Move()
     {
         boolean exploded = false ;
+
         if (!armed && ((System.currentTimeMillis()-creationTime)>armingInterval)) {
             armed = true ;
         }

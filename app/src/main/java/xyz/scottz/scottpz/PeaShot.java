@@ -14,27 +14,40 @@ import static android.R.attr.x;
  */
 
 public class PeaShot extends MinorObject {
-    private Bitmap bitmap ;
+    private static Bitmap bitmap=null ;
+    private static Bitmap fireBitmap=null;
+    private boolean onFire = false;
 
-    PeaShot (Resources res , int column , int row)
+    PeaShot (int x, int y)
     {
-        super(res);
-        // TODO: GridLogic
-        setX(column*100) ;
-        setY(row*100) ;
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.peashot) ;
+        super(Game.getResources());
+        setX(x) ;
+        setY(y) ;
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.peashot);
+            fireBitmap =BitmapFactory.decodeResource(Game.getResources(), R.drawable.peashot);  // TODO: firepea bitmap
+        }
     }
 
     @Override
     public void onDraw(Canvas canvas , Paint p)
     {
+        Bitmap bm = onFire?fireBitmap:bitmap;
         super.onDraw(canvas,p);
 
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
-        src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX() , getY() , getX()+40, getY()+40);
+        src.set(0,0,bm.getWidth()-1,bm.getHeight()-1);
+        dst.set(getX() , getY() , getX()+GridLogic.getPeaWidth(), getY()+GridLogic.getPeaHeight());
 
-        canvas.drawBitmap(bitmap, src,dst,p);
+        canvas.drawBitmap(bm, src,dst,p);
+    }
+
+    public boolean isOnFire() {
+        return onFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        this.onFire = onFire;
     }
 }

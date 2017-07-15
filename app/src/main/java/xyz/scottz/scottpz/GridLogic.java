@@ -44,7 +44,7 @@ public class GridLogic extends Logic {
     static private int selectX = 100;
     static private int selectY = 100;
     static private int selectWidth = 100;
-    static private int selectHeight = 100;
+    static private int selectHeight = 80;
 
     static private int selectAllCols = 5;
     static private int selectAllX = 300;
@@ -58,6 +58,13 @@ public class GridLogic extends Logic {
 
     static private int shovelX = 1100;
     static private int shovelY = 600;
+
+    static private int peaWidth = 40;
+    static private int peaHeight = 40;
+
+    // cabbage shot
+    static private int cabbageWidth = 60;
+    static private int cabbageHeight = 60;
 
     static private int zombieX = 1100;
 
@@ -103,6 +110,7 @@ public class GridLogic extends Logic {
     public void onDraw(Canvas canvas, Paint paint) {
         super.onDraw(canvas, paint);
 
+        // draw lawn
         for (int row=0 ; row<noRows ; row++) {
             for (int col=0 ; col<noCols; col++) {
                 Rect src = new Rect() ;
@@ -120,6 +128,11 @@ public class GridLogic extends Logic {
         }
 
     }
+
+
+    /*
+    these methods deal with more complicated grid logic, not simple positioning
+     */
 
 
     public static boolean noZombie() {
@@ -168,6 +181,7 @@ public class GridLogic extends Logic {
         return result;
     }
 
+    //
     @Nullable
     public static Plant findPlant(int x, int y) {
         for (MajorObject o : majors) {
@@ -246,6 +260,11 @@ public class GridLogic extends Logic {
     }
 
 
+    /*
+    These methods are basic access functions
+     */
+
+
     public static int getPlantWidth() {
         return plantWidth;
     }
@@ -261,7 +280,6 @@ public class GridLogic extends Logic {
     public static int getZombieHeight() {
         return zombieHeight;
     }
-
 
     public static int getMowerWidth()
     {
@@ -363,6 +381,14 @@ public class GridLogic extends Logic {
     public static int getSelectOKHeihgt() {
         return selectOKHeihgt;
     }
+
+    public static int getPeaWidth() { return peaWidth; }
+
+    public static int getPeaHeight() { return peaHeight; }
+
+    public static int getCabbageWidth() { return cabbageWidth; }
+
+    public static int getCabbageHeight() { return cabbageHeight; }
 }
 
 

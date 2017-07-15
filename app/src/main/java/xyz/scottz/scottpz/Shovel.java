@@ -13,7 +13,7 @@ import android.view.MotionEvent;
  */
 
 public class Shovel extends MinorObject {
-    Bitmap bitmap ;
+    private static Bitmap bitmap=null ;
     boolean shovelMode = false ;
 
     public boolean isShovelMode() {
@@ -29,7 +29,9 @@ public class Shovel extends MinorObject {
         super(res) ;
         setX(x) ;
         setY(y) ;
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.shovel);
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(res, R.drawable.shovel);
+        }
     }
 
     @Override
@@ -39,7 +41,7 @@ public class Shovel extends MinorObject {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX() , getY() , getX()+83, getY()+ 83);
+        dst.set(getX() , getY() , getX()+GridLogic.getShovelWidth(), getY()+ GridLogic.getShovelHeight());
 
         c.drawBitmap(bitmap, src,dst,p);
     }
@@ -50,7 +52,10 @@ public class Shovel extends MinorObject {
         int x = (int) event.getX() ;
         int y = (int) event.getY() ;
 
-        if (x>1000 & x<1083 && y>600 && y<683) {
+        int shovelX = GridLogic.getShovelX();
+        int shovelY = GridLogic.getShovelY();
+
+        if (x>shovelX & x<shovelX+GridLogic.getShovelWidth() && y>shovelY && y<shovelY+GridLogic.getShovelHeight()) {
             setShovelMode(true) ;
             return true ;
         } else {

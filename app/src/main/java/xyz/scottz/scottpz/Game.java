@@ -11,21 +11,21 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
+// TODO: finish torchwood
+// TODO: finish cabbagepult
 // TODO: different plant selection image
 
 // TODO: level selection
 
 // TODO: transparency: pea, sun, conehead
-// TODO: scrolling in plant selection
-// TODO: torchwood
-// TODO: zombie movement animation
 // TODO: Dave & truck
 // TODO: fig
 // TODO: separate per-plant and per-plant-class logic
 // TODO: bug: shovel-generated sun shouldn't drop
 // TODO: use fullscreen
-    // TODO: shovel generate variable amount of sun
+// TODO: shovel generate variable amount of sun
 // TODO: more accurate hit-testing
+// TODO: zombie movement animation
 // TODO: shrinking violet
 // TODO: Ra zombie
 // TODO: cabbage pult
@@ -37,6 +37,7 @@ import java.util.ArrayList;
 // TODO: gain new plant
 // TODO: music
 // TODO: plant levels
+// TODO: gold, gem
 
 // reorganize logic:
 // 5 major functions: init, finish, onTimer , OnTouch,  onDraw
@@ -158,8 +159,6 @@ public class Game {
 
             return;
         }
-
-        // TODO: finish all plant selection
 
         // assumption: hit only counts for one logic
         for (Object o: allLogic) {

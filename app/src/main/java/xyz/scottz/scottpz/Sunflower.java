@@ -15,101 +15,109 @@ import java.util.ArrayList;
  */
 
 public class Sunflower extends Plant {
-    private Bitmap bitmap ;
-    private Resources res ;
-    private ArrayList<Sun> suns ;
-    private long LastGenerateTime ;
-    private long TimePerGenerate = 24000 ;   // ms
+    private static Bitmap bitmap = null;
+    private static Bitmap selectBitmap = null;
 
-    private static long rechargeTime = 5000 ;
+    private ArrayList<Sun> suns;
+    private long LastGenerateTime;
+    private long TimePerGenerate = 24000;   // ms
 
-    public static long getRechargeTime()
-    {
-        return rechargeTime ;
+    private static long rechargeTime = 5000;
+
+    public static long getRechargeTime() {
+        return rechargeTime;
     }
 
 
     public Sunflower() {
         super();
-        this.res = Game.getResources();
 
         suns = new ArrayList<Sun>();
-        // bitmap of pea
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.sunflower);
-        // TODO: need to recycle bitmap?
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.sunflower);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.sunflower);
+        }
 
         LastGenerateTime = System.currentTimeMillis();
     }
 
     @Override
-    void Move()
-    {
-        if ((System.currentTimeMillis()-LastGenerateTime)>TimePerGenerate) {
-            Sun sun = new Sun(res , getX(), getY()) ;
-            suns.add(sun) ;
-            LastGenerateTime += TimePerGenerate ;
+    void Move() {
+        if ((System.currentTimeMillis() - LastGenerateTime) > TimePerGenerate) {
+            Sun sun = new Sun(Game.getResources(), getX(), getY());
+            suns.add(sun);
+            LastGenerateTime += TimePerGenerate;
         }
     }
 
     // TODO: should only pick one sun at a time
     @Override
-    public void checkSun(MotionEvent event)
-    {
-        ArrayList removeSuns = new ArrayList() ;
+    public void checkSun(MotionEvent event) {
+        ArrayList removeSuns = new ArrayList();
         for (Sun sun : suns) {
-            int diffX = (int)event.getX()-sun.getX() ;
-            int diffY = (int)event.getY() - sun.getY() ;
-            if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
-                Game.setNoSun(Game.getNoSun()+50);  // TODO: adjust for different size of suns
-                removeSuns.add(sun) ;
+            int diffX = (int) event.getX() - sun.getX();
+            int diffY = (int) event.getY() - sun.getY();
+            if (diffX < 60 && diffX > 0 && diffY < 60 && diffY > 0) {
+                Game.setNoSun(Game.getNoSun() + 50);  // TODO: adjust for different size of suns
+                removeSuns.add(sun);
             }
         }
-        suns.removeAll(removeSuns) ;
+        suns.removeAll(removeSuns);
     }
 
     // TODO: same logic for all sun-producing plants
     @Override
-    int calcCanStealSun()
-    {
-        int result = 0 ;
+    int calcCanStealSun() {
+        int result = 0;
         for (Sun sun : suns) {
-            result += sun.calcCanSteal() ;
+            result += sun.calcCanSteal();
         }
-        return result ;
+        return result;
     }
 
     @Override
-    void stealSun(Zombie zombie , int noSun)
-    {
-        int total = 0 ;
+    void stealSun(Zombie zombie, int noSun) {
+        int total = 0;
         for (Sun sun : suns) {
-            if (total<noSun) {
-                sun.steal(zombie) ;
-                total += 50 ;
+            if (total < noSun) {
+                sun.steal(zombie);
+                total += 50;
             }
         }
 
     }
 
     @Override
-    void Draw(Canvas canvas , Paint p) {
-        super.Draw(canvas,p);
+    void Draw(Canvas canvas, Paint p) {
+        super.Draw(canvas, p);
 
-        Rect src = new Rect() ;
-        Rect dst = new Rect() ;
-        src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
+        Rect src = new Rect();
+        Rect dst = new Rect();
+        src.set(0, 0, bitmap.getWidth() - 1, bitmap.getHeight() - 1);
         dst.set(getX(), getY(), getX() + 92, getY() + 88);
 
-        canvas.drawBitmap(bitmap, src,dst,p);
+        canvas.drawBitmap(bitmap, src, dst, p);
 
         // TODO: move to onTimer?
-        for (Sun sun :suns) {
+        for (Sun sun : suns) {
             if (sun.isDead()) {
-                suns.remove(sun) ;
+                suns.remove(sun);
             } else {
                 sun.onDraw(canvas, p);
             }
         }
 
+    }
+
+    @Override
+    void drawSelect(Canvas canvas, Paint p) {
+        super.Draw(canvas, p);
+
+        Rect src = new Rect();
+        Rect dst = new Rect();
+        src.set(0, 0, selectBitmap.getWidth() - 1, selectBitmap.getHeight() - 1);
+        dst.set(getX(), getY(), getX() + GridLogic.getSelectWidth(), getY() + GridLogic.getSelectHeight());
+
+        canvas.drawBitmap(selectBitmap, src, dst, p);
     }
 }

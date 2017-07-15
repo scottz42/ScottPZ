@@ -14,12 +14,13 @@ import android.graphics.Rect;
 public class ConeheadZombie extends Zombie {
     private static final double coneheadLife = 27.75 ;
 
-    private Bitmap bitmap;
+    private static Bitmap bitmap=null;
 
     public ConeheadZombie() {
         super();
-        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coneheadzombie);
-        // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coneheadzombie);
+        }
         life = coneheadLife ;
     }
 
@@ -35,4 +36,3 @@ public class ConeheadZombie extends Zombie {
         canvas.drawBitmap(bitmap, src, dst, p);
     }
 }
-

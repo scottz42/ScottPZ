@@ -15,10 +15,8 @@ public class IcebergLettuce extends Plant {
     private static long rechargeTime = 20000 ;      // ms
     private static long freezeTime = 10000 ;    // ms
 
-    Bitmap bitmap;
-    Resources res ;
-
-
+    private static Bitmap bitmap=null;
+    private static Bitmap selectBitmap=null;
     public static long getRechargeTime()
     {
         return rechargeTime ;
@@ -27,11 +25,12 @@ public class IcebergLettuce extends Plant {
   IcebergLettuce()
     {
         super();
-        this.res = Game.getResources() ;
         setSunNeeded(0);
         damagePerShot = 0 ;    // nds
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.iceberglettuce);
-       // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.iceberglettuce);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.iceberglettuce);
+        }
     }
 
     @Override
@@ -41,10 +40,24 @@ public class IcebergLettuce extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getSelectHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
     }
+
+
+    @Override
+    void drawSelect(Canvas canvas , Paint p) {
+        super.Draw(canvas,p);
+
+        Rect src = new Rect() ;
+        Rect dst = new Rect() ;
+        src.set(0,0,selectBitmap.getWidth()-1,selectBitmap.getHeight()-1);
+        dst.set(getX(), getY(), getX() + GridLogic.getSelectWidth(), getY() + GridLogic.getSelectHeight());
+
+        canvas.drawBitmap(selectBitmap, src,dst,p);
+    }
+
 
     @Override
     void Move()

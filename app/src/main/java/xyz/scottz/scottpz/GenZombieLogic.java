@@ -87,20 +87,23 @@ public class GenZombieLogic extends Logic {
 
 
     // add zombie to screen as time arrives
+    // true if there is zombie added
     public static boolean generateZombies()
     {
         ArrayList<ZombieInfo> removeList = new ArrayList<>();
+        boolean newZombie = false;
 
         for (ZombieInfo info: zombies) {
             if ((System.currentTimeMillis()-levelStartTime)>info.getTime()) {
                 info.getZombie().setLastMoveTime(System.currentTimeMillis());
                 Game.addZombie(info.getZombie());
+                newZombie = true;
                 removeList.add(info);
             }
         }
         zombies.removeAll(removeList);
 
-        return true ;       // TODO: true or false
+        return newZombie ;
     }
 
 

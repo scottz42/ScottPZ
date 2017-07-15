@@ -65,10 +65,6 @@ public class PlantSelectLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
-
-        // TODO: two modes: normal play mode & all plant select mode
-        // select mode: if click on plant, remove from selection
-
         Resources resources = Game.getResources();
         int x = (int) event.getX();
         int y = (int) event.getY();
@@ -136,7 +132,7 @@ public class PlantSelectLogic extends Logic {
             Plant plant = (Plant)plantSelections.get(i) ;
             plant.setX(GridLogic.getSelectX());
             plant.setY(GridLogic.getSelectY(i));
-            plant.Draw(canvas , paint) ;
+            plant.drawSelect(canvas , paint); ;
 
 
             paint.setColor(0xc0ffffff);

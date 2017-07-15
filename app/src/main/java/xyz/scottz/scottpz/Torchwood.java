@@ -8,32 +8,29 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
- * Created by lei on 2017/7/2.
+ * Created by lei on 2017/7/6.
  */
 
-public class ExplodeONut extends Plant {
-    private static Bitmap bitmap=null ;
-    private static Bitmap selectBitmap=null;
+public class Torchwood extends Plant {
+    private static Bitmap bitmap = null;
+    private static Bitmap selectBitmap = null;
 
-    private static long rechargeTime = 10000 ;
+    private static long rechargeTime = 20000 ;
 
     public static long getRechargeTime()
     {
         return rechargeTime ;
     }
 
-    ExplodeONut()
+    Torchwood()
     {
-        super();
-        setLife(30);
-        damagePerShot = 90;
+        setLife(5);
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.explodeonutcostume);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.explodeonutcostume);
+            // TODO: change bitmap
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
         }
     }
-
-
 
     @Override
     void Draw(Canvas canvas , Paint p) {
@@ -45,7 +42,6 @@ public class ExplodeONut extends Plant {
         dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
-
     }
 
     @Override
@@ -60,26 +56,5 @@ public class ExplodeONut extends Plant {
         canvas.drawBitmap(selectBitmap, src,dst,p);
     }
 
-
-
-    @Override
-    void onFinal()
-    {
-        int row = GridLogic.calcRow(getY());
-        int col = GridLogic.calcCol(getX());
-
-        for (MajorObject o : Game.getMajors()) {
-            if (!o.isPlant()) {
-                Zombie zombie = (Zombie) o;
-                int zombieRow = GridLogic.calcRow(zombie.getY());
-                int zombieCol = GridLogic.calcCol(zombie.getX());
-
-                // kill zombies in 3*3 square ;
-                if ((zombieRow>=row-1 && zombieRow<=row+1) && (zombieCol>=col-1 && zombieCol<=col+1)) {
-                    zombie.takeDamage(damagePerShot);
-                }
-            }
-        }
-    }
 
 }

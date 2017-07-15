@@ -12,15 +12,15 @@ import android.graphics.Rect;
  */
 
 public class NormalZombie extends Zombie {
-    private Bitmap bitmap ;
+    private static Bitmap bitmap=null ;
 
     NormalZombie()
     {
         super();
-        //  getResources
         life = 10 ;
-        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombie2);
-        // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombie2);
+        }
     }
 
     @Override

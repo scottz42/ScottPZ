@@ -21,7 +21,6 @@ public class SelectAllLogic extends Logic {
     static ArrayList allPlants;
     static boolean[] selected;
 
-    // TODO: this should be init once
     @Override
     public void initOnce() {
         super.initOnce();
@@ -30,7 +29,7 @@ public class SelectAllLogic extends Logic {
 
         // all plants
         // change this part when adding a new plant
-        noTotalPlants = 7;
+        noTotalPlants = 9;
         allPlants = new ArrayList();
         Sunflower sunflower = new Sunflower();
         NormalPea pea = new NormalPea();
@@ -39,6 +38,8 @@ public class SelectAllLogic extends Logic {
         IcebergLettuce iceberg = new IcebergLettuce();
         ExplodeONut explodeONut = new ExplodeONut();
         Jalapeno jalapeno = new Jalapeno();
+        Torchwood torchwood = new Torchwood();
+        CabbagePult cabbage = new CabbagePult();
         allPlants.add(sunflower);
         allPlants.add(pea);
         allPlants.add(nut);
@@ -46,6 +47,8 @@ public class SelectAllLogic extends Logic {
         allPlants.add(iceberg) ;
         allPlants.add(explodeONut);
         allPlants.add(jalapeno);
+        allPlants.add(torchwood);
+        allPlants.add(cabbage);
     }
 
     @Override
@@ -155,7 +158,7 @@ public class SelectAllLogic extends Logic {
             // TODO: GridLogic
             plant.setX(x+20+col*100);
             plant.setY(y+20+row*100);
-            plant.Draw(canvas , paint) ;
+            plant.drawSelect(canvas , paint); ;
             // TODO: indicate if already selected
         }
     }

@@ -52,6 +52,9 @@ public class Plant extends MajorObject {
         super.Draw(c,p);
     }
 
+    // plant image used for selection
+    void drawSelect(Canvas c , Paint p) {}
+
     void onFinal() {}
 
 

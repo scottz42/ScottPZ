@@ -14,15 +14,16 @@ import android.graphics.Rect;
 // TODO; recover sun when zombie dies
 
 public class RaZombie extends Zombie {
-    private Bitmap bitmap ;
+    private static Bitmap bitmap ;
     private int sunsStolen = 0 ;
 
     RaZombie()
     {
         super();
         life = 9.25 ;
-        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.razombie);
-        // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.razombie);
+        }
     }
 
     @Override

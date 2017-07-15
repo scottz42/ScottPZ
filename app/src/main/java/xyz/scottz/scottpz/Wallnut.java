@@ -12,8 +12,8 @@ import android.graphics.Rect;
  */
 
 public class Wallnut extends Plant {
-    private Bitmap bitmap ;
-    Resources res ;
+    private static Bitmap bitmap=null ;
+    private static Bitmap selectBitmap=null;
 
     private static long rechargeTime = 20000 ;
 
@@ -23,13 +23,13 @@ public class Wallnut extends Plant {
     }
 
 
-
     Wallnut()
     {
-        this.res = Game.getResources() ;
         setLife(40);
-        bitmap = BitmapFactory.decodeResource(res, R.drawable.wallnut);
-        // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
+        }
     }
 
     @Override
@@ -42,8 +42,20 @@ public class Wallnut extends Plant {
         dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
-
-
     }
+
+
+    @Override
+    void drawSelect(Canvas canvas , Paint p) {
+        super.Draw(canvas,p);
+
+        Rect src = new Rect() ;
+        Rect dst = new Rect() ;
+        src.set(0,0,selectBitmap.getWidth()-1,selectBitmap.getHeight()-1);
+        dst.set(getX(), getY(), getX() + GridLogic.getSelectWidth(), getY() + GridLogic.getSelectHeight());
+
+        canvas.drawBitmap(selectBitmap, src,dst,p);
+    }
+
 
 }

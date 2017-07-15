@@ -29,7 +29,7 @@ public class LawnMower extends MinorObject {
     // this controls movement of lawnmower
     private long lastMowerMoveTime ;
     private int TimePerMowerMove = 50 ;  // ms
-    private int DistancePerMowerMove = 40 ;
+    private int DistancePerMowerMove = 40 ; // TODO: GridLogic
 
     private Bitmap bitmap ;
 

@@ -137,7 +137,6 @@ public class Zombie extends MajorObject {
     }
 
 
-
     @Override
     void Draw(Canvas c , Paint p) {
         super.Draw(c,p);

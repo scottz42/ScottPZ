@@ -1,6 +1,5 @@
 package xyz.scottz.scottpz;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,28 +8,23 @@ import android.graphics.Rect;
 import android.util.Log;
 
 /**
- * Created by lei on 2017/5/8.
- * class for normal pea
- * TODO: one class for each plant or a generic plant class to handle all plants?
- * generic class will need to include choices for different types of behavior like lobbing etc.
- * one for each plant would make necessitate new class each time a new plant is added, can not add just through data resources
+ * Created by lei on 2017/7/6
+ * class for cabbage-pult
  */
 
-public class NormalPea extends Plant {
+public class CabbagePult extends Plant {
     private static Bitmap bitmap=null ;
     private static Bitmap selectBitmap=null;
-
-    private PeaShot peaShot = null;
+    private CabbageShot cabbageShot = null;
 
     // this controls generation of new peashot
     private long lastGenerationTime = 0 ;
     private int TimePerGeneration = 1500 ;  // 1.5s per shot
 
-    // this controls movement of peashot
-    private long lastPeashotTime ;
-    private int TimePerPeashotMove = 50 ;  // ms
-    private int DistancePerPeashotMove = 40 ;   // TODO: GridLogic
-
+    // this controls movement of cabbage shot
+    private long lastShotTime ;
+    private int TimePerShotMove = 50 ;  // ms
+    private int DistancePerShotMove = 40 ;   // TODO: GridLogic
 
     private static long rechargeTime = 5000 ;
 
@@ -39,20 +33,18 @@ public class NormalPea extends Plant {
         return rechargeTime ;
     }
 
-    NormalPea() {
+    CabbagePult() {
         super();
         setSunNeeded(100);
         rechargeTime = 5000;
         damagePerShot = 1;  // nds
         if (bitmap == null) {
+            // TODO: change bitmap
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pea1);
             selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pea1);
-            // TODO: need to recycle bitmap?
         }
     }
 
-
-    // move to Plant?
     @Override
     void Draw(Canvas canvas , Paint p) {
         super.Draw(canvas,p);
@@ -64,15 +56,14 @@ public class NormalPea extends Plant {
 
         canvas.drawBitmap(bitmap, src,dst,p);
 
-        // pea shot ;
-        if (peaShot!=null) {
-            peaShot.onDraw(canvas, p);
+        // cabbage shot
+        if (cabbageShot!=null) {
+            cabbageShot.onDraw(canvas, p);
         }
 
     }
 
 
-    // move to Plant?
     @Override
     void drawSelect(Canvas canvas , Paint p) {
         super.Draw(canvas,p);
@@ -89,60 +80,62 @@ public class NormalPea extends Plant {
 
     void checkZombieHit(Zombie zombie)
     {
-
-        // TODO: check for torchwood,
-        // if torchwood is in square that pea is in, set pea on fire
-
         // if out of range
         // TODO: GridLogic
-        if (peaShot.getX()>1000) {
-            peaShot = null ;
+        if (cabbageShot.getX()>1000) {
+            cabbageShot = null ;
             return ;
         } else {
             if (zombie!=null) { // zombie still there
-                int peaX = peaShot.getX() ;
+                int cabbageX = cabbageShot.getX() ;
                 int zombieX = zombie.getX() ;
-                int diff = zombieX-peaX ;
+                int diff = zombieX-cabbageX ;
                 // TODO: GridLogic
                 if (diff<50 && diff>-50) {
-                    peaShot = null ;    // pea shot can only damage one zombie
-                    zombie.takeDamage(peaShot.isOnFire()?damagePerShot*2:damagePerShot);
+                    cabbageShot = null ;    // cabbage shot can only damage one zombie
+                    zombie.takeDamage(damagePerShot);
                 }
             } else { // zombie killed by other plants?
                 return ;
             }
         }
 
-       // if hits zombie reduce zombie's life if life<=0 remove zombie & peashot
+       // if hits zombie reduce zombie's life if life<=0 remove zombie & cabbage shot
         // if out of range remove peashot
     }
 
+    // TODO: clean up
+    static long total_t =500 ;
 
     @Override
     void Move()
     {
-        // shoot pea
+
+        // shoot cabbage
         Zombie zombie = (Zombie)Game.ExistZombieInFront(GridLogic.calcCol(getX()) , GridLogic.calcRow(getY())) ;
 
-        if (peaShot==null) {
+        if (cabbageShot==null) {
             if (zombie!=null) {
                 if (lastGenerationTime==0 ||
                         (lastGenerationTime>0 && System.currentTimeMillis()-lastGenerationTime>TimePerGeneration))
                 {
                     lastGenerationTime = System.currentTimeMillis();
-                    String msg ;
-                    msg = String.format("lastGenerationTime=%d" , lastGenerationTime) ;
-                    Log.d(null , msg) ;
                     // TODO: add some offset?
-                    peaShot = new PeaShot(getX() , getY());
-                    lastPeashotTime = System.currentTimeMillis();
+                    cabbageShot = new CabbageShot(getX() , getY());
+                    lastShotTime = System.currentTimeMillis();
+                    total_t = (zombie.getX()-getX())*TimePerShotMove/DistancePerShotMove;
                     checkZombieHit(zombie);
                }
             }
         } else {
-            if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
-                peaShot.setX(peaShot.getX() + DistancePerPeashotMove) ;
-                lastPeashotTime += TimePerPeashotMove ;
+            if ((System.currentTimeMillis()-lastShotTime)>TimePerShotMove) {
+                // TODO: update position
+                cabbageShot.setX(cabbageShot.getX() + DistancePerShotMove) ;
+                double v = 4.9;
+                double t = ((double)(System.currentTimeMillis() - lastGenerationTime))/total_t;  // 0-1
+                int  diff =  (int) ((v*t - 0.5*9.8*t*t)*200);     // parabola: t=0->0, t=0.5->1.225, t=1->0
+                cabbageShot.setY(getY() - diff);
+                lastShotTime += TimePerShotMove ;
                 checkZombieHit(zombie);
             }
 

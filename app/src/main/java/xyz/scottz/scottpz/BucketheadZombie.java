@@ -14,13 +14,13 @@ import android.graphics.Rect;
 public class BucketheadZombie extends Zombie {
     private final static int bucketheadLife = 65 ;
 
-
-    private Bitmap bitmap;
+    private static Bitmap bitmap;
 
     public BucketheadZombie() {
         super();
-        bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.bucketheadzombie);
-        // TODO: need to recycle bitmap?
+        if (bitmap==null) {
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.bucketheadzombie);
+        }
         life = bucketheadLife ;
     }
 
