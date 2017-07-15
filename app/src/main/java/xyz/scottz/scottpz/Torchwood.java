@@ -27,8 +27,8 @@ public class Torchwood extends Plant {
         setLife(5);
         if (bitmap==null) {
             // TODO: change bitmap
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wallnut);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.torchwood);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.torchwoodselect);
         }
     }
 

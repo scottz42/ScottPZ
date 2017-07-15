@@ -40,8 +40,8 @@ public class CabbagePult extends Plant {
         damagePerShot = 1;  // nds
         if (bitmap == null) {
             // TODO: change bitmap
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pea1);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pea1);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cabbagepult);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cabbagepultselect);
         }
     }
 

@@ -44,7 +44,7 @@ public class GridLogic extends Logic {
     static private int selectX = 100;
     static private int selectY = 100;
     static private int selectWidth = 100;
-    static private int selectHeight = 80;
+    static private int selectHeight = 60;
 
     static private int selectAllCols = 5;
     static private int selectAllX = 300;
