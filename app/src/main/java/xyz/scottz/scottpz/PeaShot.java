@@ -21,11 +21,12 @@ public class PeaShot extends MinorObject {
     PeaShot (int x, int y)
     {
         super(Game.getResources());
+        onFire = false;
         setX(x) ;
         setY(y) ;
         if (bitmap==null) {
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.peashot);
-            fireBitmap =BitmapFactory.decodeResource(Game.getResources(), R.drawable.peashot);  // TODO: firepea bitmap
+            fireBitmap =BitmapFactory.decodeResource(Game.getResources(), R.drawable.firepea2);
         }
     }
 

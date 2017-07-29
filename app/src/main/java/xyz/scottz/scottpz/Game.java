@@ -253,6 +253,7 @@ public class Game {
         return gridLogic.findPlant(x , y);
     }
 
+
     public static boolean addPlant(Plant plant)
     {
         return gridLogic.addPlant(plant);

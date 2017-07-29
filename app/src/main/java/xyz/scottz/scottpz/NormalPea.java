@@ -92,6 +92,10 @@ public class NormalPea extends Plant {
 
         // TODO: check for torchwood,
         // if torchwood is in square that pea is in, set pea on fire
+        Plant plant = Game.existPlant(GridLogic.calcCol(peaShot.getX()),GridLogic.calcRow(peaShot.getY()));
+        if (plant!=null && plant.getClass().getName().equals("xyz.scottz.scottpz.Torchwood")) {
+            peaShot.setOnFire(true);
+        }
 
         // if out of range
         // TODO: GridLogic
@@ -105,8 +109,8 @@ public class NormalPea extends Plant {
                 int diff = zombieX-peaX ;
                 // TODO: GridLogic
                 if (diff<50 && diff>-50) {
-                    peaShot = null ;    // pea shot can only damage one zombie
                     zombie.takeDamage(peaShot.isOnFire()?damagePerShot*2:damagePerShot);
+                    peaShot = null ;    // pea shot can only damage one zombie
                 }
             } else { // zombie killed by other plants?
                 return ;

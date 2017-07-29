@@ -65,14 +65,8 @@ public class PlantSelectLogic extends Logic {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
 
-        Resources resources = Game.getResources();
         int x = (int) event.getX();
         int y = (int) event.getY();
-
-        // TODO: GridLogic
-        x = (x / 100) * 100;
-        y = (y / 100) * 100;
-
 
         // select plant
         int selection = GridLogic.checkSelectPlant(x,y);
@@ -85,6 +79,7 @@ public class PlantSelectLogic extends Logic {
                 plantSelections.remove(selection);
                 noPlants--;
             }
+            return true;    // TODO: do if-else
         }
 
 
@@ -92,7 +87,7 @@ public class PlantSelectLogic extends Logic {
         // TODO: adjust for screen size
         // TODO: use constants as appropriate
 
-        if (Game.isNormalPlay() && x>=100 && x<=900 && y>=100 && y<=500 && Game.canPlant(x,y)) {
+        if (Game.isNormalPlay() &&  Game.canPlant(x,y)) {
             Plant newPlant = null;
             try {
                 newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
@@ -101,8 +96,8 @@ public class PlantSelectLogic extends Logic {
             }
 
             if (newPlant!=null && (System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
-                newPlant.setX(x);
-                newPlant.setY(y);
+                newPlant.setX((x/100)*100);
+                newPlant.setY((y/100)*100);
                 if (Game.getNoSun() >= newPlant.getSunNeeded()) {
                     Game.setNoSun(Game.getNoSun() - newPlant.getSunNeeded());
                     Game.addPlant(newPlant);

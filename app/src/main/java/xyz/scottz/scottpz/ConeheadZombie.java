@@ -19,7 +19,7 @@ public class ConeheadZombie extends Zombie {
     public ConeheadZombie() {
         super();
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coneheadzombie);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coneheadzombie2);
         }
         life = coneheadLife ;
     }

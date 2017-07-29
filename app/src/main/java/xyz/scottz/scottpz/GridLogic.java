@@ -204,7 +204,7 @@ public class GridLogic extends Logic {
         return null;
     }
 
-    // is there a plant at normalized cooordinate (x,y)
+    // is there a plant at coordinate (x,y)
     // if there is already tombstone, can not plant either
     // TODO: make it more efficient
     public static boolean canPlant(int x, int y) {
@@ -253,7 +253,7 @@ public class GridLogic extends Logic {
     public static int checkSelectPlant(int x , int y)
     {
         if (x>=selectX && x<selectX+selectWidth) {
-            return calcRow(y);
+            return (y-selectY)/selectHeight;
         } else {
             return -1;
         }

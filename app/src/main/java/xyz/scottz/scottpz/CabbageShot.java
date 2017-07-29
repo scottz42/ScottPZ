@@ -20,7 +20,7 @@ public class CabbageShot extends MinorObject {
         setY(y) ;
         if (bitmap==null) {
             // TODO: change image
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.peashot);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cabbage);
         }
     }
 
