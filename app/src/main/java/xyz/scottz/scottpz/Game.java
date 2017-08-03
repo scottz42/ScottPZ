@@ -11,13 +11,7 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: finish torchwood
-// TODO: finish cabbagepult
-// TODO: different plant selection image
 
-// TODO: level selection
-
-// TODO: transparency: pea, sun, conehead
 // TODO: Dave & truck
 // TODO: fig
 // TODO: separate per-plant and per-plant-class logic
@@ -26,9 +20,9 @@ import java.util.ArrayList;
 // TODO: shovel generate variable amount of sun
 // TODO: more accurate hit-testing
 // TODO: zombie movement animation
+// TODO: indicate insufficient sun for each plant
 // TODO: shrinking violet
 // TODO: Ra zombie
-// TODO: cabbage pult
 // TODO: plant food
 // TODO: ambush zombies
 // TODO: many animations

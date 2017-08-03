@@ -34,6 +34,16 @@ public class Sun extends MinorObject {
     private int stealSteps = 4 ;
     private Zombie stealingZombie ;
 
+    private int noSun = 50;
+
+    public int getNoSun() {
+        return noSun;
+    }
+
+    public void setNoSun(int noSun) {
+        this.noSun = noSun;
+    }
+
     Sun (Resources res , int x , int y)
     {
         super(res) ;
@@ -49,6 +59,8 @@ public class Sun extends MinorObject {
         startStealTime = 0 ;
         fallingDuration = 2000 + ((int)(Math.random()*2000)) ;
     }
+
+
 
     // after an initial delay, sun can be stolen
     public int calcCanSteal()

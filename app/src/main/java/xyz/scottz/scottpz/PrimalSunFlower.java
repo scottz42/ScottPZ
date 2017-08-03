@@ -1,6 +1,5 @@
 package xyz.scottz.scottpz;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,11 +9,13 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
+import xyz.scottz.scottpz.Plant;
+
 /**
- * Created by lei on 2017/6/8.
+ * Created by lei on 2017/8/4.
  */
 
-public class Sunflower extends Plant {
+public class PrimalSunFlower extends Plant {
     private static Bitmap bitmap = null;
     private static Bitmap selectBitmap = null;
 
@@ -29,13 +30,13 @@ public class Sunflower extends Plant {
     }
 
 
-    public Sunflower() {
+    public PrimalSunFlower() {
         super();
-
+        sunNeeded=75;
         suns = new ArrayList<Sun>();
         if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.sunflower);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.sunflower);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.primalsunflower);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.primalsunflowerselect);
         }
 
         LastGenerateTime = System.currentTimeMillis();
@@ -45,7 +46,7 @@ public class Sunflower extends Plant {
     void Move() {
         if ((System.currentTimeMillis() - LastGenerateTime) > TimePerGenerate) {
             Sun sun = new Sun(Game.getResources(), getX(), getY());
-            sun.setNoSun(50);
+            sun.setNoSun(75);
             suns.add(sun);
             LastGenerateTime += TimePerGenerate;
         }
@@ -121,4 +122,5 @@ public class Sunflower extends Plant {
 
         canvas.drawBitmap(selectBitmap, src, dst, p);
     }
+
 }
