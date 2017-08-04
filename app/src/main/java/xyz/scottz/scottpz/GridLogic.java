@@ -244,10 +244,29 @@ public class GridLogic extends Logic {
         return (x - gridX) / gridWidth;
     }
 
+    // right side of grid
+    public static int getGridRight()
+    {
+        return gridX + gridWidth*noCols;
+    }
+
     // check to see if the zombie is in this plant's square
     public static boolean isZombieInPlantSquare(Zombie zombie, Plant plant) {
         return calcRow(zombie.getY()) == calcRow(plant.getY()) && calcCol(zombie.getX()) == calcCol(plant.getX());
     }
+
+    // do damage to all zombies in front
+    public static boolean doDamageInFront(int row , int col, int damage)
+    {
+        for (MajorObject o : majors) {
+            if (!o.isPlant() && calcCol(o.getX()) >= col && calcRow(o.getY()) == row) {
+                ((Zombie)o).takeDamage(damage);
+            }
+        }
+        return true;
+    }
+
+
 
     // check if hit in plant selection panel, returns row, -1 if not in selection panel
     public static int checkSelectPlant(int x , int y)
