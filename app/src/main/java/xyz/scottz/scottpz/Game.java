@@ -191,7 +191,7 @@ public class Game {
 
         // temporary
         if (won||lost) {
-            p.setColor(Color.GRAY);
+            p.setColor(Color.BLACK);
             p.setTextSize(50);
             canvas.drawText("Player House Level 4", 200 , 500 , p);
             canvas.drawText("Egypt Level 1", 200 , 550 , p);
@@ -203,7 +203,7 @@ public class Game {
     // plant selection finished
     public static void finishSelection()
     {
-        // do initilizations based on selected plants
+        // do initializations based on selected plants
         selectLogic.finishSelection();
         // remove dialog
         allLogic.remove(0);

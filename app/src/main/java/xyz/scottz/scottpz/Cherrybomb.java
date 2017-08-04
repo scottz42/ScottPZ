@@ -1,6 +1,5 @@
 package xyz.scottz.scottpz;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,10 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
- * Created by lei on 2017/7/2.
+ * Created by lei on 2017/8/5.
  */
 
-public class Jalapeno extends Plant {
+public class Cherrybomb extends Plant {
     private static long rechargeTime = 35000 ;      // ms
     private static long explodeTime = 200 ;    // ms
 
@@ -24,14 +23,14 @@ public class Jalapeno extends Plant {
         return rechargeTime ;
     }
 
-    Jalapeno()
+    Cherrybomb()
     {
         super();
-        setSunNeeded(125);
+        setSunNeeded(150);
         damagePerShot = 90 ;    // nds
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.jalapeno);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.jalapeno);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cherrybomb);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cherrybombslect);
         }
         plantTime = System.currentTimeMillis();
     }
@@ -69,12 +68,16 @@ public class Jalapeno extends Plant {
         if ((System.currentTimeMillis()-plantTime)>explodeTime) {
 
             int row = GridLogic.calcRow(getY());
+            int col = GridLogic.calcCol(getX());
 
             for (MajorObject o : Game.getMajors()) {
                 if (!o.isPlant()) {
                     Zombie zombie = (Zombie) o;
-                    // kill zombies in this row
-                    if (GridLogic.calcRow(o.getY())==row) {
+                    // kill zombies in this 3*3 square
+                    int zRow = GridLogic.calcRow(o.getY());
+                    int zCol = GridLogic.calcCol(o.getX());
+                    if (((zRow-row)>=-1 && (zRow-row)<=1) &&
+                            ((zCol-col)>=-1 && (zCol-col)<=1)) {
                         zombie.takeDamage(damagePerShot);
                     }
                 }
@@ -83,5 +86,6 @@ public class Jalapeno extends Plant {
 
         }
     }
+
 
 }

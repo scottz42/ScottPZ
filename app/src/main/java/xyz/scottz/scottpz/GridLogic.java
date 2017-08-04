@@ -66,6 +66,9 @@ public class GridLogic extends Logic {
     static private int cabbageWidth = 60;
     static private int cabbageHeight = 60;
 
+    static private int plasmaWidth = 80;
+    static private int plasmaHeight = 80;
+
     static private int zombieX = 1100;
 
     static private ArrayList<MajorObject> majors;
@@ -408,6 +411,12 @@ public class GridLogic extends Logic {
     public static int getCabbageWidth() { return cabbageWidth; }
 
     public static int getCabbageHeight() { return cabbageHeight; }
+
+    public static int getPlasmaWidth() { return plasmaWidth; }
+
+    public static int getPlasmaHeight() { return plasmaHeight; }
+
+
 }
 
 

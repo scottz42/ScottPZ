@@ -160,7 +160,7 @@ public class GenZombieLogic extends Logic {
         wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         wave.add(new ZombieInfo(new ConeheadZombie() , 0)) ;
         level.add(wave) ;
-    }
+  }
 
     public static void generateEgypt1(Resources resources)
     {

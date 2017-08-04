@@ -36,6 +36,7 @@ public class ShovelLogic extends Logic {
             Plant plant = Game.existPlant(GridLogic.calcCol(x), GridLogic.calcRow(y));
             if (plant != null) {
                 Sun sun = new Sun(Game.getResources(),x,y);
+                sun.setNoSun((int)(plant.getSunNeeded()*0.75));
                 SunLogic.addFallingSun(sun);
                 Game.removePlant(plant);
                 shovel.setShovelMode(false);
