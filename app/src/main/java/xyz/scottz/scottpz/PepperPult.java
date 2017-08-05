@@ -10,14 +10,14 @@ import android.graphics.Rect;
  * Created by lei on 2017/8/6.
  */
 
-public class MelonPult extends Plant {
+public class PepperPult extends Plant {
     private static Bitmap bitmap=null ;
     private static Bitmap selectBitmap=null;
-    private Melon melon = null;
+    private Pepper pepper = null;
 
     // this controls generation of new peashot
     private long lastGenerationTime = 0 ;
-    private int TimePerGeneration = 3000 ;  // 1.5s per shot
+    private int TimePerGeneration = 3000 ;  // 3s per shot
 
     // this controls movement of cabbage shot
     private long lastShotTime ;
@@ -31,15 +31,15 @@ public class MelonPult extends Plant {
         return rechargeTime ;
     }
 
-    MelonPult() {
+    PepperPult() {
         super();
-        setSunNeeded(325);
+        setSunNeeded(200);
         rechargeTime = 5000;
-        damagePerShot = 4;  // nds
+        damagePerShot = 2.5;  // nds
         if (bitmap == null) {
             // TODO: change bitmap
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.melonpult);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.melonpultslect);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pepperpult);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.pepperpultselect);
         }
     }
 
@@ -55,8 +55,8 @@ public class MelonPult extends Plant {
         canvas.drawBitmap(bitmap, src,dst,p);
 
         // cabbage shot
-        if (melon!=null) {
-            melon.onDraw(canvas, p);
+        if (pepper!=null) {
+            pepper.onDraw(canvas, p);
         }
 
     }
@@ -78,38 +78,38 @@ public class MelonPult extends Plant {
 
     void checkZombieHit(Zombie zombie)
     {
+        // TODO: heat effect
         // if out of range
         // TODO: GridLogic
-        if (melon.getX()>1000) {
-            melon = null ;
+        if (pepper.getX()>1000) {
+            pepper = null ;
             return ;
         } else {
             if (zombie!=null) { // zombie still there
-                int cabbageX = melon.getX() ;
+                int cabbageX = pepper.getX() ;
                 int zombieX = zombie.getX() ;
                 int diff = zombieX-cabbageX ;
                 // TODO: GridLogic
                 if (diff<50 && diff>-50) {
 
-
-                    int row = GridLogic.calcRow(melon.getY());
-                    int col = GridLogic.calcCol(melon.getX());
+                    int row = GridLogic.calcRow(pepper.getY());
+                    int col = GridLogic.calcCol(pepper.getX());
 
                     for (MajorObject o : Game.getMajors()) {
                         if (!o.isPlant()) {
                             Zombie z = (Zombie) o;
-                            // full damage for targeted zombie, half damage for other zombies in the 3x3 square
+                            // 2.5 for direct damage(single or multiple zombie?), 0.5 for splash damage
                             int zRow = GridLogic.calcRow(z.getY());
                             int zCol = GridLogic.calcCol(z.getX());
                             if (((zRow-row)>=-1 && (zRow-row)<=1) &&
                                     ((zCol-col)>=-1 && (zCol-col)<=1)) {
-                                z.takeDamage(damagePerShot/2);
+                                z.takeDamage(0.5);
                             }
                         }
                     }
-                    // already taken half-damage above
-                    zombie.takeDamage(damagePerShot/2);
-                    melon = null;
+                    // already 0.5 earlier
+                    zombie.takeDamage(2);
+                    pepper = null;
                 }
             } else { // zombie killed by other plants?
                 return ;
@@ -130,14 +130,14 @@ public class MelonPult extends Plant {
         // shoot cabbage
         Zombie zombie = (Zombie)Game.ExistZombieInFront(GridLogic.calcCol(getX()) , GridLogic.calcRow(getY())) ;
 
-        if (melon==null) {
+        if (pepper==null) {
             if (zombie!=null) {
                 if (lastGenerationTime==0 ||
                         (lastGenerationTime>0 && System.currentTimeMillis()-lastGenerationTime>TimePerGeneration))
                 {
                     lastGenerationTime = System.currentTimeMillis();
                     // TODO: add some offset?
-                    melon = new Melon(getX() , getY());
+                    pepper = new Pepper(getX() , getY());
                     lastShotTime = System.currentTimeMillis();
                     total_t = (zombie.getX()-getX())*TimePerShotMove/DistancePerShotMove;
                     checkZombieHit(zombie);
@@ -146,16 +146,17 @@ public class MelonPult extends Plant {
         } else {
             if ((System.currentTimeMillis()-lastShotTime)>TimePerShotMove) {
                 // TODO: update position
-                melon.setX(melon.getX() + DistancePerShotMove) ;
+                pepper.setX(pepper.getX() + DistancePerShotMove) ;
                 double v = 4.9;
                 double t = ((double)(System.currentTimeMillis() - lastGenerationTime))/total_t;  // 0-1
                 int  diff =  (int) ((v*t - 0.5*9.8*t*t)*200);     // parabola: t=0->0, t=0.5->1.225, t=1->0
-                melon.setY(getY() - diff);
+                pepper.setY(getY() - diff);
                 lastShotTime += TimePerShotMove ;
                 checkZombieHit(zombie);
             }
 
         }
     }
+
 
 }

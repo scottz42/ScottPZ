@@ -28,7 +28,7 @@ public class SunLogic extends Logic {
     static boolean fallingSunMode = true ;
     static long lastFallingSunTime = 0 ;
     static long fallingSunInterval = 6000 ;
-    static private ArrayList fallingSuns ;
+    static private ArrayList<Sun> fallingSuns ;
 
     @Override
     public void init()
@@ -95,16 +95,14 @@ public class SunLogic extends Logic {
                 fallingSuns.add(sun);
             }
 
-            // move
-            for (Object o : fallingSuns) {
-                Sun sun = (Sun) o;
+            // sun falling
+            for (Sun sun : fallingSuns) {
                 sun.move();
             }
 
             // destroy
             ArrayList sunsToRemove = new ArrayList();
-            for (Object o : fallingSuns) {
-                Sun sun = (Sun) o;
+            for (Sun sun : fallingSuns) {
                 if (sun.isDead()) {
                     sunsToRemove.add(sun);
                 }
@@ -130,6 +128,27 @@ public class SunLogic extends Logic {
             sun.onDraw(canvas , paint);
         }
     }
+
+    static int calcCanSteal() {
+        int result = 0;
+        for (Sun sun : fallingSuns) {
+            result += sun.calcCanSteal();
+        }
+        return result;
+    }
+
+    static void stealSun(Zombie zombie, int noSun) {
+        int total = 0;
+        for (Sun sun : fallingSuns) {
+            if (total+sun.getNoSun() <= noSun) {
+                sun.steal(zombie);
+                total += sun.getNoSun();
+            }
+        }
+    }
+
+
+
 
     public static void addFallingSun(Sun sun)
     {

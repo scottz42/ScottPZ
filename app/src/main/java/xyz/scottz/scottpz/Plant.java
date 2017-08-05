@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 public class Plant extends MajorObject {
 
     private int life ;  // life left
-    protected int damagePerShot ;   // nds
+    protected double damagePerShot ;   // nds
 
     public int getSunNeeded() {
         return sunNeeded;

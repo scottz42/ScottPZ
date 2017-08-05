@@ -15,7 +15,8 @@ import android.graphics.Rect;
 
 public class RaZombie extends Zombie {
     private static Bitmap bitmap ;
-    private int sunsStolen = 0 ;
+    private int sunsStolen = 0 ;    // already stolen
+    private int sunsStealing = 0 ;  // in the process of being stolen
 
     RaZombie()
     {
@@ -41,33 +42,30 @@ public class RaZombie extends Zombie {
     @Override
     void Move() {
         super.Move();
-        // TODO: falling sun, shoveled sun, sun bean effect
+        // TODO: sun bean effect
 
         int canSteal = 0 ;
 
-        // TODO: need to differentiate between sun stolen and sun being stolen
         if (sunsStolen<250) {
             for (MajorObject o : Game.getMajors()) {
                 canSteal = o.calcCanStealSun();
                 if (canSteal > 0) {
-                    // TODO: need to include suns being stolen
                     if (sunsStolen + canSteal > 320) {
                         canSteal = 320 - sunsStolen;
                     }
                     o.stealSun(this , canSteal);
+                    sunsStealing += canSteal;
                 }
             }
-            // sunsStolen += canSteal;
-            /* TODO: falling suns
-            canSteal = o.calcCanStealSun();
-            if (canSteal > 0) {
+            // falling suns & shoveled suns
+            canSteal = SunLogic.calcCanSteal();
+            if (canSteal>0) {
                 if (sunsStolen + canSteal > 320) {
                     canSteal = 320 - sunsStolen;
                 }
-                    o.stealSun(this , canSteal);
-                }
+                SunLogic.stealSun(this,canSteal);
+                sunsStealing += canSteal;
             }
-            */
         }
 
     }

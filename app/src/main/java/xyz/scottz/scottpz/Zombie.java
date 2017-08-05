@@ -118,7 +118,7 @@ public class Zombie extends MajorObject {
     }
 
     // true if dead
-    public boolean takeDamage(int damage)
+    public boolean takeDamage(double damage)
     {
         setLife(getLife() - damage);
         if (getLife() <= 0) {

@@ -259,7 +259,7 @@ public class GridLogic extends Logic {
     }
 
     // do damage to all zombies in front
-    public static boolean doDamageInFront(int row , int col, int damage)
+    public static boolean doDamageInFront(int row , int col, double damage)
     {
         for (MajorObject o : majors) {
             if (!o.isPlant() && calcCol(o.getX()) >= col && calcRow(o.getY()) == row) {

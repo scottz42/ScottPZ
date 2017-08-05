@@ -19,7 +19,7 @@ public class CabbagePult extends Plant {
 
     // this controls generation of new peashot
     private long lastGenerationTime = 0 ;
-    private int TimePerGeneration = 1500 ;  // 1.5s per shot
+    private int TimePerGeneration = 3000 ;  // 1.5s per shot
 
     // this controls movement of cabbage shot
     private long lastShotTime ;
@@ -37,7 +37,7 @@ public class CabbagePult extends Plant {
         super();
         setSunNeeded(100);
         rechargeTime = 5000;
-        damagePerShot = 1;  // nds
+        damagePerShot = 2;  // nds
         if (bitmap == null) {
             // TODO: change bitmap
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.cabbagepult);
