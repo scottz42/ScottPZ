@@ -32,7 +32,7 @@ public class Sun extends MinorObject {
     private long startStealDelay = 1000 ;
     private long stealFrameTime = 500 ;
     private int stealSteps = 4 ;
-    private Zombie stealingZombie ;
+    private RaZombie stealingZombie ;
 
     private int noSun = 50;
 
@@ -57,6 +57,7 @@ public class Sun extends MinorObject {
         createTime = System.currentTimeMillis();
         lastSunMoveTime = createTime ;
         startStealTime = 0 ;
+        stealingZombie = null;
         fallingDuration = 2000 + ((int)(Math.random()*2000)) ;
     }
 
@@ -65,8 +66,8 @@ public class Sun extends MinorObject {
     // after an initial delay, sun can be stolen
     public int calcCanSteal()
     {
-        if ((System.currentTimeMillis()-createTime)>startStealDelay) {
-            return 50 ;
+        if (stealingZombie==null && (System.currentTimeMillis()-createTime)>startStealDelay) {
+            return noSun ;
         } else {
             return 0 ;
         }
@@ -74,7 +75,7 @@ public class Sun extends MinorObject {
 
     public void steal(Zombie zombie)
     {
-        stealingZombie = zombie ;
+        stealingZombie = (RaZombie)zombie ;
         startStealTime = System.currentTimeMillis() ;
     }
 
@@ -82,43 +83,47 @@ public class Sun extends MinorObject {
     {
         super.onDraw(canvas,p);
 
-        // TODO: move stealing code to onTimer instead？
-        // if stealing, recalculate sun position & finish stealing if time is up
-        if (startStealTime>0) {
-            int step = (int) ((System.currentTimeMillis()-startStealTime)*stealSteps/stealFrameTime) ;
-            if (step>=stealSteps) {
-                step = stealSteps ;
-                // TODO: finish stealing, current code is not quite right, need to update zombie properly
-                createTime = 0 ;        // make current sun disappear
-            }
-            int zombieX = stealingZombie.getX() ;
-            int zombieY = stealingZombie.getY() ;
-            setX(origX + (zombieX-origX)*step/stealSteps) ;
-            setY(origY + (zombieY-origY)*step/stealSteps) ;
-
-        }
-
-
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX() , getY() , getX()+63, getY()+ 60);
-
+        if (startStealTime>0) {
+            dst.set(getX(), getY(), getX() + 100, getY() + 100);
+        } else {
+            dst.set(getX(), getY(), getX() + 63, getY() + 60);
+        }
         canvas.drawBitmap(bitmap, src,dst,p);
-
     }
 
     // movement of falling sun
     // logic:
-    void move()
-    {
-        if ((System.currentTimeMillis()-createTime)<fallingDuration) {
+    void move() {
+        if ((System.currentTimeMillis() - createTime) < fallingDuration) {
             if ((System.currentTimeMillis() - lastSunMoveTime) > timePerSunMove) {
                 lastSunMoveTime += timePerSunMove;
                 y += distancePerSunMove;
-                origY = y ;
+                origY = y;
             }
         }
+    }
+
+    void onTimer()
+    {
+
+        // if stealing, recalculate sun position & finish stealing if time is up
+        if (startStealTime>0) {
+            int step = (int) ((System.currentTimeMillis()-startStealTime)/stealFrameTime) ;
+            if (step>=stealSteps) {
+                step = stealSteps ;
+                // TODO: finish stealing, current code is not quite right, need to update zombie properly
+                stealingZombie.finishSteal(this);
+                createTime = System.currentTimeMillis()-duration ;        // make current sun disappear
+            }
+            int zombieX = stealingZombie.getX() ;
+            int zombieY = stealingZombie.getY() ;
+            x = origX + (zombieX-origX)*step/stealSteps ;
+            y = origY + (zombieY-origY)*step/stealSteps ;
+        }
+
     }
 
 

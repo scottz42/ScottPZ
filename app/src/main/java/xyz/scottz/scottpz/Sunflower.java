@@ -49,6 +49,9 @@ public class Sunflower extends Plant {
             suns.add(sun);
             LastGenerateTime += TimePerGenerate;
         }
+        for (Sun sun : suns) {
+            sun.onTimer();
+        }
     }
 
     // TODO: should only pick one sun at a time
@@ -80,12 +83,11 @@ public class Sunflower extends Plant {
     void stealSun(Zombie zombie, int noSun) {
         int total = 0;
         for (Sun sun : suns) {
-            if (total < noSun) {
+            if (total+sun.getNoSun() <= noSun) {
                 sun.steal(zombie);
-                total += 50;
+                total += sun.getNoSun();
             }
         }
-
     }
 
     @Override

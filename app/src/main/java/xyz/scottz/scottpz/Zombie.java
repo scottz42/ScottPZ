@@ -122,6 +122,7 @@ public class Zombie extends MajorObject {
     {
         setLife(getLife() - damage);
         if (getLife() <= 0) {
+            cleanup();
             Game.removeZombie(this);
             return true;
         } else {
@@ -141,5 +142,8 @@ public class Zombie extends MajorObject {
     void Draw(Canvas c , Paint p) {
         super.Draw(c,p);
     }
+
+    // to be overriden for each zombie
+    void cleanup() {}
 
 }

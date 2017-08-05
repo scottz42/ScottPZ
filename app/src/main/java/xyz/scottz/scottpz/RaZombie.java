@@ -44,23 +44,47 @@ public class RaZombie extends Zombie {
         // TODO: falling sun, shoveled sun, sun bean effect
 
         int canSteal = 0 ;
-        /*
+
         // TODO: need to differentiate between sun stolen and sun being stolen
         if (sunsStolen<250) {
             for (MajorObject o : Game.getMajors()) {
                 canSteal = o.calcCanStealSun();
                 if (canSteal > 0) {
+                    // TODO: need to include suns being stolen
                     if (sunsStolen + canSteal > 320) {
                         canSteal = 320 - sunsStolen;
                     }
                     o.stealSun(this , canSteal);
                 }
             }
-            sunsStolen += canSteal;
-            if (sunsStolen > 320) {
-                sunsStolen = 320;
+            // sunsStolen += canSteal;
+            /* TODO: falling suns
+            canSteal = o.calcCanStealSun();
+            if (canSteal > 0) {
+                if (sunsStolen + canSteal > 320) {
+                    canSteal = 320 - sunsStolen;
+                }
+                    o.stealSun(this , canSteal);
+                }
             }
+            */
         }
-        */
+
+    }
+
+    void finishSteal(Sun sun)
+    {
+        sunsStolen += sun.getNoSun();
+    }
+
+    @Override
+    void cleanup()
+    {
+        // TODO: separate into a number of suns
+        if (sunsStolen>0) {
+            Sun sun = new Sun(Game.getResources(), x, y);
+            sun.setNoSun(sunsStolen);
+            SunLogic.addFallingSun(sun);
+        }
     }
 }
