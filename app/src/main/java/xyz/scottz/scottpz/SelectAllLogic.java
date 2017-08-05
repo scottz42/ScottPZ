@@ -29,7 +29,7 @@ public class SelectAllLogic extends Logic {
 
         // all plants
         // change this part when adding a new plant
-        noTotalPlants = 14;
+        noTotalPlants = 15;
         allPlants = new ArrayList();
         Sunflower sunflower = new Sunflower();
         NormalPea pea = new NormalPea();
@@ -45,6 +45,7 @@ public class SelectAllLogic extends Logic {
         TwinSunflower twinSunflower = new TwinSunflower();
         Cherrybomb cherry = new Cherrybomb();
         Citron citron = new Citron();
+        Repeater repeater=new Repeater();
         allPlants.add(sunflower);
         allPlants.add(pea);
         allPlants.add(nut);
@@ -59,7 +60,9 @@ public class SelectAllLogic extends Logic {
         allPlants.add(twinSunflower);
         allPlants.add(cherry);
         allPlants.add(citron);
+        allPlants.add(repeater);
     }
+
 
 
     @Override
