@@ -67,8 +67,10 @@ public class Zombie extends MajorObject {
 
     @Override
     // TODO: use thread instead of timer model?
+    // TODO: needs cleanup
     void Move()
     {
+        // freeze for a certain duration
         if (startFreezeTime>0 && (System.currentTimeMillis()<startFreezeTime+freezeDuration)){
             return;
         }

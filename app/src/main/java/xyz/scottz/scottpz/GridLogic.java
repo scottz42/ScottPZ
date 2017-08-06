@@ -207,13 +207,10 @@ public class GridLogic extends Logic {
         return null;
     }
 
-    // is there a plant at coordinate (x,y)
+    // is there a plant at row,col
     // if there is already tombstone, can not plant either
     // TODO: make it more efficient
-    public static boolean canPlant(int x, int y) {
-
-        int row = calcRow(y);
-        int col = calcCol(x);
+    public static boolean canPlant(int row , int col) {
 
         // outside of grid
         if (row<0 || row>=noRows || col<0 || col>=noCols) {
@@ -246,6 +243,9 @@ public class GridLogic extends Logic {
     public static int calcCol(int x) {
         return (x - gridX) / gridWidth;
     }
+
+    // x for col
+    public static int getXForCol(int col) { return gridX+col*gridWidth; }
 
     // right side of grid
     public static int getGridRight()
@@ -286,6 +286,9 @@ public class GridLogic extends Logic {
     These methods are basic access functions
      */
 
+    public static int getNoRows() {
+        return noRows;
+    }
 
     public static int getPlantWidth() {
         return plantWidth;

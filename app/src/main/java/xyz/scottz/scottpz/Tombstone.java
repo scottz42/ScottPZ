@@ -20,8 +20,9 @@ public class Tombstone extends Zombie {
     {
         super() ;
         Resources res = Game.getResources() ;
-        setX((column+1)*100) ;
-        setY((row+1)*100) ;
+        // TODO: GridLogic
+        setX(GridLogic.getXForCol(column)) ;
+        setY(GridLogic.getZombieY(row)) ;
         life = 35 ;
         TimePerStep = 200000000 ;   // TODO: use special flag
         bitmap = BitmapFactory.decodeResource(res, R.drawable.tombstone);

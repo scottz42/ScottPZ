@@ -86,8 +86,10 @@ public class PlantSelectLogic extends Logic {
         // plant new plant
         // TODO: adjust for screen size
         // TODO: use constants as appropriate
+        int col = GridLogic.calcCol(x);
+        int row = GridLogic.calcRow(y);
 
-        if (Game.isNormalPlay() &&  Game.canPlant(x,y)) {
+        if (Game.isNormalPlay() &&  Game.canPlant(row , col)) {
             Plant newPlant = null;
             try {
                 newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
@@ -96,6 +98,8 @@ public class PlantSelectLogic extends Logic {
             }
 
             if (newPlant!=null && (System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
+
+                // TODO: GridLogic
                 newPlant.setX((x/100)*100);
                 newPlant.setY((y/100)*100);
                 if (Game.getNoSun() >= newPlant.getSunNeeded()) {
