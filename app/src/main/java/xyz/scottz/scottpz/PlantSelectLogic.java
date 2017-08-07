@@ -45,7 +45,7 @@ public class PlantSelectLogic extends Logic {
             try {
                 Object[] args = new Object[0];
                 Class[] argsClass = new Class[0];
-                rechargeTime[i] = ((Integer) plantSelections.get(i).getClass().getMethod("getRechargeTime", argsClass).invoke(null, args)).intValue();
+                rechargeTime[i] = ((Long) plantSelections.get(i).getClass().getMethod("getRechargeTime", argsClass).invoke(null, args)).longValue();
             } catch (Exception e) {
                 rechargeTime[i] = defaultRechargeTime;
             }

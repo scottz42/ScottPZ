@@ -91,6 +91,7 @@ public class SunLogic extends Logic {
                 int x = ((int) (Math.random() * 500)) + 300;
                 int y = 50;
                 Sun sun = new Sun(Game.getResources(), x, y);
+                sun.setFalling(true);
                 sun.setNoSun(50);
                 fallingSuns.add(sun);
             }

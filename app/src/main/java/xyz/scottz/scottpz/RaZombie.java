@@ -22,6 +22,7 @@ public class RaZombie extends Zombie {
     {
         super();
         life = 9.25 ;
+        DistancePerStep = 27;   // hungry speed
         if (bitmap==null) {
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.razombie);
         }

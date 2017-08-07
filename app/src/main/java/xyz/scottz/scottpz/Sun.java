@@ -20,6 +20,7 @@ public class Sun extends MinorObject {
     private long createTime ;
     private long duration = 10000 ;  // TODO: 10s or so
 
+    private boolean falling=false;
     private long fallingDuration = 3000 ;   // ms
     private static int timePerSunMove = 100 ;   // ms
     private static int distancePerSunMove = 10 ;
@@ -40,6 +41,14 @@ public class Sun extends MinorObject {
         return noSun;
     }
 
+    public boolean isFalling() {
+        return falling;
+    }
+
+    public void setFalling(boolean falling) {
+        this.falling = falling;
+    }
+
     public void setNoSun(int noSun) {
         this.noSun = noSun;
     }
@@ -58,8 +67,10 @@ public class Sun extends MinorObject {
         lastSunMoveTime = createTime ;
         startStealTime = 0 ;
         stealingZombie = null;
+        falling = false;
         fallingDuration = 2000 + ((int)(Math.random()*2000)) ;
     }
+
 
 
 
@@ -97,7 +108,7 @@ public class Sun extends MinorObject {
     // movement of falling sun
     // logic:
     void move() {
-        if (startStealTime==0) {
+        if (!falling && startStealTime==0) {
             if ((System.currentTimeMillis() - createTime) < fallingDuration) {
                 if ((System.currentTimeMillis() - lastSunMoveTime) > timePerSunMove) {
                     lastSunMoveTime += timePerSunMove;

@@ -94,6 +94,7 @@ public class Zombie extends MajorObject {
                         LastAttackTime += TimePerAttack;
                     }
                 } else {  // wait for this attack to finish
+                    // TODO: need to take care of case where plant is eaten by another zombie
                 }
             } else {  // start to eat
                 LastAttackTime = System.currentTimeMillis();

@@ -236,6 +236,21 @@ public class GridLogic extends Logic {
         return null;
     }
 
+    // check to see if there's any zombie in front of this plant
+    public static Zombie ExistZombieInFront2x3(int column, int row) {
+        for (MajorObject o : majors) {
+            int r = calcRow(o.getY());
+            int c = calcCol(o.getX());
+            if (!o.isPlant() &&
+                    ((c-column)>=1 && (c-column)<=2) &&
+                    ((r-row)>=-1 && (r-row)<=1)) {
+                return (Zombie) o;
+            }
+        }
+        return null;
+    }
+
+
     public static int calcRow(int y) {
         return (y - gridY) / gridHeight;
     }

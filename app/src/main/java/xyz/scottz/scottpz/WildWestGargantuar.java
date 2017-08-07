@@ -19,6 +19,7 @@ public class WildWestGargantuar extends Zombie {
         super();
         life = 180 ;
         thrownImp = false;
+        DistancePerStep = 27; // hungry speed
         if (bitmap==null) {
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.wildwestgargantuar);
         }
@@ -54,8 +55,7 @@ public class WildWestGargantuar extends Zombie {
         // throw imp
         if (getLife()<=90 && !thrownImp) {
             thrownImp = true ;
-            // TODO: change to imp
-            NormalZombie zombie = new NormalZombie();
+            ImpPirate zombie = new ImpPirate();
             zombie.setY(getY());
             int zCol = GridLogic.calcCol(getX());
             int col = (int) (Math.random()*(zCol-1));

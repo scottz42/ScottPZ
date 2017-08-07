@@ -15,7 +15,8 @@ public class Repeater extends Plant {
     private static Bitmap bitmap=null ;
     private static Bitmap selectBitmap=null;
 
-    private PeaShot peaShot = null;
+    private PeaShot peaShot1 = null;
+    private PeaShot peaShot2 = null;
 
     // this controls generation of new peashot
     private long lastGenerationTime = 0 ;
@@ -25,7 +26,6 @@ public class Repeater extends Plant {
     private long lastPeashotTime ;
     private int TimePerPeashotMove = 50 ;  // ms
     private int DistancePerPeashotMove = 40 ;   // TODO: GridLogic
-
 
     private static long rechargeTime = 5000 ;
 
@@ -38,7 +38,7 @@ public class Repeater extends Plant {
         super();
         setSunNeeded(200);
         rechargeTime = 5000;
-        damagePerShot = 2;  // nds
+        damagePerShot = 2;  // 2 nds, one per pea
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.repeater);
             selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.repeaterslect);
@@ -60,8 +60,9 @@ public class Repeater extends Plant {
         canvas.drawBitmap(bitmap, src,dst,p);
 
         // pea shot ;
-        if (peaShot!=null) {
-            peaShot.onDraw(canvas, p);
+        if (peaShot1!=null) {
+            peaShot1.onDraw(canvas, p);
+            peaShot2.onDraw(canvas,p);
         }
 
     }
@@ -81,31 +82,29 @@ public class Repeater extends Plant {
     }
 
 
-
+// TODO: separate hit-testing for each pea
     void checkZombieHit(Zombie zombie)
     {
-
-        // TODO: check for torchwood,
         // if torchwood is in square that pea is in, set pea on fire
-        Plant plant = Game.existPlant(GridLogic.calcCol(peaShot.getX()),GridLogic.calcRow(peaShot.getY()));
+        Plant plant = Game.existPlant(GridLogic.calcCol(peaShot1.getX()),GridLogic.calcRow(peaShot1.getY()));
         if (plant!=null && plant.getClass().getName().equals("xyz.scottz.scottpz.Torchwood")) {
-            peaShot.setOnFire(true);
+            peaShot1.setOnFire(true);
         }
 
         // if out of range
         // TODO: GridLogic
-        if (peaShot.getX()>1000) {
-            peaShot = null ;
+        if (peaShot1.getX()>1000) {
+            peaShot1 = null ;
             return ;
         } else {
             if (zombie!=null) { // zombie still there
-                int peaX = peaShot.getX() ;
+                int peaX = peaShot1.getX() ;
                 int zombieX = zombie.getX() ;
                 int diff = zombieX-peaX ;
                 // TODO: GridLogic
                 if (diff<50 && diff>-50) {
-                    zombie.takeDamage(peaShot.isOnFire()?damagePerShot*2:damagePerShot);
-                    peaShot = null ;    // pea shot can only damage one zombie
+                    zombie.takeDamage(peaShot1.isOnFire()?damagePerShot*2:damagePerShot);
+                    peaShot1 = null ;    // pea shot can only damage one zombie
                 }
             } else { // zombie killed by other plants?
                 return ;
@@ -123,7 +122,7 @@ public class Repeater extends Plant {
         // shoot pea
         Zombie zombie = (Zombie)Game.ExistZombieInFront(GridLogic.calcCol(getX()) , GridLogic.calcRow(getY())) ;
 
-        if (peaShot==null) {
+        if (peaShot1==null) {
             if (zombie!=null) {
                 if (lastGenerationTime==0 ||
                         (lastGenerationTime>0 && System.currentTimeMillis()-lastGenerationTime>TimePerGeneration))
@@ -133,14 +132,16 @@ public class Repeater extends Plant {
                     msg = String.format("lastGenerationTime=%d" , lastGenerationTime) ;
                     Log.d(null , msg) ;
                     // TODO: add some offset?
-                    peaShot = new PeaShot(getX() , getY());
+                    peaShot1 = new PeaShot(getX() , getY());
+                    peaShot2 = new PeaShot(getX()-60 , getY());
                     lastPeashotTime = System.currentTimeMillis();
                     checkZombieHit(zombie);
                 }
             }
         } else {
             if ((System.currentTimeMillis()-lastPeashotTime)>TimePerPeashotMove) {
-                peaShot.setX(peaShot.getX() + DistancePerPeashotMove) ;
+                peaShot1.setX(peaShot1.getX() + DistancePerPeashotMove) ;
+                peaShot2.setX(peaShot2.getX() + DistancePerPeashotMove) ;
                 lastPeashotTime += TimePerPeashotMove ;
                 checkZombieHit(zombie);
             }
