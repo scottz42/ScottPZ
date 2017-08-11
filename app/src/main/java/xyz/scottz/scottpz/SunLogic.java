@@ -47,6 +47,8 @@ public class SunLogic extends Logic {
         super.destroy();
     }
 
+
+    // pick up sun
     @Override
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event) ;
