@@ -62,7 +62,7 @@ public class SunLogic extends Logic {
             int diffX = (int)event.getX()-sun.getX() ;
             int diffY = (int)event.getY() - sun.getY() ;
             if (diffX<60 && diffX>0 && diffY<60 && diffY>0) {
-                setNoSun(getNoSun()+sun.getNoSun());  // TODO: adjust for different size of suns
+                setNoSun(getNoSun()+sun.getNoSun());
                 fallingSuns.remove(o) ;
                 return true ;
             }

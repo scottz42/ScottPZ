@@ -108,7 +108,7 @@ public class Sun extends MinorObject {
     // movement of falling sun
     // logic:
     void move() {
-        if (!falling && startStealTime==0) {
+        if (falling && startStealTime==0) {
             if ((System.currentTimeMillis() - createTime) < fallingDuration) {
                 if ((System.currentTimeMillis() - lastSunMoveTime) > timePerSunMove) {
                     lastSunMoveTime += timePerSunMove;
