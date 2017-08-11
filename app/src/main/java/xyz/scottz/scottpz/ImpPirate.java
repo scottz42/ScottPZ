@@ -36,5 +36,4 @@ public class ImpPirate extends Zombie {
         canvas.drawBitmap(bitmap, src, dst, p);
     }
 
-
 }
