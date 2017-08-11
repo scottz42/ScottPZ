@@ -260,7 +260,7 @@ public class Game {
 
     public static boolean removePlant(Plant plant)
     {
-        return gridLogic.removePlant(plant);
+        return gridLogic.removePlant(plant) ;
     }
 
     public static boolean removeZombie(Zombie zombie)
