@@ -37,7 +37,6 @@ public class MelonPult extends Plant {
         rechargeTime = 5000;
         damagePerShot = 4;  // nds
         if (bitmap == null) {
-            // TODO: change bitmap
             bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.melonpult);
             selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.melonpultslect);
         }
@@ -54,7 +53,7 @@ public class MelonPult extends Plant {
 
         canvas.drawBitmap(bitmap, src,dst,p);
 
-        // cabbage shot
+        // melon shot
         if (melon!=null) {
             melon.onDraw(canvas, p);
         }

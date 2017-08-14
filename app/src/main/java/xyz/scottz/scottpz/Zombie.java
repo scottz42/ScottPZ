@@ -34,7 +34,7 @@ public class Zombie extends MajorObject {
     protected double life ;
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
-
+    protected int PrevDistancePerStep;
     public long getLastMoveTime() {
         return LastMoveTime;
     }
@@ -56,9 +56,13 @@ public class Zombie extends MajorObject {
     protected int damagePerAttack = 1 ;
     protected int TimePerAttack = 1000 ; // in ms
     protected long LastAttackTime = 0 ;
+    protected int PrevTimePerAttack;
 
     protected long freezeDuration=0;
     protected long startFreezeTime=0;
+
+    protected long startSlowdownTime=0;
+    protected long slowdownDuration=6000;   // in ms
 
     public  Zombie() {
         super();
@@ -77,6 +81,14 @@ public class Zombie extends MajorObject {
         if (startFreezeTime>0 && (System.currentTimeMillis()>startFreezeTime+freezeDuration)){
             LastMoveTime += System.currentTimeMillis() - startFreezeTime ;  // continue moving
             startFreezeTime=0;
+        }
+
+        // slowdown timer
+        if (startSlowdownTime>0 && (System.currentTimeMillis()>startSlowdownTime+slowdownDuration)) {
+            startSlowdownTime = 0;
+            // restore
+            DistancePerStep=PrevDistancePerStep;
+            TimePerAttack=PrevTimePerAttack;
         }
 
 
@@ -137,9 +149,12 @@ public class Zombie extends MajorObject {
         startFreezeTime= System.currentTimeMillis();
     }
 
-    // factor: percentage, 0.7 for 70% speed
+    // factor: percentage, eg. 0.7 for 70% speed
     public void slowdown(double factor)
     {
+        PrevDistancePerStep=DistancePerStep;
+        PrevTimePerAttack=TimePerAttack;
+        startSlowdownTime = System.currentTimeMillis();
         DistancePerStep *= factor;
         TimePerAttack /= factor;
     }
@@ -150,7 +165,8 @@ public class Zombie extends MajorObject {
         super.Draw(c,p);
     }
 
-    // to be overriden for each zombie
+
+    // called after zombie is killed
     void cleanup() {}
 
 }

@@ -77,6 +77,7 @@ public class RaZombie extends Zombie {
     }
 
     @Override
+    // return suns that have been stolen
     void cleanup()
     {
         // TODO: separate into a number of suns
