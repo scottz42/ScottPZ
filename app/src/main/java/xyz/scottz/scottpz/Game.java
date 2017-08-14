@@ -11,18 +11,19 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// TODO: zombie speed
+// Tomorrow:
+// TODO: goldbloom/sunflower initial cd
+// TODO: bokchoy
+// TODO: hypnotize zombie
+// TODO: shrinking violet
+
 // TODO: Dave & truck
 // TODO: fig
 // TODO: separate per-plant and per-plant-class logic
-// TODO: bug: shovel-generated sun shouldn't drop
 // TODO: use fullscreen
-// TODO: shovel generate variable amount of sun
 // TODO: more accurate hit-testing
 // TODO: zombie movement animation
 // TODO: indicate insufficient sun for each plant
-// TODO: shrinking violet
-// TODO: Ra zombie
 // TODO: plant food
 // TODO: ambush zombies
 // TODO: many animations

@@ -137,6 +137,13 @@ public class Zombie extends MajorObject {
         startFreezeTime= System.currentTimeMillis();
     }
 
+    // factor: percentage, 0.7 for 70% speed
+    public void slowdown(double factor)
+    {
+        DistancePerStep *= factor;
+        TimePerAttack /= factor;
+    }
+
 
     @Override
     void Draw(Canvas c , Paint p) {
