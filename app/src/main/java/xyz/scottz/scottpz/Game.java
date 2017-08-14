@@ -11,7 +11,8 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// Tomorrow:
+// Tomorrow
+// TODO: add zombie slowdown duration
 // TODO: goldbloom/sunflower initial cd
 // TODO: bokchoy
 // TODO: hypnotize zombie
