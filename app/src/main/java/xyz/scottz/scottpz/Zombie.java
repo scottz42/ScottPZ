@@ -172,6 +172,7 @@ public class Zombie extends MajorObject {
 
 
     @Override
+    // TODO: move most drawing functionality here?
     void Draw(Canvas c , Paint p) {
         super.Draw(c,p);
     }
