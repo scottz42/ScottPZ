@@ -12,11 +12,8 @@ import java.util.ArrayList;
  */
 
 // Tomorrow
-// TODO: add zombie slowdown duration
-// TODO: goldbloom/sunflower initial cd
-// TODO: bokchoy
+
 // TODO: hypnotize zombie
-// TODO: shrinking violet
 
 // TODO: Dave & truck
 // TODO: fig

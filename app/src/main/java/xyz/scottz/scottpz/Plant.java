@@ -66,5 +66,7 @@ public class Plant extends MajorObject {
         this.life = life;
     }
 
-
+    // to be overrriden in each plant, return true if no initial cd
+    // default is true, currently only false for sun-producing plants
+    public boolean initialCD() { return true; }
 }

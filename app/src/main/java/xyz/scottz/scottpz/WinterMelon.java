@@ -13,7 +13,7 @@ import android.graphics.Rect;
 public class WinterMelon extends Plant {
         private static Bitmap bitmap=null ;
         private static Bitmap selectBitmap=null;
-        private Melon melon = null;
+        private FrozenMelon melon = null;
 
         // this controls generation of new peashot
         private long lastGenerationTime = 0 ;
@@ -138,7 +138,7 @@ public class WinterMelon extends Plant {
                     {
                         lastGenerationTime = System.currentTimeMillis();
                         // TODO: add some offset?
-                        melon = new Melon(getX() , getY());
+                        melon = new FrozenMelon(getX() , getY());
                         lastShotTime = System.currentTimeMillis();
                         total_t = (zombie.getX()-getX())*TimePerShotMove/DistancePerShotMove;
                         checkZombieHit(zombie);
@@ -146,7 +146,6 @@ public class WinterMelon extends Plant {
                 }
             } else {
                 if ((System.currentTimeMillis()-lastShotTime)>TimePerShotMove) {
-                    // TODO: update position
                     melon.setX(melon.getX() + DistancePerShotMove) ;
                     double v = 4.9;
                     double t = ((double)(System.currentTimeMillis() - lastGenerationTime))/total_t;  // 0-1

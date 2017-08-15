@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -122,5 +123,11 @@ public class Sunflower extends Plant {
         dst.set(getX(), getY(), getX() + GridLogic.getSelectWidth(), getY() + GridLogic.getSelectHeight());
 
         canvas.drawBitmap(selectBitmap, src, dst, p);
+    }
+
+    @Override
+    public boolean initialCD()
+    {
+        return false;
     }
 }

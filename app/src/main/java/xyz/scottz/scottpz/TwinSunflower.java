@@ -128,5 +128,10 @@ public class TwinSunflower extends Plant {
 
         canvas.drawBitmap(selectBitmap, src, dst, p);
     }
+    @Override
+    public boolean initialCD()
+    {
+        return false;
+    }
 
 }

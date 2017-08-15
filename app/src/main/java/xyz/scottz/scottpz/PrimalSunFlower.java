@@ -125,5 +125,10 @@ public class PrimalSunFlower extends Plant {
 
         canvas.drawBitmap(selectBitmap, src, dst, p);
     }
+    @Override
+    public boolean initialCD()
+    {
+        return false;
+    }
 
 }

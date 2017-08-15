@@ -7,12 +7,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
- * Created by lei on 2017/8/7.
+ * Created by scott on 8/14/2017.
  */
 
-public class GoldBloom extends Plant {
-    private static long rechargeTime = 75000 ;      // ms
-    private static long generateTime = 200 ;    // ms
+public class ShrinkingViolet extends Plant {
+    private static long rechargeTime = 15000 ;      // ms
+    private static long explodeTime = 200 ;    // ms
 
     private long plantTime;
     private static Bitmap bitmap=null;
@@ -23,13 +23,14 @@ public class GoldBloom extends Plant {
         return rechargeTime ;
     }
 
-    GoldBloom()
+    ShrinkingViolet()
     {
         super();
-        setSunNeeded(0);
+        setSunNeeded(50);
+        damagePerShot = 0 ;    // nds
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.goldbloom);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.goldbloomselect);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.shrinkingviolet);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.shrinkingvioletslect);
         }
         plantTime = System.currentTimeMillis();
     }
@@ -64,21 +65,26 @@ public class GoldBloom extends Plant {
     @Override
     void Move()
     {
-        if ((System.currentTimeMillis()-plantTime)>=generateTime) {
-            for (int i=0 ; i<5 ; i++) {
-                Sun sun = new Sun(Game.getResources(), getX() + (i - 2) * 40, getY());
-                sun.setNoSun(75);
-                SunLogic.addFallingSun(sun);
-            }
+        if ((System.currentTimeMillis()-plantTime)>explodeTime) {
 
+            int row = GridLogic.calcRow(getY());
+            int col = GridLogic.calcCol(getX());
+
+            for (MajorObject o : Game.getMajors()) {
+                if (!o.isPlant()) {
+                    Zombie zombie = (Zombie) o;
+                    // shrink zombies in this 3*3 square
+                    int zRow = GridLogic.calcRow(o.getY());
+                    int zCol = GridLogic.calcCol(o.getX());
+                    if (((zRow-row)>=-1 && (zRow-row)<=1) &&
+                            ((zCol-col)>=-1 && (zCol-col)<=1)) {
+                        zombie.shrink() ;
+                    }
+                }
+            }
             Game.removePlant(this);
 
         }
-    }
-    @Override
-    public boolean initialCD()
-    {
-        return false;
     }
 
 

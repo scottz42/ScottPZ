@@ -64,6 +64,8 @@ public class Zombie extends MajorObject {
     protected long startSlowdownTime=0;
     protected long slowdownDuration=6000;   // in ms
 
+    protected boolean shrunk=false;
+
     public  Zombie() {
         super();
         LastMoveTime = System.currentTimeMillis() ;
@@ -97,7 +99,7 @@ public class Zombie extends MajorObject {
         if (plant != null) {    // there is plant to eat
             if (LastAttackTime > 0) { // eating started
                 if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
-                    plant.setLife(plant.getLife() - damagePerAttack);
+                    plant.setLife(plant.getLife() - (shrunk?damagePerAttack/2:damagePerAttack));
                     if (plant.getLife() <= 0) {   // plant is eaten by zombie
                         Game.removePlant(plant);
                         DistancePerStep = prevDistance;
@@ -132,7 +134,8 @@ public class Zombie extends MajorObject {
     // true if dead
     public boolean takeDamage(double damage)
     {
-        setLife(getLife() - damage);
+        // if shrunk, take double damage
+        setLife(getLife() - (shrunk?damage*2:damage));
         if (getLife() <= 0) {
             cleanup();
             Game.removeZombie(this);
@@ -157,6 +160,14 @@ public class Zombie extends MajorObject {
         startSlowdownTime = System.currentTimeMillis();
         DistancePerStep *= factor;
         TimePerAttack /= factor;
+    }
+
+    // shrunk by shrinking violet
+    // done: half size, take double damage, inflict half damage
+    // TODO: other special effects for each type of zombie
+    public void shrink()
+    {
+        shrunk = true;
     }
 
 

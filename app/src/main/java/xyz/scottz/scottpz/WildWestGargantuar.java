@@ -33,7 +33,7 @@ public class WildWestGargantuar extends Zombie {
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
         // TODO: GridLogic
-        dst.set(getX(), getY()-110, getX() + 150, getY() + 90);
+        dst.set(getX(), getY()-110, getX() + (shrunk?75:150), getY() + (shrunk?45:90));
         canvas.drawBitmap(bitmap, src,dst,p);
     }
 

@@ -52,7 +52,12 @@ public class PlantSelectLogic extends Logic {
         }
 
         for (int i=0 ; i<noPlants ; i++) {
-            rechargeStartTime[i] = System.currentTimeMillis() ;
+            if (((Plant) plantSelections.get(i)).initialCD()) {
+                rechargeStartTime[i] = System.currentTimeMillis();
+            } else {
+                // no initial CD
+                rechargeStartTime[i] = System.currentTimeMillis()-rechargeTime[i];
+            }
         }
     }
 
