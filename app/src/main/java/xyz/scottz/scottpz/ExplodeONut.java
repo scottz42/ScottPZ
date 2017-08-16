@@ -82,4 +82,9 @@ public class ExplodeONut extends Plant {
         }
     }
 
+    @Override
+    public boolean blocksFlying()
+    {
+        return true;
+    }
 }

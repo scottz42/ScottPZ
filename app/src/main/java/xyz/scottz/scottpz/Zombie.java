@@ -60,6 +60,8 @@ public class Zombie extends MajorObject {
 
     protected boolean hypnotized=false;
 
+    protected boolean flying=false;
+
     public  Zombie() {
         super();
         LastMoveTime = System.currentTimeMillis() ;
@@ -90,7 +92,7 @@ public class Zombie extends MajorObject {
 
         // zombie eat plant and hypnotized zombie
         MajorObject target = Game.findPlant(getX(), getY(),hypnotized);    // return plant or zombie depends on hypnotization
-        if (target != null) {    // there is plant to eat
+        if (target != null && (!flying || target.blocksFlying())) {    // there is plant to eat
             if (LastAttackTime > 0) { // eating started
                 if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
                     target.setLife(target.getLife() - (shrunk?damagePerAttack/2:damagePerAttack));

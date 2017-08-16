@@ -52,6 +52,13 @@ public class MajorObject {
 
     public boolean isTombstone() { return false ; }
 
+    // can block flying zombies
+    // override in appropriate plants
+    public boolean blocksFlying()
+    {
+        return false;
+    }
+
 
     public boolean canBite (int x, int y , boolean hyptonized)
     {

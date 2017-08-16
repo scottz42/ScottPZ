@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 // Tomorrow
 
-// TODO: hypnotize zombie
+// TODO: summoned zombies need to be on correct row
 
 // TODO: Dave & truck
 // TODO: fig
