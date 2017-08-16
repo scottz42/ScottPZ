@@ -12,8 +12,7 @@ import android.view.MotionEvent;
 
 public class Plant extends MajorObject {
 
-    private int life ;  // life left
-    protected double damagePerShot ;   // nds
+   protected double damagePerShot ;   // nds
 
     public int getSunNeeded() {
         return sunNeeded;
@@ -40,12 +39,7 @@ public class Plant extends MajorObject {
         return true ;
     }
 
-    @Override
-    public boolean canBite (int x, int y)
-    {
-        int diff_x = x - this.getX();
-        return (this.getY() ==y) && (diff_x<100) && (diff_x>70) ;
-    }
+
 
     @Override
     void Draw(Canvas c ,Paint p) {
@@ -57,14 +51,6 @@ public class Plant extends MajorObject {
 
     void onFinal() {}
 
-
-    public int getLife() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
 
     // to be overrriden in each plant, return true if no initial cd
     // default is true, currently only false for sun-producing plants

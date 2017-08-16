@@ -241,9 +241,9 @@ public class Game {
         return gridLogic.getMajors();
     }
 
-    public static Plant findPlant(int x , int y)
+    public static MajorObject findPlant(int x , int y , boolean hyptonized)
     {
-        return gridLogic.findPlant(x , y);
+        return gridLogic.findPlant(x , y , hyptonized);
     }
 
 

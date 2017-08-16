@@ -43,17 +43,10 @@ public class WildWestGargantuar extends Zombie {
         // TODO: needs cleanup
     void Move()
     {
-        // freeze for a certain duration
-        if (startFreezeTime>0 && (System.currentTimeMillis()<startFreezeTime+freezeDuration)){
-            return;
-        }
-        if (startFreezeTime>0 && (System.currentTimeMillis()>startFreezeTime+freezeDuration)){
-            LastMoveTime += System.currentTimeMillis() - startFreezeTime ;  // continue moving
-            startFreezeTime=0;
-        }
+        super.Move();
 
         // throw imp
-        if (getLife()<=90 && !thrownImp) {
+        if (!(startFreezeTime>0 && (System.currentTimeMillis()<startFreezeTime+freezeDuration)) && getLife()<=90 && !thrownImp) {
             thrownImp = true ;
             ImpPirate zombie = new ImpPirate();
             zombie.setY(getY());
@@ -61,41 +54,6 @@ public class WildWestGargantuar extends Zombie {
             int col = (int) (Math.random()*(zCol-1));
             zombie.setX(GridLogic.getXForCol(col));
             Game.addZombie(zombie);
-        }
-
-        // zombie eat plant ;
-        Plant plant = Game.findPlant(getX(), getY());
-        if (plant != null) {    // there is plant to eat
-            if (LastAttackTime > 0) { // eating started
-                if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
-                    plant.setLife(plant.getLife() - damagePerAttack);
-                    // TODO: special plants that aren't killed instantly
-                    Game.removePlant(plant);
-                    DistancePerStep = prevDistance;
-                    LastAttackTime = 0;
-                } else {  // wait for this attack to finish
-                }
-            } else {  // start to eat
-                LastAttackTime = System.currentTimeMillis();
-                if (DistancePerStep != 0) {  // stop zombie movement
-                    prevDistance = DistancePerStep;
-                    DistancePerStep = 0;
-                }
-            }
-        }
-
-        // zombie movement
-        if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
-            x -= DistancePerStep ;
-            // TODO: GridLogic
-            if (x<0) {
-                x = 1000 ;
-                y = 100*((int)(Math.random()*4)+1);
-            }
-            if (x>1200) {
-                x = 0;
-            }
-            LastMoveTime += TimePerStep ;
         }
     }
 

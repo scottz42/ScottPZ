@@ -172,6 +172,7 @@ public class GridLogic extends Logic {
 
     public static boolean removeZombie(Zombie zombie) {
         deletions.add(zombie);
+        zombie.cleanup();
         return true;
     }
 
@@ -184,12 +185,17 @@ public class GridLogic extends Logic {
         return result;
     }
 
-    //
+    // return zombie as appropriate for hyptonized zombies
+    // 3 cases
+    // 1. normal zombie eats plant
+    // 2. normal zombie eats hyptonized zombie
+    // 3. hyptonized zombie eats normal zombie
     @Nullable
-    public static Plant findPlant(int x, int y) {
+    public static MajorObject findPlant(int x, int y , boolean hyptonized) {
         for (MajorObject o : majors) {
-            if (o.isPlant() && o.canBite(x, y)) {
-                return (Plant) o;
+            if (hyptonized? (!o.isPlant() && !((Zombie)o).isHypnotized() && o.canBite(x,y,hyptonized))
+            :((o.isPlant()||(!o.isPlant() && ((Zombie)o).isHypnotized())) && o.canBite(x, y,hyptonized))) {
+                return o;
             }
         }
 

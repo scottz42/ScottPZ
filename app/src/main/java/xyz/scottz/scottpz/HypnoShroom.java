@@ -1,6 +1,5 @@
 package xyz.scottz.scottpz;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,30 +7,33 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
- * Created by lei on 2017/6/18.
+ * Created by scott on 8/14/2017.
  */
 
-public class IcebergLettuce extends Plant {
-    private static long rechargeTime = 20000 ;      // ms
-    private static long freezeTime = 10000 ;    // ms
-
-    private static Bitmap bitmap=null;
+public class HypnoShroom extends Plant {
+    private static Bitmap bitmap=null ;
     private static Bitmap selectBitmap=null;
+
+    private static long rechargeTime = 10000 ;
+
     public static long getRechargeTime()
     {
         return rechargeTime ;
     }
 
-  IcebergLettuce()
+   HypnoShroom()
     {
         super();
-        setSunNeeded(0);
-        damagePerShot = 0 ;    // nds
+        setSunNeeded(125);
+        setLife(30);
+        damagePerShot = 0 ;
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.iceberglettuce);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.iceberglettuce);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.hypnoshroom);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.hypnoshroomselect);
         }
     }
+
+
 
     @Override
     void Draw(Canvas canvas , Paint p) {
@@ -40,11 +42,11 @@ public class IcebergLettuce extends Plant {
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
         src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
-        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getSelectHeight());
+        dst.set(getX(), getY(), getX() + GridLogic.getPlantWidth(), getY() + GridLogic.getPlantHeight());
 
         canvas.drawBitmap(bitmap, src,dst,p);
-    }
 
+    }
 
     @Override
     void drawSelect(Canvas canvas , Paint p) {
@@ -62,17 +64,18 @@ public class IcebergLettuce extends Plant {
     @Override
     void Move()
     {
-           for (MajorObject o : Game.getMajors()) {
-                if (!o.isPlant() && !o.isTombstone()) {
-                    Zombie zombie = (Zombie) o;
-                    // freeze one zombie in this square
-                    if (GridLogic.isZombieInPlantSquare(zombie , this)) {
-                        Game.removePlant(this);
-                        zombie.freeze(freezeTime);
-                        return;
-                    }
+        for (MajorObject o : Game.getMajors()) {
+            if (!o.isPlant() && !o.isTombstone()) {
+                Zombie zombie = (Zombie) o;
+                // hypnotize one zombie in this square ;
+                if (GridLogic.isZombieInPlantSquare(zombie , this)) {
+                    Game.removePlant(this);
+                    zombie.setHypnotized();
+                    return;
                 }
             }
+        }
     }
+
 
 }

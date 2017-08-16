@@ -14,6 +14,8 @@ public class MajorObject {
     protected int x;
     protected int y ;
 
+    protected double life ;  // life left
+
     public MajorObject() {
     }
 
@@ -33,6 +35,16 @@ public class MajorObject {
         this.y = y;
     }
 
+
+    public double getLife() {
+        return life;
+    }
+
+    public void setLife(double life) {
+        this.life = life;
+    }
+
+
     public boolean isPlant()
     {
         return false ;
@@ -40,9 +52,12 @@ public class MajorObject {
 
     public boolean isTombstone() { return false ; }
 
-    public boolean canBite(int x , int y)
+
+    public boolean canBite (int x, int y , boolean hyptonized)
     {
-        return false ;
+        // TODO: GridLogic
+        int diff_x = x - this.getX();
+        return hyptonized?((this.getY() ==y) && (diff_x<-50) && (diff_x>-80)):((this.getY() ==y) && (diff_x<80) && (diff_x>50)) ;
     }
 
     void Draw(Canvas c, Paint p){}

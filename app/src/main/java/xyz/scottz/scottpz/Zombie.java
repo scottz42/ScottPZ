@@ -1,5 +1,6 @@
 package xyz.scottz.scottpz;
 
+import android.bluetooth.BluetoothClass;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -31,7 +32,6 @@ pro: no wasted timer-induced calculation
  */
 
 public class Zombie extends MajorObject {
-    protected double life ;
     protected long LastMoveTime ;    // time for last move, in ms
     protected int DistancePerStep = 20 ;
     protected int PrevDistancePerStep;
@@ -41,14 +41,6 @@ public class Zombie extends MajorObject {
 
     public void setLastMoveTime(long lastMoveTime) {
         LastMoveTime = lastMoveTime;
-    }
-
-    public double getLife() {
-        return life;
-    }
-
-    public void setLife(double life) {
-        this.life = life;
     }
 
     protected int prevDistance = 20 ;
@@ -65,6 +57,8 @@ public class Zombie extends MajorObject {
     protected long slowdownDuration=6000;   // in ms
 
     protected boolean shrunk=false;
+
+    protected boolean hypnotized=false;
 
     public  Zombie() {
         super();
@@ -94,14 +88,18 @@ public class Zombie extends MajorObject {
         }
 
 
-        // zombie eat plant ;
-        Plant plant = Game.findPlant(getX(), getY());
-        if (plant != null) {    // there is plant to eat
+        // zombie eat plant and hypnotized zombie
+        MajorObject target = Game.findPlant(getX(), getY(),hypnotized);    // return plant or zombie depends on hypnotization
+        if (target != null) {    // there is plant to eat
             if (LastAttackTime > 0) { // eating started
                 if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
-                    plant.setLife(plant.getLife() - (shrunk?damagePerAttack/2:damagePerAttack));
-                    if (plant.getLife() <= 0) {   // plant is eaten by zombie
-                        Game.removePlant(plant);
+                    target.setLife(target.getLife() - (shrunk?damagePerAttack/2:damagePerAttack));
+                    if (target.getLife() <= 0) {   // plant is eaten by zombie
+                        if (target.isPlant()) {
+                            Game.removePlant((Plant) target);
+                        } else {
+                            Game.removeZombie((Zombie)target);
+                        }
                         DistancePerStep = prevDistance;
                         LastAttackTime = 0;
                     } else {
@@ -119,13 +117,13 @@ public class Zombie extends MajorObject {
             }
         }
 
+
         // zombie movement
         if ((System.currentTimeMillis()-LastMoveTime)>TimePerStep) {
-            x -= DistancePerStep ;
-            // TODO: GridLogic
-
-            if (x>1200) {
-                x = 0;
+            if (hypnotized) {
+                x += DistancePerStep ;
+            } else {
+                x -= DistancePerStep;
             }
             LastMoveTime += TimePerStep ;
         }
@@ -137,7 +135,6 @@ public class Zombie extends MajorObject {
         // if shrunk, take double damage
         setLife(getLife() - (shrunk?damage*2:damage));
         if (getLife() <= 0) {
-            cleanup();
             Game.removeZombie(this);
             return true;
         } else {
@@ -171,6 +168,20 @@ public class Zombie extends MajorObject {
     }
 
 
+    // hypnotize
+    // effects: moves backwards, hurts zombies, can be hurt by zombies too
+    public void setHypnotized()
+    {
+        hypnotized = true;
+    }
+
+    public boolean isHypnotized()
+    {
+        return hypnotized;
+    }
+
+
+
     @Override
     // TODO: move most drawing functionality here?
     void Draw(Canvas c , Paint p) {
@@ -179,6 +190,7 @@ public class Zombie extends MajorObject {
 
 
     // called after zombie is killed
+    // use same name onFinal as plant?
     void cleanup() {}
 
 }
