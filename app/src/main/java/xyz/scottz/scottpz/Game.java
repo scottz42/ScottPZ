@@ -14,6 +14,9 @@ import java.util.ArrayList;
 // Tomorrow
 
 // TODO: summoned zombies need to be on correct row
+// TODO: summoned zombies need to be hypnotized if main zombie is hypnotized
+// TODO: breakdancer zombie
+// TODO: blover
 
 // TODO: Dave & truck
 // TODO: fig
