@@ -51,16 +51,17 @@ public class TombRaiser extends Zombie {
 
         if ((System.currentTimeMillis() - LastGenerateTime) > TimePerGenerate) {
 
-        int zRow = GridLogic.calcRow(getY());
-        int zCol = GridLogic.calcCol(getX());
+            int zRow = GridLogic.calcRow(getY());
+            int zCol = GridLogic.calcCol(getX());
 
-        int row = (int) (Math.random()*GridLogic.getNoRows());
-        int col = (int) (Math.random()*zCol);
+            int row = (int) (Math.random() * GridLogic.getNoRows());
+            int col = (int) (Math.random() * zCol);
 
-        if (Game.canPlant(row , col)) {
-            Tombstone stone = new Tombstone(row , col);
-            Game.addZombie(stone);
-            LastGenerateTime += TimePerGenerate;}
+            if (Game.canPlant(row, col)) {
+                Tombstone stone = new Tombstone(row, col);
+                Game.addZombie(stone);
+                LastGenerateTime += TimePerGenerate;
+            }
         }
     }
 }

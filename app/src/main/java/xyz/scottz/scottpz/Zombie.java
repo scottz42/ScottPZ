@@ -92,6 +92,11 @@ public class Zombie extends MajorObject {
 
         // zombie eat plant and hypnotized zombie
         MajorObject target = Game.findPlant(getX(), getY(),hypnotized);    // return plant or zombie depends on hypnotization
+        // need to resume zombie movement when the plant it was attaking is gone for some reason
+        if (target==null && LastAttackTime>0) {
+            DistancePerStep = prevDistance;
+            LastAttackTime = 0;
+        }
         if (target != null && (!flying || target.blocksFlying())) {    // there is plant to eat
             if (LastAttackTime > 0) { // eating started
                 if (System.currentTimeMillis() - LastAttackTime>TimePerAttack){  // finished one attack
@@ -109,6 +114,7 @@ public class Zombie extends MajorObject {
                     }
                 } else {  // wait for this attack to finish
                     // TODO: need to take care of case where plant is eaten by another zombie
+
                 }
             } else {  // start to eat
                 LastAttackTime = System.currentTimeMillis();
