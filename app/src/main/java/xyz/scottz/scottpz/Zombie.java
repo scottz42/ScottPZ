@@ -175,6 +175,9 @@ public class Zombie extends MajorObject {
         shrunk = true;
     }
 
+    public boolean isFlying() {
+        return flying;
+    }
 
     // hypnotize
     // effects: moves backwards, hurts zombies, can be hurt by zombies too

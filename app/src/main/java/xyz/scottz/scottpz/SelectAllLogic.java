@@ -29,7 +29,7 @@ public class SelectAllLogic extends Logic {
 
         // all plants
         // change this part when adding a new plant
-        noTotalPlants = 23;
+        noTotalPlants = 25;
         allPlants = new ArrayList();
         Sunflower sunflower = new Sunflower();
         NormalPea pea = new NormalPea();
@@ -54,6 +54,8 @@ public class SelectAllLogic extends Logic {
         BonkChoy bonkChoy=new BonkChoy();
         ShrinkingViolet shrinkingViolet=new ShrinkingViolet();
         HypnoShroom hypnoShroom=new HypnoShroom();
+        Blover blover = new Blover();
+        ColdSnapdragon coldSnapdragon=new ColdSnapdragon();
         allPlants.add(sunflower);
         allPlants.add(pea);
         allPlants.add(nut);
@@ -77,6 +79,8 @@ public class SelectAllLogic extends Logic {
         allPlants.add(bonkChoy);
         allPlants.add(shrinkingViolet);
         allPlants.add(hypnoShroom);
+        allPlants.add(blover);
+        allPlants.add(coldSnapdragon);
     }
 
 

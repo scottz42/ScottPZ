@@ -119,7 +119,7 @@ public class GenZombieLogic extends Logic {
 
         // wave 2
         wave = new ArrayList() ;
-        wave.add(new ZombieInfo(new BreakdancerZombie() , 3));
+        wave.add(new ZombieInfo(new DiscoJetpackZombie() , 3));
         level.add(wave) ;
 
         // wave 3
