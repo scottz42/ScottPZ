@@ -29,8 +29,8 @@ public class ColdSnapdragon extends Plant {
         setSunNeeded(150);
         damagePerShot = 1.5 ;    // nds
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.snapdragon);
-            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.snapdragonselect);
+            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coldsnapdragon);
+            selectBitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.coldsnapdragonselect);
         }
         lastGenerateTime = 0;
     }
