@@ -11,17 +11,12 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
-// Tomorrow
-
 // TODO: summoned zombies need to be on correct row
 // TODO: summoned zombies need to be hypnotized if main zombie is hypnotized
-// TODO: breakdancer zombie
-// TODO: blover
 
 // TODO: Dave & truck
 // TODO: fig
 // TODO: separate per-plant and per-plant-class logic
-// TODO: use fullscreen
 // TODO: more accurate hit-testing
 // TODO: zombie movement animation
 // TODO: indicate insufficient sun for each plant
@@ -30,7 +25,6 @@ import java.util.ArrayList;
 // TODO: many animations
 // TODO: clean up Game class
 // TODO: state saving/loading
-// TODO: gain new plant
 // TODO: music
 // TODO: plant levels
 // TODO: gold, gem
@@ -274,7 +268,7 @@ public class Game {
         return gridLogic.existPlant(col , row);
     }
 
-    public static boolean canPlant(int x , int y)
+    public static MajorObject canPlant(int x , int y)
     {
         return gridLogic.canPlant(x , y);
     }

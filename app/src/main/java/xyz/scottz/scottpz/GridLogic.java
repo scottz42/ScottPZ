@@ -215,20 +215,21 @@ public class GridLogic extends Logic {
 
     // is there a plant at row,col
     // if there is already tombstone, can not plant either
+    // return plant or tombstone that is in this square
     // TODO: make it more efficient
-    public static boolean canPlant(int row , int col) {
+    public static MajorObject canPlant(int row , int col) {
 
         // outside of grid
         if (row<0 || row>=noRows || col<0 || col>=noCols) {
-            return false ;
+            return null ;
         }
 
         for (MajorObject o : majors) {
             if ((o.isPlant() || o.isTombstone()) &&calcCol(o.getX()) == col && calcRow(o.getY()) == row) {
-                return false;
+                return o;
             }
         }
-        return true;
+        return null;
     }
 
 

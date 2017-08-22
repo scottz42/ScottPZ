@@ -66,8 +66,8 @@ public class SnapDragon extends Plant {
     void Move()
     {
         if (lastGenerateTime==0 || (System.currentTimeMillis()-lastGenerateTime>generateTime)) {
-        int row = GridLogic.calcRow(getY());
-        int col = GridLogic.calcCol(getX());
+            int row = GridLogic.calcRow(getY());
+            int col = GridLogic.calcCol(getX());
             if (GridLogic.ExistZombieInFront2x3(col,row)!=null) {
                 for (MajorObject o : Game.getMajors()) {
                     if (!o.isPlant()) {

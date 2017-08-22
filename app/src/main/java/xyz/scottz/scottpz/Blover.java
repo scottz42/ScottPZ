@@ -68,10 +68,6 @@ public class Blover extends Plant {
         void Move()
         {
             if ((System.currentTimeMillis()-plantTime)>explodeTime) {
-
-                int row = GridLogic.calcRow(getY());
-                int col = GridLogic.calcCol(getX());
-
                 for (MajorObject o : Game.getMajors()) {
                     if (!o.isPlant()) {
                         Zombie zombie = (Zombie) o;
@@ -81,11 +77,8 @@ public class Blover extends Plant {
                     }
                 }
                 Game.removePlant(this);
-
             }
         }
-
-
     }
 
 

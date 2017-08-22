@@ -125,6 +125,14 @@ public class NormalPea extends Plant {
     @Override
     void Move()
     {
+        /*
+            if (Game.ExistZombieInFront()) {
+            }
+
+            // pea move itself & checkZombieHit()
+            pea.Move();
+         */
+
         // shoot pea
         Zombie zombie = (Zombie)Game.ExistZombieInFront(GridLogic.calcCol(getX()) , GridLogic.calcRow(getY())) ;
 

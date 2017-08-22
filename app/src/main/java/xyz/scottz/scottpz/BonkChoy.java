@@ -65,6 +65,7 @@ public class BonkChoy extends Plant {
     @Override
     void Move()
     {
+        // TODO: wait before first attack?
         if (lastGenerateTime==0 || (System.currentTimeMillis()-lastGenerateTime>generateTime)) {
             int row = GridLogic.calcRow(getY());
             int col = GridLogic.calcCol(getX());

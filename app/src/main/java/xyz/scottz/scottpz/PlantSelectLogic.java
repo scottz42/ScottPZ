@@ -94,25 +94,31 @@ public class PlantSelectLogic extends Logic {
         int col = GridLogic.calcCol(x);
         int row = GridLogic.calcRow(y);
 
-        if (Game.isNormalPlay() &&  Game.canPlant(row , col)) {
-            Plant newPlant = null;
-            try {
-                newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
-            } catch (Exception e) {
-                newPlant = null;
-            }
-
-            if (newPlant!=null && (System.currentTimeMillis()-rechargeStartTime[currentPlantSelection])>=rechargeTime[currentPlantSelection]) {
-
-                // TODO: GridLogic
-                newPlant.setX((x/100)*100);
-                newPlant.setY((y/100)*100);
-                if (Game.getNoSun() >= newPlant.getSunNeeded()) {
-                    Game.setNoSun(Game.getNoSun() - newPlant.getSunNeeded());
-                    Game.addPlant(newPlant);
-                    rechargeStartTime[currentPlantSelection] = System.currentTimeMillis() ;
-                    return true ;
+        if (Game.isNormalPlay()) {
+            MajorObject o = Game.canPlant(row,col);
+            if (o==null) {
+                Plant newPlant = null;
+                try {
+                    newPlant = ((Plant) plantSelections.get(currentPlantSelection)).getClass().newInstance();
+                } catch (Exception e) {
+                    newPlant = null;
                 }
+
+                if (newPlant != null && (System.currentTimeMillis() - rechargeStartTime[currentPlantSelection]) >= rechargeTime[currentPlantSelection]) {
+
+                    // TODO: GridLogic
+                    newPlant.setX((x / 100) * 100);
+                    newPlant.setY((y / 100) * 100);
+                    if (Game.getNoSun() >= newPlant.getSunNeeded()) {
+                        Game.setNoSun(Game.getNoSun() - newPlant.getSunNeeded());
+                        Game.addPlant(newPlant);
+                        rechargeStartTime[currentPlantSelection] = System.currentTimeMillis();
+                        return true;
+                    }
+                }
+            } else if (!o.isTombstone()) {
+                Plant plant = (Plant) o;
+                plant.setSelected(true);
             }
 
         }
