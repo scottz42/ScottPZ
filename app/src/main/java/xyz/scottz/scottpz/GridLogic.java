@@ -72,8 +72,10 @@ public class GridLogic extends Logic {
     static private int zombieX = 1100;
 
     static private ArrayList<MajorObject> majors;
-    static private ArrayList<MajorObject> deletions;
+    static private ArrayList<MajorObject> majorDeletions;
     static private ArrayList<Environment> envs;
+    static private ArrayList<Environment> envDeletions;
+
 
     static private Bitmap lawn;
 
@@ -84,7 +86,8 @@ public class GridLogic extends Logic {
         lawn = BitmapFactory.decodeResource(Game.getResources(), R.drawable.lawn);
 
         majors = new ArrayList<MajorObject>();
-        deletions = new ArrayList<MajorObject>();
+        majorDeletions = new ArrayList<MajorObject>();
+        envDeletions = new ArrayList<Environment>();
     }
 
     @Override
@@ -102,11 +105,17 @@ public class GridLogic extends Logic {
         }
 
         // TODO: use delete flag in each object instead?
-        for (MajorObject o : deletions) {
+        for (MajorObject o : majorDeletions) {
             majors.remove(o);
         }
 
-        deletions.clear();
+        majorDeletions.clear();
+
+        for (Environment env : envDeletions) {
+            envDeletions.remove(env);
+        }
+
+        envDeletions.clear();
         return true;
     }
 
@@ -156,7 +165,7 @@ public class GridLogic extends Logic {
 
 
     public static boolean removePlant(Plant plant) {
-        deletions.add(plant);
+        majorDeletions.add(plant);
         plant.onFinal();
         return true;
     }
@@ -172,7 +181,7 @@ public class GridLogic extends Logic {
     }
 
     public static boolean removeZombie(Zombie zombie) {
-        deletions.add(zombie);
+        majorDeletions.add(zombie);
         zombie.cleanup();
         return true;
     }
@@ -189,7 +198,7 @@ public class GridLogic extends Logic {
 
     public static boolean removeEnv(Environment env) {
 
-        envs.remove(env);
+        envDeletions.add(env);
         return true;
     }
 
