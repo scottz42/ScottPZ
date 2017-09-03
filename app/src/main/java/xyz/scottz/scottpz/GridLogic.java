@@ -73,6 +73,7 @@ public class GridLogic extends Logic {
 
     static private ArrayList<MajorObject> majors;
     static private ArrayList<MajorObject> deletions;
+    static private ArrayList<Environment> envs;
 
     static private Bitmap lawn;
 
@@ -84,6 +85,7 @@ public class GridLogic extends Logic {
 
         majors = new ArrayList<MajorObject>();
         deletions = new ArrayList<MajorObject>();
+        envs = new ArrayList<Environment>();
     }
 
     @Override
@@ -174,6 +176,22 @@ public class GridLogic extends Logic {
         deletions.add(zombie);
         zombie.cleanup();
         return true;
+    }
+
+
+    public static boolean addEnv(Environment env) {
+        envs.add(env);
+        return true;
+    }
+
+    public static boolean removeEnv(Environment env) {
+
+        envs.remove(env);
+        return true;
+    }
+
+    public static ArrayList<Environment> getEnvs() {
+        return envs;
     }
 
     // TODO: currently unused
@@ -271,6 +289,13 @@ public class GridLogic extends Logic {
         return null;
     }
 
+    public static int getGridWidth() {
+        return gridWidth;
+    }
+
+    public static int getGridHeight() {
+        return gridHeight;
+    }
 
     public static int calcRow(int y) {
         return (y - gridY) / gridHeight;

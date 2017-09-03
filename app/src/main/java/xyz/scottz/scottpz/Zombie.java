@@ -140,6 +140,18 @@ public class Zombie extends MajorObject {
     // true if dead
     public boolean takeDamage(double damage)
     {
+        // if protected by rainbow environment, no damage
+        for (Environment env: GridLogic.getEnvs()){
+            // TODO: make cleaner
+            if (env.getClass().getName().endsWith("RainbowEnvironment")) {
+                RainbowEnvironment rainbow = (RainbowEnvironment) env;
+                if (rainbow.getArea().contains(getX(),getY())) {
+                    return false;
+                }
+            }
+        }
+
+
         // if shrunk, take double damage
         setLife(getLife() - (shrunk?damage*2:damage));
         if (getLife() <= 0) {
