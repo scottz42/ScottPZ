@@ -25,7 +25,7 @@ public class GlitterZombie extends Zombie {
 
         // rect to be updated later in Move()
         rainbow = new RainbowEnvironment(0,0,0,0);
-      //  GridLogic.addEnv(rainbow);
+        GridLogic.addEnv(rainbow);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GlitterZombie extends Zombie {
         super.Move();
 
         // rainbow moves along
-        rainbow.getArea().set(getX() , getY() , GridLogic.getGridWidth()*3,GridLogic.getGridHeight());
+        rainbow.getArea().set(getX() , getY() , getX()+GridLogic.getGridWidth()*3,getY()+GridLogic.getGridHeight());
     }
 
     @Override

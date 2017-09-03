@@ -116,6 +116,8 @@ public class GenZombieLogic extends Logic {
         // wave 1
         wave.add(new ZombieInfo(new GlitterZombie() , 3)) ;
         level.add(wave) ;
+        wave.add(new ZombieInfo(new NormalZombie() , 3));
+        level.add(wave) ;
 
         // wave 2
         wave = new ArrayList() ;

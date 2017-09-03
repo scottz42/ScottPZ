@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Created by lei on 2017/6/9.
  */
 
+// TODO: glitter zombie when killed by jalapeno: protection still in place for other zombies
 // TODO: summoned zombies need to be on correct row
 // TODO: summoned zombies need to be hypnotized if main zombie is hypnotized
 

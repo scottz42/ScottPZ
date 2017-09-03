@@ -143,7 +143,7 @@ public class Zombie extends MajorObject {
         // if protected by rainbow environment, no damage
         for (Environment env: GridLogic.getEnvs()){
             // TODO: make cleaner
-            if (env.getClass().getName().endsWith("RainbowEnvironment")) {
+            if (env.getClass().getName().endsWith("RainbowEnvironment") && !this.getClass().getName().endsWith("GlitterZombie")) {
                 RainbowEnvironment rainbow = (RainbowEnvironment) env;
                 if (rainbow.getArea().contains(getX(),getY())) {
                     return false;

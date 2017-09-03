@@ -85,7 +85,6 @@ public class GridLogic extends Logic {
 
         majors = new ArrayList<MajorObject>();
         deletions = new ArrayList<MajorObject>();
-        envs = new ArrayList<Environment>();
     }
 
     @Override
@@ -179,7 +178,11 @@ public class GridLogic extends Logic {
     }
 
 
+    // TODO: so ugly
     public static boolean addEnv(Environment env) {
+        if (envs==null) {
+            envs = new ArrayList<Environment>();
+        }
         envs.add(env);
         return true;
     }
