@@ -232,7 +232,7 @@ public class GridLogic extends Logic {
         return null;
     }
 
-    // is there a plant at normalized cooordinate (x,y)
+    // is there a plant at row & col
     // TODO: make it more efficient
     public static Plant existPlant(int col, int row) {
         for (MajorObject o : majors) {
@@ -242,6 +242,22 @@ public class GridLogic extends Logic {
         }
         return null;
     }
+
+    // is there plant in 3x3 square
+    public static Plant existPlant3x3(int row , int col) {
+        for (MajorObject o : majors) {
+            int r = calcRow(o.getY());
+            int c = calcCol(o.getX());
+            if (o.isPlant() &&
+                    ((c-col)>=-1 && (c-col)<=1) &&
+                    ((r-row)>=-1 && (r-row)<=1)) {
+                return (Plant) o;
+            }
+        }
+        return null;
+    }
+
+
 
     // is there a plant at row,col
     // if there is already tombstone, can not plant either
