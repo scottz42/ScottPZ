@@ -12,14 +12,17 @@ import android.graphics.Rect;
  */
 
 public class NormalZombie extends Zombie {
-    private static Bitmap bitmap=null ;
+    private static Bitmap bitmap[]=null ;
 
     NormalZombie()
     {
         super();
         life = 10 ;
         if (bitmap==null) {
-            bitmap = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombie2);
+            bitmap = new Bitmap[3];
+            bitmap[0] = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombief1);
+            bitmap[1] = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombief2);
+            bitmap[2] = BitmapFactory.decodeResource(Game.getResources(), R.drawable.normalzombief3);
         }
     }
 
@@ -27,13 +30,17 @@ public class NormalZombie extends Zombie {
     void Draw(Canvas canvas , Paint p) {
         super.Draw(canvas,p);
 
+        // pick right animation
+        // TODO: always start with frame 0
+        Bitmap bm = bitmap[((int)(System.currentTimeMillis()/TimePerStep))%3];
+
         Rect src = new Rect() ;
         Rect dst = new Rect() ;
-        src.set(0,0,bitmap.getWidth()-1,bitmap.getHeight()-1);
+        src.set(0,0,bm.getWidth()-1,bm.getHeight()-1);
         dst.set(getX(), getY(), getX() + (shrunk?GridLogic.getZombieWidth()/2:GridLogic.getZombieWidth()),
                 getY() + (shrunk?GridLogic.getZombieHeight()/2:GridLogic.getZombieHeight()));
 
-        canvas.drawBitmap(bitmap, src,dst,p);
+        canvas.drawBitmap(bm, src,dst,p);
     }
 
 }
